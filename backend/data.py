@@ -1,6 +1,6 @@
 """
 CampusMind Expanded Data Store (data.py)
-Includes full database persistence for registered users (USERS_DB).
+Includes full database persistence for registered users and at least 10 rich items per module.
 """
 
 from datetime import datetime, timedelta
@@ -58,7 +58,7 @@ def login_user_in_db(email, password):
     name = email.split('@')[0].capitalize()
     return register_user_in_db(name, email, "Computer Science", password)
 
-# 15 Campus Locations
+# 1. 15 Campus Locations
 CAMPUS_MAP = [
     {
         "id": "loc-1",
@@ -67,12 +67,7 @@ CAMPUS_MAP = [
         "block": "Academic Block B, 1st Floor",
         "hours": "8:00 AM - 6:00 PM",
         "directions": "Take main staircase next to lobby, turn right down Hallway B, door 102 on left.",
-        "steps": [
-            "Start at Main Campus Entrance / Central Lobby.",
-            "Walk straight past security desk toward Academic Block B.",
-            "Take central staircase or North elevator to Floor 1.",
-            "Turn right down Hallway B; B-102 is third lecture hall on left."
-        ]
+        "steps": ["Start at Main Campus Lobby.", "Walk straight toward Academic Block B.", "Take staircase to 1st Floor.", "Turn right to B-102."]
     },
     {
         "id": "loc-2",
@@ -80,16 +75,129 @@ CAMPUS_MAP = [
         "type": "Laboratory",
         "block": "CS Department Building, 3rd Floor",
         "hours": "9:00 AM - 7:00 PM",
-        "directions": "Enter CS Department, take elevator to 3rd floor, door 304 opposite server room.",
-        "steps": [
-            "Enter CS Department Main Building.",
-            "Take elevator to Floor 3.",
-            "Turn left; door 304 is opposite the server room."
-        ]
+        "directions": "Enter CS Building, take elevator to 3rd floor, door 304 opposite server room.",
+        "steps": ["Enter CS Department Building.", "Take elevator to 3rd Floor.", "Door 304 is opposite the server room."]
+    },
+    {
+        "id": "loc-3",
+        "name": "Central Library & Digital Study Lounge",
+        "type": "Library",
+        "block": "Central Academic Building, Ground & 1st Floor",
+        "hours": "8:00 AM - 10:00 PM",
+        "directions": "Walk straight from South Gate, enter main glass doors of Central Academic Building.",
+        "steps": ["Enter Central Academic Building.", "Show ID at reception desk.", "Proceed to Quiet Study Zone."]
+    },
+    {
+        "id": "loc-4",
+        "name": "Main Auditorium A",
+        "type": "Auditorium",
+        "block": "Student Center Building, Ground Floor",
+        "hours": "9:00 AM - 9:00 PM",
+        "directions": "Located beside the main quadrangle amphitheater.",
+        "steps": ["Walk to Central Quadrangle.", "Enter main double doors under the clock tower."]
+    },
+    {
+        "id": "loc-5",
+        "name": "College Canteen & Food Court",
+        "type": "Dining",
+        "block": "Student Activity Complex, Ground Floor",
+        "hours": "7:30 AM - 9:00 PM",
+        "directions": "Next to the Sports Complex and Student Activity Center.",
+        "steps": ["Walk towards West Gate.", "Follow signs to Student Activity Complex."]
+    },
+    {
+        "id": "loc-6",
+        "name": "Sports Complex & Gymnasium",
+        "type": "Sports",
+        "block": "West Campus Athletics Ground",
+        "hours": "6:00 AM - 9:00 PM",
+        "directions": "Behind the College Canteen across the football turf.",
+        "steps": ["Head West from Main Library.", "Cross the athletic track."]
+    },
+    {
+        "id": "loc-7",
+        "name": "Robotics & IoT Research Lab",
+        "type": "Laboratory",
+        "block": "ECE & CS Joint Wing, 2nd Floor",
+        "hours": "9:00 AM - 8:00 PM",
+        "directions": "Take East staircase in ECE Wing to Room 215.",
+        "steps": ["Enter ECE Wing.", "Go up to 2nd Floor.", "Room 215 on right."]
+    },
+    {
+        "id": "loc-8",
+        "name": "Faculty Cabin Block C",
+        "type": "Faculty Offices",
+        "block": "Academic Block C, 2nd Floor",
+        "hours": "9:00 AM - 5:00 PM",
+        "directions": "Elevator B to 2nd floor, turn left past HOD Office.",
+        "steps": ["Take Elevator B in Block C.", "Turn left past HOD Office."]
+    },
+    {
+        "id": "loc-9",
+        "name": "Placement & Training Cell",
+        "type": "Career Services",
+        "block": "Administrative Wing, 1st Floor",
+        "hours": "9:00 AM - 6:00 PM",
+        "directions": "Above Central Admissions Desk in Admin Wing.",
+        "steps": ["Enter Admin Wing.", "Staircase to 1st Floor.", "Room 110."]
+    },
+    {
+        "id": "loc-10",
+        "name": "Student Activity Center (SAC)",
+        "type": "Clubs",
+        "block": "SAC Building, Ground Floor",
+        "hours": "8:00 AM - 10:00 PM",
+        "directions": "Adjacent to Gymnasium and Music Club rooms.",
+        "steps": ["Walk to SAC Quad.", "Main glass entrance."]
+    },
+    {
+        "id": "loc-11",
+        "name": "AI & Data Science Center",
+        "type": "Research",
+        "block": "Innovation Tower, 4th Floor",
+        "hours": "24/7 Access",
+        "directions": "Take Innovation Elevator to 4th Floor.",
+        "steps": ["Swipe Student Card at Innovation Tower Lobby.", "Take High-Speed Elevator to 4th Floor."]
+    },
+    {
+        "id": "loc-12",
+        "name": "Seminar Hall 2",
+        "type": "Seminar",
+        "block": "Academic Block A, Ground Floor",
+        "hours": "9:00 AM - 6:00 PM",
+        "directions": "Directly behind Central Fountain.",
+        "steps": ["Walk past Central Fountain.", "Door A-05."]
+    },
+    {
+        "id": "loc-13",
+        "name": "Health & First Aid Center",
+        "type": "Medical",
+        "block": "Residential Hostel Zone",
+        "hours": "24/7 Service",
+        "directions": "Near Boys Hostel 1 main entrance.",
+        "steps": ["Follow Medical Signs near Hostel Circle."]
+    },
+    {
+        "id": "loc-14",
+        "name": "Incubation & Startup Hub",
+        "type": "Entrepreneurship",
+        "block": "Innovation Tower, 2nd Floor",
+        "hours": "8:00 AM - 11:00 PM",
+        "directions": "Innovation Tower, Floor 2.",
+        "steps": ["Enter Innovation Tower.", "Stairs to 2nd Floor."]
+    },
+    {
+        "id": "loc-15",
+        "name": "Administrative & Dean Offices",
+        "type": "Admin",
+        "block": "Main Admin Building, 2nd Floor",
+        "hours": "9:00 AM - 5:00 PM",
+        "directions": "Main entrance building facing North Gate.",
+        "steps": ["Enter Main Admin Building.", "Staircase to Dean Office."]
     }
 ]
 
-# Course Notes
+# 2. 10 Course Notes
 NOTES = [
     {
         "id": "note-1",
@@ -98,10 +206,82 @@ NOTES = [
         "course_tag": "CS304",
         "uploaded_at": "2026-09-10",
         "content": "Unit 3: Regularization & Overfitting Prevention\n1. L1 Regularization (Lasso): Penalty = λ ∑ |w_i|\n2. L2 Regularization (Ridge): Penalty = λ ∑ (w_i)^2\n3. Cross-Validation: Tune λ parameter."
+    },
+    {
+        "id": "note-2",
+        "filename": "CS302_Unit2_DBMS_Indexing.pdf",
+        "title": "CS302 - DBMS: B+ Tree Indexing & ACID Rules",
+        "course_tag": "CS302",
+        "uploaded_at": "2026-09-09",
+        "content": "Unit 2: Indexing & Transactions\n1. B+ Trees maintain sorted data for O(log N) lookup.\n2. ACID Properties: Atomicity, Consistency, Isolation, Durability.\n3. WAL (Write-Ahead Logging)."
+    },
+    {
+        "id": "note-3",
+        "filename": "CS301_Unit4_OS_Semaphores.pdf",
+        "title": "CS301 - Operating Systems: Semaphores & Deadlocks",
+        "course_tag": "CS301",
+        "uploaded_at": "2026-09-08",
+        "content": "Unit 4: Synchronization\n1. Binary vs Counting Semaphores.\n2. Producer-Consumer Problem & Mutual Exclusion.\n3. Banker's Algorithm for Deadlock Avoidance."
+    },
+    {
+        "id": "note-4",
+        "filename": "CS305_Unit1_React_State_Hooks.pdf",
+        "title": "CS305 - Web Development: React State & Context",
+        "course_tag": "CS305",
+        "uploaded_at": "2026-09-07",
+        "content": "Unit 1: Modern Frontend Architecture\n1. useState & useEffect Lifecycle.\n2. Context API for global state without prop drilling.\n3. Virtual DOM Reconciliation."
+    },
+    {
+        "id": "note-5",
+        "filename": "CS306_Unit3_Networks_TCP_Handshake.pdf",
+        "title": "CS306 - Computer Networks: TCP Handshake & IP Subnetting",
+        "course_tag": "CS306",
+        "uploaded_at": "2026-09-06",
+        "content": "Unit 3: Transport Layer Protocols\n1. TCP 3-Way Handshake: SYN -> SYN-ACK -> ACK.\n2. Flow Control & Sliding Window Protocol.\n3. CIDR Subnet Masking."
+    },
+    {
+        "id": "note-6",
+        "filename": "CS307_Unit2_Software_Engineering_Agile.pdf",
+        "title": "CS307 - Software Engineering: Agile Scrum & Sprint Planning",
+        "course_tag": "CS307",
+        "uploaded_at": "2026-09-05",
+        "content": "Unit 2: Agile Methodologies\n1. Scrum Roles: Product Owner, Scrum Master, Dev Team.\n2. Sprint Burndown Charts & Daily Standups.\n3. CI/CD Automated Testing."
+    },
+    {
+        "id": "note-7",
+        "filename": "CS308_Unit5_DeepLearning_Transformers.pdf",
+        "title": "CS308 - Deep Learning: Attention Mechanisms & Transformers",
+        "course_tag": "CS308",
+        "uploaded_at": "2026-09-04",
+        "content": "Unit 5: Generative Models & Attention\n1. Self-Attention Formula: Attention(Q,K,V) = softmax(QK^T / sqrt(d_k))V.\n2. Multi-Head Attention.\n3. Positional Encoding."
+    },
+    {
+        "id": "note-8",
+        "filename": "CS309_Unit3_Cybersecurity_RSA_PKI.pdf",
+        "title": "CS309 - Cybersecurity: RSA Asymmetric Cryptography & SSL",
+        "course_tag": "CS309",
+        "uploaded_at": "2026-09-03",
+        "content": "Unit 3: Cryptographic Protocols\n1. RSA Algorithm: Modulo math with prime factors p and q.\n2. Public Key Infrastructure (PKI) & TLS 1.3 Handshake.\n3. SHA-256 Hashing."
+    },
+    {
+        "id": "note-9",
+        "filename": "CS310_Unit2_Cloud_Docker_Kubernetes.pdf",
+        "title": "CS310 - Cloud Computing: Docker Containers & Kubernetes",
+        "course_tag": "CS310",
+        "uploaded_at": "2026-09-02",
+        "content": "Unit 2: Containerization & Orchestration\n1. Dockerfile Layering & Image Caching.\n2. Kubernetes Pods, Deployments & Services.\n3. Auto-scaling Policies."
+    },
+    {
+        "id": "note-10",
+        "filename": "CS311_Unit1_Flutter_State_Management.pdf",
+        "title": "CS311 - Mobile Development: Flutter Declarative Layouts",
+        "course_tag": "CS311",
+        "uploaded_at": "2026-09-01",
+        "content": "Unit 1: Cross-Platform Mobile Apps\n1. Stateless vs Stateful Widgets.\n2. Riverpod & Provider State Management.\n3. Async Data Fetching with FutureBuilder."
     }
 ]
 
-# 10 Integrations
+# 3. 10 Integrations
 INTEGRATIONS = [
     {
         "id": "gcal",
@@ -225,64 +405,171 @@ INTEGRATIONS = [
     }
 ]
 
-# Opportunities
+# 4. 10 Opportunities (Scholarships, Hackathons, Internships)
 OPPORTUNITIES = [
     {
         "id": "opp-1",
-        "title": "Central Sector Scholarship",
+        "title": "Central Sector Scholarship for College Students",
         "category": "Scholarships",
         "type": "Scholarships",
         "organization": "National Scholarship Portal",
-        "description": "Financial assistance for meritorious undergraduate students.",
+        "description": "Financial aid grant for top performing undergraduate students in engineering.",
         "required_skills": ["Computer Science", "Academic Merit"],
         "deadline": "20 Oct 2026",
-        "stipend_or_prize": "₹10,000 - ₹100,000",
+        "stipend_or_prize": "₹20,000 / Year Grant",
         "url": "https://scholarships.gov.in"
     },
     {
-        "id": "opp-4",
-        "title": "AI Thinkers Global Hackathon",
+        "id": "opp-2",
+        "title": "Google Women Techmakers Scholars Program",
+        "category": "Scholarships",
+        "type": "Scholarships",
+        "organization": "Google India",
+        "description": "Scholarship and mentorship retreat for female computer science students.",
+        "required_skills": ["Python", "Leadership", "Data Structures"],
+        "deadline": "30 Oct 2026",
+        "stipend_or_prize": "$1,000 USD Grant",
+        "url": "https://buildyourfuture.withgoogle.com/scholarships"
+    },
+    {
+        "id": "opp-3",
+        "title": "AI Thinkers Global Hackathon 2026",
         "category": "Hackathons",
         "type": "Hackathons",
-        "organization": "Devpost & Unstop Tech",
-        "description": "36-hour hackathon to build generative AI solutions for campus productivity and healthcare.",
+        "organization": "Devpost & Unstop",
+        "description": "36-hour hackathon to build generative AI solutions for campus productivity.",
         "required_skills": ["Python", "Machine Learning", "API Integration"],
         "deadline": "12 Sep 2026",
         "stipend_or_prize": "₹2,50,000 Prize Pool",
         "url": "https://unstop.com/hackathons"
-    }
-]
-
-# YouTube Tutorials
-YOUTUBE_TUTORIALS = [
+    },
     {
-        "id": "yt-1",
-        "course": "CS304 - Machine Learning",
-        "topic": "L1 (Lasso) vs L2 (Ridge) Regularization",
-        "channel": "StatQuest",
-        "duration": "14:20",
-        "views": "1.2M views",
-        "url": "https://www.youtube.com/watch?v=Q81RR3yKnbc"
+        "id": "opp-4",
+        "title": "Microsoft Imagine Cup World Championship",
+        "category": "Hackathons",
+        "type": "Hackathons",
+        "organization": "Microsoft",
+        "description": "Global student developer competition leveraging Azure and OpenAI technologies.",
+        "required_skills": ["Azure", "C#", "React", "AI"],
+        "deadline": "15 Nov 2026",
+        "stipend_or_prize": "$100,000 USD Grand Prize",
+        "url": "https://imaginecup.microsoft.com"
+    },
+    {
+        "id": "opp-5",
+        "title": "Amazon ML Summer School Internship 2026",
+        "category": "Internships",
+        "type": "Internships",
+        "organization": "Amazon Science",
+        "description": "Exclusive training and internship offer for undergraduate CS students in ML.",
+        "required_skills": ["Python", "Machine Learning", "Linear Algebra"],
+        "deadline": "05 Oct 2026",
+        "stipend_or_prize": "₹80,000 / Month Stipend",
+        "url": "https://amazon.jobs"
+    },
+    {
+        "id": "opp-6",
+        "title": "Smart India Hackathon (SIH) National Final",
+        "category": "Hackathons",
+        "type": "Hackathons",
+        "organization": "Ministry of Education India",
+        "description": "Nationwide competition solving real-world government department challenges.",
+        "required_skills": ["Full Stack", "IoT", "Problem Solving"],
+        "deadline": "10 Oct 2026",
+        "stipend_or_prize": "₹1,00,000 Per Problem Statement",
+        "url": "https://sih.gov.in"
+    },
+    {
+        "id": "opp-7",
+        "title": "Meta Open Source Fellowship 2026",
+        "category": "Fellowships",
+        "type": "Fellowships",
+        "organization": "Meta Engineering",
+        "description": "3-month paid open-source internship working on React, PyTorch, and Llama models.",
+        "required_skills": ["React", "PyTorch", "C++"],
+        "deadline": "01 Nov 2026",
+        "stipend_or_prize": "$3,000 USD / Month",
+        "url": "https://metacareers.com"
+    },
+    {
+        "id": "opp-8",
+        "title": "GitHub Octernships Global Program",
+        "category": "Internships",
+        "type": "Internships",
+        "organization": "GitHub Campus",
+        "description": "Remote paid internships for student open-source contributors.",
+        "required_skills": ["Git", "JavaScript", "Python"],
+        "deadline": "25 Sep 2026",
+        "stipend_or_prize": "$1,500 USD / Month",
+        "url": "https://github.com/education"
+    },
+    {
+        "id": "opp-9",
+        "title": "Intel AI Innovation Research Grant",
+        "category": "Scholarships",
+        "type": "Scholarships",
+        "organization": "Intel Labs",
+        "description": "Grant for student projects focusing on edge AI acceleration and OpenVINO.",
+        "required_skills": ["Computer Vision", "C++", "OpenVINO"],
+        "deadline": "18 Oct 2026",
+        "stipend_or_prize": "₹1,50,000 Project Grant",
+        "url": "https://intel.com/research"
+    },
+    {
+        "id": "opp-10",
+        "title": "Pragati Scholarship for Female Engineers",
+        "category": "Scholarships",
+        "type": "Scholarships",
+        "organization": "AICTE India",
+        "description": "Government scholarship promoting women in technical higher education.",
+        "required_skills": ["Engineering", "Academic Excellence"],
+        "deadline": "31 Oct 2026",
+        "stipend_or_prize": "₹50,000 / Year",
+        "url": "https://aicte-india.org"
     }
 ]
 
-# Timetable
+# 5. 10 Curated YouTube Tutorials
+YOUTUBE_TUTORIALS = [
+    {"id": "yt-1", "course": "CS304 - Machine Learning", "topic": "L1 (Lasso) vs L2 (Ridge) Regularization", "channel": "StatQuest", "duration": "14:20", "views": "1.2M views", "url": "https://www.youtube.com/watch?v=Q81RR3yKnbc"},
+    {"id": "yt-2", "course": "CS302 - Database Systems", "topic": "B+ Trees & Database Indexing Explained", "channel": "Gate Smashers", "duration": "18:45", "views": "850K views", "url": "https://www.youtube.com/watch?v=aZjYr87r1b8"},
+    {"id": "yt-3", "course": "CS301 - Operating Systems", "topic": "Process Synchronization & Semaphores", "channel": "Neso Academy", "duration": "22:10", "views": "1.5M views", "url": "https://www.youtube.com/watch?v=ukM_qw4dGE0"},
+    {"id": "yt-4", "course": "CS305 - Web Technologies", "topic": "React 18 Hooks & Context API Crash Course", "channel": "Traversy Media", "duration": "45:00", "views": "2.1M views", "url": "https://www.youtube.com/watch?v=w7ejDZ8SWv8"},
+    {"id": "yt-5", "course": "CS306 - Computer Networks", "topic": "TCP 3-Way Handshake & Packet Capture", "channel": "NetworkChuck", "duration": "16:30", "views": "980K views", "url": "https://www.youtube.com/watch?v=rYodcvhh7b8"},
+    {"id": "yt-6", "course": "CS307 - Software Engineering", "topic": "Agile Scrum & Sprint Planning in 10 Minutes", "channel": "Fireship", "duration": "10:15", "views": "1.1M views", "url": "https://www.youtube.com/watch?v=2Vt7Ik8Ublw"},
+    {"id": "yt-7", "course": "CS308 - Deep Learning", "topic": "PyTorch Neural Network Step-by-Step", "channel": "freeCodeCamp", "duration": "2:30:00", "views": "3.4M views", "url": "https://www.youtube.com/watch?v=V_xro1bcAuA"},
+    {"id": "yt-8", "course": "CS309 - Cybersecurity", "topic": "RSA Encryption & Public Key Cryptography", "channel": "Computerphile", "duration": "12:50", "views": "1.8M views", "url": "https://www.youtube.com/watch?v=GSIDSfKVGDY"},
+    {"id": "yt-9", "course": "CS310 - Cloud Computing", "topic": "Docker Containers & Kubernetes Crash Course", "channel": "TechWorld with Nana", "duration": "1:15:00", "views": "4.2M views", "url": "https://www.youtube.com/watch?v=3c-iBn73dDE"},
+    {"id": "yt-10", "course": "CS311 - Mobile Development", "topic": "Flutter State Management with Riverpod", "channel": "Reso Coder", "duration": "28:40", "views": "450K views", "url": "https://www.youtube.com/watch?v=Zp75gUdLyR0"}
+]
+
+# 6. Weekly Class Timetable
 TIMETABLE = [
     {
         "day": "Monday",
         "classes": [
-            {"time": "10:00 AM", "course": "DBMS Class", "room": "B-102", "instructor": "Dr. Ramesh Gupta", "code": "CS302"},
-            {"time": "12:00 PM", "course": "Project Meeting", "room": "Lab-3", "instructor": "Prof. Grace Hopper", "code": "CS308"}
+            {"time": "09:00 AM", "course": "CS301 - Operating Systems", "room": "A-201", "instructor": "Dr. Sarah Jenkins", "code": "CS301"},
+            {"time": "10:30 AM", "course": "CS302 - DBMS Class", "room": "B-102", "instructor": "Prof. Ramesh Gupta", "code": "CS302"},
+            {"time": "01:30 PM", "course": "CS304 - Machine Learning", "room": "C-305", "instructor": "Dr. Alan Turing", "code": "CS304"},
+            {"time": "03:30 PM", "course": "CS305 - Web Technologies Lab", "room": "Lab-3", "instructor": "Prof. Grace Hopper", "code": "CS305"}
+        ]
+    },
+    {
+        "day": "Tuesday",
+        "classes": [
+            {"time": "09:30 AM", "course": "CS306 - Computer Networks", "room": "B-104", "instructor": "Dr. Anita Borg", "code": "CS306"},
+            {"time": "11:30 AM", "course": "CS307 - Software Engineering", "room": "A-108", "instructor": "Prof. Ken Thompson", "code": "CS307"},
+            {"time": "02:00 PM", "course": "CS308 - Deep Learning Lab", "room": "Lab-4", "instructor": "Dr. Alan Turing", "code": "CS308"}
         ]
     }
 ]
 
-# Assignments Store
+# 7. 10 Assignments & Tasks
 now = datetime.now()
 ASSIGNMENTS = [
     {
         "id": "asgn-1",
-        "title": "DBMS Assignment",
+        "title": "DBMS Relational Schema & ER Diagram Assignment",
         "course": "CS302",
         "course_name": "Database Management Systems",
         "due_date": (now + timedelta(days=2)).strftime("%d %b %Y"),
@@ -290,21 +577,212 @@ ASSIGNMENTS = [
         "priority": "High",
         "status": "In Progress",
         "remaining_hours": 4,
-        "description": "Design ER Diagram and normalization.",
+        "description": "Design ER Diagram and normalization for College Portal.",
         "subtasks": [
             {"id": "task-101", "title": "Identify Entities & Relationships", "status": "Completed", "estimated_hours": 1.0},
             {"id": "task-102", "title": "Draw ER Diagram in StarUML/Figma", "status": "Completed", "estimated_hours": 1.5},
             {"id": "task-103", "title": "Convert ER diagram to Relational Schema", "status": "Pending", "estimated_hours": 1.5}
         ]
+    },
+    {
+        "id": "asgn-2",
+        "title": "Operating Systems Producer-Consumer Semaphore Lab",
+        "course": "CS301",
+        "course_name": "Operating Systems",
+        "due_date": (now + timedelta(days=3)).strftime("%d %b %Y"),
+        "days_left": 3,
+        "priority": "High",
+        "status": "In Progress",
+        "remaining_hours": 3,
+        "description": "Implement POSIX mutexes and semaphores in C.",
+        "subtasks": [
+            {"id": "task-201", "title": "Write C code for Pthreads Synchronization", "status": "Completed", "estimated_hours": 1.5},
+            {"id": "task-202", "title": "Test Deadlock Conditions", "status": "Pending", "estimated_hours": 1.5}
+        ]
+    },
+    {
+        "id": "asgn-3",
+        "title": "Machine Learning Regularization & Model Tuning",
+        "course": "CS304",
+        "course_name": "Machine Learning",
+        "due_date": (now + timedelta(days=5)).strftime("%d %b %Y"),
+        "days_left": 5,
+        "priority": "Medium",
+        "status": "Pending",
+        "remaining_hours": 6,
+        "description": "Build Scikit-Learn pipeline comparing Ridge vs Lasso regression.",
+        "subtasks": [
+            {"id": "task-301", "title": "Preprocess dataset with StandardScaler", "status": "Pending", "estimated_hours": 2.0},
+            {"id": "task-302", "title": "Plot Cross-Validation Error Curve", "status": "Pending", "estimated_hours": 4.0}
+        ]
+    },
+    {
+        "id": "asgn-4",
+        "title": "Full-Stack Web App Frontend & API Integration",
+        "course": "CS305",
+        "course_name": "Web Technologies",
+        "due_date": (now + timedelta(days=6)).strftime("%d %b %Y"),
+        "days_left": 6,
+        "priority": "Medium",
+        "status": "Pending",
+        "remaining_hours": 5,
+        "description": "Build responsive React dashboard consuming REST API.",
+        "subtasks": [
+            {"id": "task-401", "title": "Design Tailwind CSS Components", "status": "Pending", "estimated_hours": 2.5},
+            {"id": "task-402", "title": "Connect Fetch API Endpoints", "status": "Pending", "estimated_hours": 2.5}
+        ]
+    },
+    {
+        "id": "asgn-5",
+        "title": "Computer Networks Socket Programming Project",
+        "course": "CS306",
+        "course_name": "Computer Networks",
+        "due_date": (now + timedelta(days=8)).strftime("%d %b %Y"),
+        "days_left": 8,
+        "priority": "Medium",
+        "status": "Pending",
+        "remaining_hours": 5,
+        "description": "Create TCP Multi-client Chat Server in Python.",
+        "subtasks": [{"id": "task-501", "title": "Implement Socket Bind & Listen", "status": "Pending", "estimated_hours": 5.0}]
+    },
+    {
+        "id": "asgn-6",
+        "title": "Software Architecture SRS Document & UML Diagrams",
+        "course": "CS307",
+        "course_name": "Software Engineering",
+        "due_date": (now + timedelta(days=9)).strftime("%d %b %Y"),
+        "days_left": 9,
+        "priority": "Low",
+        "status": "Pending",
+        "remaining_hours": 4,
+        "description": "Write IEEE 830 SRS Specification document.",
+        "subtasks": [{"id": "task-601", "title": "Draft Use Case Specifications", "status": "Pending", "estimated_hours": 4.0}]
+    },
+    {
+        "id": "asgn-7",
+        "title": "Deep Learning Image Classification PyTorch Model",
+        "course": "CS308",
+        "course_name": "Deep Learning",
+        "due_date": (now + timedelta(days=11)).strftime("%d %b %Y"),
+        "days_left": 11,
+        "priority": "High",
+        "status": "Pending",
+        "remaining_hours": 8,
+        "description": "Train ResNet CNN model on CIFAR-10 dataset.",
+        "subtasks": [{"id": "task-701", "title": "Setup PyTorch DataLoader & Augmentation", "status": "Pending", "estimated_hours": 8.0}]
+    },
+    {
+        "id": "asgn-8",
+        "title": "Cybersecurity RSA Encryption & Key Exchange Audit",
+        "course": "CS309",
+        "course_name": "Cybersecurity",
+        "due_date": (now + timedelta(days=12)).strftime("%d %b %Y"),
+        "days_left": 12,
+        "priority": "Medium",
+        "status": "Pending",
+        "remaining_hours": 5,
+        "description": "Implement RSA key generation and digital signature verification.",
+        "subtasks": [{"id": "task-801", "title": "Verify Hash Signature Integrity", "status": "Pending", "estimated_hours": 5.0}]
+    },
+    {
+        "id": "asgn-9",
+        "title": "Cloud Computing Microservices Docker Deployment",
+        "course": "CS310",
+        "course_name": "Cloud Computing",
+        "due_date": (now + timedelta(days=14)).strftime("%d %b %Y"),
+        "days_left": 14,
+        "priority": "Medium",
+        "status": "Pending",
+        "remaining_hours": 6,
+        "description": "Write docker-compose file for Flask & Postgres.",
+        "subtasks": [{"id": "task-901", "title": "Configure Nginx Reverse Proxy Container", "status": "Pending", "estimated_hours": 6.0}]
+    },
+    {
+        "id": "asgn-10",
+        "title": "Flutter Mobile App UI Prototype & Navigation",
+        "course": "CS311",
+        "course_name": "Mobile App Development",
+        "due_date": (now + timedelta(days=15)).strftime("%d %b %Y"),
+        "days_left": 15,
+        "priority": "Low",
+        "status": "Pending",
+        "remaining_hours": 4,
+        "description": "Build multi-screen Flutter mobile user interface.",
+        "subtasks": [{"id": "task-1001", "title": "Setup GoRouter Navigation Stack", "status": "Pending", "estimated_hours": 4.0}]
     }
 ]
 
-CAMPUS_EVENTS = [{"id": "evt-1", "title": "AI Thinkers Hackathon", "location": "Auditorium 1", "category": "Events"}]
-LAB_EXAMS = [{"course": "CS301 - Operating Systems", "viva_questions": ["What is binary semaphore?"]}]
-CAREER_ROADMAPS = [{"role": "AI / ML Engineer", "description": "Master machine learning algorithms."}]
-PROJECTS = [{"title": "CampusMind AI Student Co-Pilot", "category": "AI / Web"}]
-MENTORS = [{"name": "Dr. Sarah Jenkins", "role": "Associate Professor (OS)"}]
+# 8. 10 Campus Events & Club Meetups
+CAMPUS_EVENTS = [
+    {"id": "evt-1", "title": "AI Thinkers Global Hackathon 2026", "location": "Main Auditorium A", "category": "Hackathons", "date": "12 Sep 2026", "time": "09:00 AM"},
+    {"id": "evt-2", "title": "Annual Tech Symposium (TechFest 2026)", "location": "Central Quadrangle", "category": "Symposium", "date": "18 Sep 2026", "time": "10:00 AM"},
+    {"id": "evt-3", "title": "Google Developer Student Club (GDSC) Orientation", "location": "Seminar Hall 2", "category": "Club Orientation", "date": "20 Sep 2026", "time": "02:00 PM"},
+    {"id": "evt-4", "title": "Competitive Programming Code-a-Thon", "location": "Lab-3 Web Lab", "category": "Coding", "date": "22 Sep 2026", "time": "04:00 PM"},
+    {"id": "evt-5", "title": "Cybersecurity CTF Flag Hunt Competition", "location": "Lab-4 Network Lab", "category": "Security", "date": "25 Sep 2026", "time": "11:00 AM"},
+    {"id": "evt-6", "title": "Open Source Software & Git Workshop", "location": "B-102 Lecture Hall", "category": "Workshop", "date": "28 Sep 2026", "time": "03:00 PM"},
+    {"id": "evt-7", "title": "Robotics Club Live Autonomous Drone Exhibition", "location": "Sports Ground", "category": "Robotics", "date": "02 Oct 2026", "time": "04:30 PM"},
+    {"id": "evt-8", "title": "Entrepreneurship & Startup Pitch Day", "location": "Incubation Hub", "category": "Startups", "date": "05 Oct 2026", "time": "10:30 AM"},
+    {"id": "evt-9", "title": "Data Science & GenAI Industry Seminar", "location": "Main Auditorium A", "category": "Seminar", "date": "08 Oct 2026", "time": "02:00 PM"},
+    {"id": "evt-10", "title": "Alumni Placement & Career Networking Night", "location": "Student Activity Center", "category": "Networking", "date": "12 Oct 2026", "time": "06:00 PM"}
+]
 
+# 9. 10 Lab Exams Viva Solvers
+LAB_EXAMS = [
+    {"id": "lab-1", "course": "CS301 - Operating Systems Lab", "viva_questions": ["What is binary semaphore vs counting semaphore?", "Explain Banker's algorithm for deadlock avoidance.", "What is paging vs segmentation?"]},
+    {"id": "lab-2", "course": "CS302 - Database Systems Lab", "viva_questions": ["Define 3rd Normal Form (3NF) and BCNF.", "What is the difference between Clustered and Non-Clustered index?", "Explain ACID properties in SQL transactions."]},
+    {"id": "lab-3", "course": "CS304 - Machine Learning Lab", "viva_questions": ["What is precision, recall, and F1-Score?", "Explain how Random Forest handles overfitting.", "What is gradient descent and learning rate decay?"]},
+    {"id": "lab-4", "course": "CS305 - Web Technologies Lab", "viva_questions": ["What is Virtual DOM in React?", "Difference between LocalStorage and SessionStorage.", "Explain CORS and pre-flight HTTP requests."]},
+    {"id": "lab-5", "course": "CS306 - Computer Networks Lab", "viva_questions": ["Explain TCP 3-Way Handshake step-by-step.", "Difference between IPv4 and IPv6 headers.", "What is ARP and DNS lookup flow?"]},
+    {"id": "lab-6", "course": "CS307 - Software Engineering Lab", "viva_questions": ["Explain Agile Scrum ceremonies.", "What is Unit Testing vs Integration Testing?", "Define SOLID principles in object-oriented design."]},
+    {"id": "lab-7", "course": "CS308 - Deep Learning Lab", "viva_questions": ["What is vanishing gradient in RNNs?", "Explain Self-Attention in Transformer models.", "What is Softmax activation function?"]},
+    {"id": "lab-8", "course": "CS309 - Cybersecurity Lab", "viva_questions": ["How does RSA asymmetric encryption work?", "Difference between Symmetric and Asymmetric ciphers.", "What is SQL Injection and how to prevent it?"]},
+    {"id": "lab-9", "course": "CS310 - Cloud Computing Lab", "viva_questions": ["Difference between Docker Image and Container.", "Explain Kubernetes Pod architecture.", "What is Serverless computing (AWS Lambda)?"]},
+    {"id": "lab-10", "course": "CS311 - Mobile Development Lab", "viva_questions": ["Difference between Stateful and Stateless Widget in Flutter.", "Explain Riverpod state provider lifecycle.", "How to optimize ListView rendering performance?"]}
+]
+
+# 10. 10 AI Career Roadmaps
+CAREER_ROADMAPS = [
+    {"id": "road-1", "role": "AI / Machine Learning Engineer", "description": "Master Python, Scikit-Learn, PyTorch, Transformers, and MLOps deployment.", "milestones": ["1. Python & Linear Algebra", "2. ML Algorithms & Scikit-Learn", "3. Deep Learning & PyTorch", "4. Model Deployment & FastAPI"]},
+    {"id": "road-2", "role": "Full-Stack Web Developer", "description": "Master React, Node.js, Express, Tailwind CSS, PostgreSQL, and AWS.", "milestones": ["1. HTML, CSS & JavaScript ES6+", "2. React & State Management", "3. Node.js REST APIs", "4. Database Normalization & Deployment"]},
+    {"id": "road-3", "role": "Data Scientist & Analytics Engineer", "description": "Master SQL, Pandas, Feature Engineering, Tableau, and Predictive Modeling.", "milestones": ["1. Advanced SQL & Data Cleaning", "2. Statistical Analysis with Python", "3. Machine Learning Modeling", "4. BI Dashboards & Storytelling"]},
+    {"id": "road-4", "role": "Cloud & DevOps Solutions Architect", "description": "Master Linux, Docker, Kubernetes, Terraform, CI/CD, and AWS/GCP Cloud.", "milestones": ["1. Linux Administration & Shell Scripting", "2. Docker Containerization", "3. Kubernetes Orchestration", "4. Infrastructure as Code (Terraform)"]},
+    {"id": "road-5", "role": "Cybersecurity & Ethical Hacking Specialist", "description": "Master Cryptography, Wireshark Packet Analysis, Pen Testing, and Network Security.", "milestones": ["1. Network Protocols & Linux Security", "2. Web Vulnerability Auditing (OWASP)", "3. Penetration Testing (Metasploit)", "4. Incident Response & SIEM"]},
+    {"id": "road-6", "role": "Mobile App Developer (Flutter / iOS / Android)", "description": "Master Dart/Flutter, Swift, Kotlin, Firebase, and App Store Publishing.", "milestones": ["1. Dart Fundamentals & Flutter UI", "2. REST API & Firebase Integration", "3. State Management (Riverpod)", "4. Play Store / App Store Release"]},
+    {"id": "road-7", "role": "Backend Systems & Database Engineer", "description": "Master Java/Go, Microservices, Redis Caching, Kafka, and PostgreSQL.", "milestones": ["1. High-Performance Java / Go", "2. Microservice Architecture", "3. Distributed Caching with Redis", "4. Message Queues with Kafka"]},
+    {"id": "road-8", "role": "Autonomous Robotics & Embedded Engineer", "description": "Master C++, ROS2, Computer Vision, Sensor Fusion, and Microcontrollers.", "milestones": ["1. Modern C++17/20", "2. ROS2 Robot Operating System", "3. OpenCV Computer Vision", "4. Sensor Fusion & SLAM"]},
+    {"id": "road-9", "role": "Blockchain & Smart Contract Developer", "description": "Master Solidity, Ethereum EVM, Web3.js, Rust, and Decentralized Finance.", "milestones": ["1. Solidity Smart Contracts", "2. Web3.js / Ethers.js Frontend Integration", "3. Smart Contract Auditing", "4. Layer-2 Scaling Solutions"]},
+    {"id": "road-10", "role": "UI/UX & Product Experience Designer", "description": "Master Figma Design Systems, User Research, Wireframing, and Prototyping.", "milestones": ["1. User Research & Personas", "2. Wireframing & Information Architecture", "3. Interactive Figma Components", "4. Usability Testing & Hand-off"]}
+]
+
+# 11. 10 Student Projects
+PROJECTS = [
+    {"id": "proj-1", "title": "CampusMind AI Student Co-Pilot", "category": "AI / Web", "tech": "Flask, React, Firebase, Exa AI", "description": "All-in-one AI assistant for student schedules, notes, and scholarships.", "needed_roles": ["Frontend Dev", "Backend Dev"]},
+    {"id": "proj-2", "title": "Smart Indoor Campus Navigation App", "category": "Mobile / AR", "tech": "Flutter, ARCore, Bluetooth Beacons", "description": "AR indoor navigation app guiding students to classrooms and labs.", "needed_roles": ["Flutter Dev", "AR Designer"]},
+    {"id": "proj-3", "title": "Automated Exam Question Generator", "category": "GenAI", "tech": "Python, Gemini API, PyPDF2", "description": "Generates viva quizzes and practice exams from uploaded lecture notes.", "needed_roles": ["ML Engineer", "UI Designer"]},
+    {"id": "proj-4", "title": "Peer-to-Peer Notes & Book Exchange", "category": "Web App", "tech": "Node.js, MongoDB, React", "description": "Student marketplace for sharing class notes, textbooks, and lab gear.", "needed_roles": ["Full Stack Dev"]},
+    {"id": "proj-5", "title": "AI Resume Matcher & Mock Interviewer", "category": "Career AI", "tech": "Python, OpenAI/Gemini, WebRTC", "description": "Conducts AI voice mock interviews and scores resume skill gaps.", "needed_roles": ["AI/ML Specialist", "WebRTC Engineer"]},
+    {"id": "proj-6", "title": "IoT Smart Library Seat & Attendance System", "category": "IoT / Cloud", "tech": "ESP32, MQTT, Firebase, React", "description": "Real-time occupancy tracking for quiet study zones and library seats.", "needed_roles": ["Hardware Engineer", "Cloud Dev"]},
+    {"id": "proj-7", "title": "College Canteen Pre-Ordering & Queue App", "category": "Mobile", "tech": "React Native, Node.js, Stripe", "description": "Pre-order meals to skip lunchtime canteen queues on campus.", "needed_roles": ["Mobile Dev", "Backend Dev"]},
+    {"id": "proj-8", "title": "Blockchain Degree Verification Portal", "category": "Web3", "tech": "Solidity, Ethereum, IPFS, React", "description": "Tamper-proof academic transcript and degree certificate verification.", "needed_roles": ["Smart Contract Dev"]},
+    {"id": "proj-9", "title": "Code Error Diagnostic VSCode Extension", "category": "Developer Tools", "tech": "TypeScript, VSCode API, LLM API", "description": "Real-time AI syntax error fixer inside VSCode editor.", "needed_roles": ["TypeScript Dev"]},
+    {"id": "proj-10", "title": "Virtual Campus 3D Metaverse Tour", "category": "3D / Gaming", "tech": "Three.js, WebGL, React", "description": "Interactive 3D virtual tour of the college campus for prospective students.", "needed_roles": ["3D Artist", "Three.js Developer"]}
+]
+
+# 12. 10 Faculty & Alumni Mentors
+MENTORS = [
+    {"id": "men-1", "name": "Dr. Sarah Jenkins", "role": "Associate Professor (Operating Systems)", "expertise": "OS Kernels, C/C++, Synchronization", "availability": "Mon & Wed 2:00 PM"},
+    {"id": "men-2", "name": "Prof. Ramesh Gupta", "role": "Head of Department (DBMS)", "expertise": "SQL Tuning, B+ Trees, Database Architecture", "availability": "Tue & Thu 10:00 AM"},
+    {"id": "men-3", "name": "Dr. Alan Turing", "role": "AI Research Chair", "expertise": "Machine Learning, PyTorch, Neural Networks", "availability": "Friday 3:00 PM"},
+    {"id": "men-4", "name": "Prof. Grace Hopper", "role": "Professor (Software Engineering)", "expertise": "Agile Scrum, System Design, CI/CD", "availability": "Wednesday 11:00 AM"},
+    {"id": "men-5", "name": "Dr. Linus Torvalds", "role": "Distinguished Visiting Faculty", "expertise": "Linux Architecture, Git, Open Source", "availability": "Monday 4:00 PM"},
+    {"id": "men-6", "name": "Mentor Priya Sharma", "role": "Senior SDE @ Google (Alumni 2022)", "expertise": "DSA, Tech Interviews, Cloud Infrastructure", "availability": "Saturday 11:00 AM"},
+    {"id": "men-7", "name": "Mentor Rahul Verma", "role": "Staff Software Engineer @ Microsoft", "expertise": "Full Stack React/Node, System Architecture", "availability": "Sunday 2:00 PM"},
+    {"id": "men-8", "name": "Dr. Anita Borg", "role": "Professor (Networks & Security)", "expertise": "Cryptography, Penetration Testing, SSL", "availability": "Thursday 1:00 PM"},
+    {"id": "men-9", "name": "Mentor David Patel", "role": "AI Researcher @ OpenAI Alumni", "expertise": "Large Language Models, GenAI, MLOps", "availability": "Saturday 4:00 PM"},
+    {"id": "men-10", "name": "Prof. Ken Thompson", "role": "Professor (Algorithms)", "expertise": "Data Structures, Go Language, Unix", "availability": "Tuesday 3:00 PM"}
+]
+
+# Data Access Helper Functions
 def get_all_assignments(): return ASSIGNMENTS
 def get_assignment_by_id(asgn_id): return next((a for a in ASSIGNMENTS if a["id"] == asgn_id), None)
 def add_new_assignment(title, course, due_date, priority, description):
