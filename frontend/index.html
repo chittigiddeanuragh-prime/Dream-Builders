@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>CampusMind AI — All-In-One AI Platform for College Life</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -51,8 +54,8 @@
         }
         .active-nav {
             background: linear-gradient(90deg, rgba(6, 182, 212, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
-            color: #38bdf8;
-            border-right: 3px solid #38bdf8;
+            color: #38bdf8 !important;
+            border-right: 3px solid #38bdf8 !important;
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
         }
         .chat-bubble-user {
@@ -104,43 +107,43 @@
 
             <!-- Navigation Links for All 13 Separate Pages -->
             <nav class="mt-4 px-3 space-y-1 overflow-y-auto max-h-[calc(100vh-14rem)]">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition active-nav cursor-pointer">
+                <button onclick="forceOpenTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition active-nav cursor-pointer">
                     <i class="fa-solid fa-house text-cyan-400 w-4"></i> Home Dashboard
                 </button>
-                <button onclick="navigateToAuth('signup')" id="nav-auth" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('auth'); setAuthSubTab('signup');" id="nav-auth" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-user-shield text-purple-400 w-4"></i> Sign In / Log In Page
                 </button>
-                <button onclick="switchTab('map')" id="nav-map" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('map')" id="nav-map" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-map-location-dot text-teal-400 w-4"></i> Campus Map Navigator (15)
                 </button>
-                <button onclick="switchTab('notes')" id="nav-notes" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('notes')" id="nav-notes" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-book-open text-pink-400 w-4"></i> Notes & Knowledge
                 </button>
-                <button onclick="switchTab('opportunities')" id="nav-opportunities" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('opportunities')" id="nav-opportunities" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-award text-amber-400 w-4"></i> Scholarships & Opps
                 </button>
-                <button onclick="switchTab('integrations')" id="nav-integrations" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('integrations')" id="nav-integrations" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-plug text-emerald-400 w-4"></i> Integrations Hub (10)
                 </button>
-                <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('chat')" id="nav-chat" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-user-astronaut text-purple-400 w-4"></i> AI Study Coach / Chat
                 </button>
-                <button onclick="switchTab('assignments')" id="nav-assignments" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('assignments')" id="nav-assignments" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-list-check text-rose-400 w-4"></i> Assignments & Deadlines
                 </button>
-                <button onclick="switchTab('community')" id="nav-community" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('community')" id="nav-community" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-users text-pink-400 w-4"></i> Campus & Community
                 </button>
-                <button onclick="switchTab('lab')" id="nav-lab" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('lab')" id="nav-lab" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-flask text-violet-400 w-4"></i> Lab Exams & Viva Solver
                 </button>
-                <button onclick="switchTab('career')" id="nav-career" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('career')" id="nav-career" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-compass text-orange-400 w-4"></i> Career Roadmap & AI
                 </button>
-                <button onclick="switchTab('projects')" id="nav-projects" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('projects')" id="nav-projects" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-code text-teal-400 w-4"></i> Projects & Teammates
                 </button>
-                <button onclick="switchTab('mentorship')" id="nav-mentorship" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="forceOpenTab('mentorship')" id="nav-mentorship" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-handshake text-indigo-400 w-4"></i> Mentorship & Guidance
                 </button>
             </nav>
@@ -161,7 +164,7 @@
                     </div>
                 </div>
 
-                <button id="auth-action-btn" onclick="navigateToAuth('login')" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
+                <button id="auth-action-btn" onclick="forceOpenTab('auth'); setAuthSubTab('login');" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
                     🔑 Log In
                 </button>
             </div>
@@ -188,17 +191,17 @@
 
             <!-- Header Auth Buttons -->
             <div class="flex items-center gap-2 shrink-0 relative z-50">
-                <button id="btn-top-login" onclick="navigateToAuth('login')" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
+                <button id="btn-top-login" onclick="forceOpenTab('auth'); setAuthSubTab('login');" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-right-to-bracket"></i> Log In
                 </button>
-                <button id="btn-top-signup" onclick="navigateToAuth('signup')" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-purple transition flex items-center gap-1.5 cursor-pointer">
+                <button id="btn-top-signup" onclick="forceOpenTab('auth'); setAuthSubTab('signup');" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-purple transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-user-plus"></i> Sign Up
                 </button>
             </div>
         </div>
 
         <!-- 1. HOME DASHBOARD SEPARATE PAGE -->
-        <section id="screen-dashboard" class="space-y-6">
+        <section id="screen-dashboard" class="space-y-6" style="display: block;">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl object-cover border border-cyan-500/40 shadow-neon-cyan">
@@ -210,7 +213,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button id="btn-dashboard-signup" onclick="navigateToAuth('signup')" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
+                    <button id="btn-dashboard-signup" onclick="forceOpenTab('auth'); setAuthSubTab('signup');" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
                         🔑 Create Firestore Account
                     </button>
                 </div>
@@ -270,43 +273,43 @@
 
             <!-- Search Bar -->
             <div class="relative">
-                <input type="text" id="dashboard-search-input" onkeypress="if(event.key==='Enter'){ switchTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything..." class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
-                <button onclick="switchTab('chat'); sendQuickPrompt(document.getElementById('dashboard-search-input').value);" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition cursor-pointer">
+                <input type="text" id="dashboard-search-input" onkeypress="if(event.key==='Enter'){ forceOpenTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything..." class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
+                <button onclick="forceOpenTab('chat'); sendQuickPrompt(document.getElementById('dashboard-search-input').value);" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition cursor-pointer">
                     Ask AI
                 </button>
             </div>
 
             <!-- Quick Modules Grid -->
             <div class="grid grid-cols-4 sm:grid-cols-8 gap-3">
-                <button onclick="switchTab('map')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-teal-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('map')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-teal-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-teal-600/30 text-teal-400 flex items-center justify-center text-lg"><i class="fa-solid fa-map-location-dot"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Campus Map</span>
                 </button>
-                <button onclick="switchTab('notes')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-pink-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('notes')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-pink-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-pink-600/30 text-pink-400 flex items-center justify-center text-lg"><i class="fa-solid fa-book-open"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Notes Base</span>
                 </button>
-                <button onclick="switchTab('opportunities')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-amber-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('opportunities')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-amber-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-amber-600/30 text-amber-400 flex items-center justify-center text-lg"><i class="fa-solid fa-award"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Scholarships</span>
                 </button>
-                <button onclick="switchTab('integrations')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-emerald-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('integrations')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-emerald-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-emerald-600/30 text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-plug"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Integrations</span>
                 </button>
-                <button onclick="switchTab('dashboard')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('dashboard')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-purple-600/30 text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-calendar-check"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Schedule</span>
                 </button>
-                <button onclick="switchTab('assignments')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('assignments')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-rose-600/30 text-rose-400 flex items-center justify-center text-lg"><i class="fa-solid fa-briefcase"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Assignments</span>
                 </button>
-                <button onclick="switchTab('chat')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('chat')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-cyan-600/30 text-cyan-400 flex items-center justify-center text-lg"><i class="fa-solid fa-robot"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">AI Coach</span>
                 </button>
-                <button onclick="switchTab('career')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="forceOpenTab('career')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-orange-600/30 text-orange-400 flex items-center justify-center text-lg"><i class="fa-solid fa-compass"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Career</span>
                 </button>
@@ -324,7 +327,7 @@
                 <div class="glass-card rounded-2xl p-5 space-y-3">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
                         <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-bell text-rose-400"></i> Upcoming Deadlines</h3>
-                        <button onclick="switchTab('assignments')" class="text-xs text-cyan-400 font-bold hover:underline cursor-pointer">View All</button>
+                        <button onclick="forceOpenTab('assignments')" class="text-xs text-cyan-400 font-bold hover:underline cursor-pointer">View All</button>
                     </div>
                     <div id="urgent-assignments-list" class="space-y-2.5"><p class="text-xs text-slate-500">Loading assignments...</p></div>
                 </div>
@@ -333,7 +336,7 @@
 
 
         <!-- 2. AUTHENTICATION SEPARATE PAGE -->
-        <section id="screen-auth" class="space-y-6 max-w-2xl mx-auto py-4 hidden">
+        <section id="screen-auth" class="space-y-6 max-w-2xl mx-auto py-4 hidden" style="display: none;">
             <div class="text-center space-y-2">
                 <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover border border-purple-500/40 shadow-neon-purple">
                 <h2 class="text-3xl font-black text-white tracking-wide flex items-center justify-center gap-2.5">
@@ -396,7 +399,7 @@
             </div>
 
             <!-- LOG IN PAGE CARD -->
-            <div id="auth-card-login" class="glass-card p-8 rounded-3xl border border-cyan-500/30 shadow-neon-cyan space-y-5 hidden">
+            <div id="auth-card-login" class="glass-card p-8 rounded-3xl border border-cyan-500/30 shadow-neon-cyan space-y-5 hidden" style="display: none;">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                     <div>
                         <h3 class="font-extrabold text-white text-lg flex items-center gap-2"><i class="fa-solid fa-right-to-bracket text-cyan-400"></i> Student Log In</h3>
@@ -427,7 +430,7 @@
             </div>
 
             <!-- FORGOT PASSWORD PAGE CARD -->
-            <div id="auth-card-forgot" class="glass-card p-8 rounded-3xl border border-rose-500/30 space-y-5 hidden">
+            <div id="auth-card-forgot" class="glass-card p-8 rounded-3xl border border-rose-500/30 space-y-5 hidden" style="display: none;">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                     <div>
                         <h3 class="font-extrabold text-white text-lg flex items-center gap-2"><i class="fa-solid fa-key text-rose-400"></i> Password Reset Request</h3>
@@ -452,7 +455,7 @@
 
 
         <!-- 3. CAMPUS MAP SEPARATE PAGE -->
-        <section id="screen-map" class="space-y-6 hidden">
+        <section id="screen-map" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -465,7 +468,7 @@
         </section>
 
         <!-- 4. NOTES SEPARATE PAGE -->
-        <section id="screen-notes" class="space-y-6 hidden">
+        <section id="screen-notes" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -478,7 +481,7 @@
         </section>
 
         <!-- 5. SCHOLARSHIPS & OPPS SEPARATE PAGE -->
-        <section id="screen-opportunities" class="space-y-6 hidden">
+        <section id="screen-opportunities" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -491,7 +494,7 @@
         </section>
 
         <!-- 6. INTEGRATIONS HUB SEPARATE PAGE -->
-        <section id="screen-integrations" class="space-y-6 hidden">
+        <section id="screen-integrations" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -504,7 +507,7 @@
         </section>
 
         <!-- 7. AI STUDY COACH SEPARATE PAGE -->
-        <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden">
+        <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h2 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-user-astronaut text-purple-400"></i> AI Study Coach & Assistant</h2>
             </div>
@@ -516,7 +519,7 @@
         </section>
 
         <!-- 8. ASSIGNMENTS & DEADLINES SEPARATE PAGE -->
-        <section id="screen-assignments" class="space-y-6 hidden">
+        <section id="screen-assignments" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -529,7 +532,7 @@
         </section>
 
         <!-- 9. CAMPUS COMMUNITY SEPARATE PAGE -->
-        <section id="screen-community" class="space-y-6 hidden">
+        <section id="screen-community" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -542,7 +545,7 @@
         </section>
 
         <!-- 10. LAB EXAMS SEPARATE PAGE -->
-        <section id="screen-lab" class="space-y-6 hidden">
+        <section id="screen-lab" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -555,7 +558,7 @@
         </section>
 
         <!-- 11. CAREER ROADMAP SEPARATE PAGE -->
-        <section id="screen-career" class="space-y-6 hidden">
+        <section id="screen-career" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -568,7 +571,7 @@
         </section>
 
         <!-- 12. PROJECTS SEPARATE PAGE -->
-        <section id="screen-projects" class="space-y-6 hidden">
+        <section id="screen-projects" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -581,7 +584,7 @@
         </section>
 
         <!-- 13. MENTORSHIP SEPARATE PAGE -->
-        <section id="screen-mentorship" class="space-y-6 hidden">
+        <section id="screen-mentorship" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
@@ -601,23 +604,42 @@
         let currentTab = 'dashboard';
         let chatHistory = [];
 
-        // Global Navigation Window Functions for 13 Separate Pages
-        window.switchTab = function(tabId) {
+        // Fail-Proof Forced Section Navigation with Hash Support
+        window.forceOpenTab = function(tabId) {
+            console.log("Forcing open separate page tab:", tabId);
             currentTab = tabId;
-            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+
+            // Hide ALL sections explicitly
+            const allSections = document.querySelectorAll('main > section');
+            allSections.forEach(sec => {
+                sec.style.display = 'none';
+                sec.classList.add('hidden');
+            });
+
+            // Show target section explicitly
+            const targetSec = document.getElementById(`screen-${tabId}`);
+            if (targetSec) {
+                targetSec.style.display = (tabId === 'chat') ? 'flex' : 'block';
+                targetSec.classList.remove('hidden');
+            }
+
+            // Update Active Nav Highlight
             document.querySelectorAll('aside nav button').forEach(btn => {
                 btn.classList.remove('active-nav');
                 btn.classList.add('text-slate-400');
             });
-            const targetSec = document.getElementById(`screen-${tabId}`);
-            if (targetSec) targetSec.classList.remove('hidden');
-
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if (activeBtn) {
                 activeBtn.classList.add('active-nav');
                 activeBtn.classList.remove('text-slate-400');
             }
 
+            // Sync URL hash
+            if (window.location.hash !== `#${tabId}`) {
+                window.location.hash = `#${tabId}`;
+            }
+
+            // Load Section Data
             try {
                 if (tabId === 'dashboard') loadDashboard();
                 if (tabId === 'map') loadMap();
@@ -631,12 +653,14 @@
                 if (tabId === 'projects') loadProjects();
                 if (tabId === 'mentorship') loadMentorship();
             } catch (e) {
-                console.warn("Tab load error:", e);
+                console.warn("Section load error:", e);
             }
         };
 
+        window.switchTab = window.forceOpenTab;
+
         window.navigateToAuth = function(mode = 'signup') {
-            window.switchTab('auth');
+            window.forceOpenTab('auth');
             window.setAuthSubTab(mode);
         };
 
@@ -645,9 +669,9 @@
             const loginCard = document.getElementById('auth-card-login');
             const forgotCard = document.getElementById('auth-card-forgot');
 
-            if (signupCard) signupCard.classList.add('hidden');
-            if (loginCard) loginCard.classList.add('hidden');
-            if (forgotCard) forgotCard.classList.add('hidden');
+            if (signupCard) { signupCard.classList.add('hidden'); signupCard.style.display = 'none'; }
+            if (loginCard) { loginCard.classList.add('hidden'); loginCard.style.display = 'none'; }
+            if (forgotCard) { forgotCard.classList.add('hidden'); forgotCard.style.display = 'none'; }
 
             const tabSignup = document.getElementById('auth-tab-signup');
             const tabLogin = document.getElementById('auth-tab-login');
@@ -658,13 +682,13 @@
             if (tabForgot) tabForgot.className = 'px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 bg-[#0d1424] border border-slate-800 hover:border-rose-400 cursor-pointer';
 
             if (subTab === 'signup' && signupCard && tabSignup) {
-                signupCard.classList.remove('hidden');
+                signupCard.classList.remove('hidden'); signupCard.style.display = 'block';
                 tabSignup.className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-neon-purple border border-purple-400 cursor-pointer';
             } else if (subTab === 'login' && loginCard && tabLogin) {
-                loginCard.classList.remove('hidden');
+                loginCard.classList.remove('hidden'); loginCard.style.display = 'block';
                 tabLogin.className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-neon-cyan border border-cyan-400 cursor-pointer';
             } else if (subTab === 'forgot' && forgotCard && tabForgot) {
-                forgotCard.classList.remove('hidden');
+                forgotCard.classList.remove('hidden'); forgotCard.style.display = 'block';
                 tabForgot.className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-rose-600 text-white shadow-glow-sm border border-rose-400 cursor-pointer';
             }
         };
@@ -727,7 +751,7 @@
             if (res.success) {
                 updateUIUser(res.user.displayName || email.split('@')[0], email, res.user.major || "CSE");
                 showToast(`Logged in successfully as ${res.user.displayName || email}!`);
-                window.switchTab('dashboard');
+                window.forceOpenTab('dashboard');
             } else {
                 showToast(res.error || "Login failed", "error");
             }
@@ -753,7 +777,7 @@
             if (res.success) {
                 updateUIUser(name, email, major);
                 showToast(`Account '${name}' saved to Database!`);
-                window.switchTab('dashboard');
+                window.forceOpenTab('dashboard');
             } else {
                 showToast(res.error || "Sign Up failed", "error");
             }
@@ -914,21 +938,20 @@
         function appendUserMessage(msg) { const chat = document.getElementById('chat-messages'); if (chat) chat.innerHTML += `<div class="flex justify-end"><div class="chat-bubble-user p-3 rounded-2xl max-w-xl text-xs">${msg}</div></div>`; }
         function appendAIMessage(reply, tools) { const chat = document.getElementById('chat-messages'); if (chat) chat.innerHTML += `<div class="flex gap-2"><div class="chat-bubble-ai p-3 rounded-2xl max-w-2xl text-xs">${reply}</div></div>`; }
 
-        // Bind DOM click listeners safely
+        // Window Hash Change Event Listener
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) window.forceOpenTab(hash);
+        });
+
+        // Initial Load Event
         document.addEventListener('DOMContentLoaded', () => {
-            loadDashboard();
-
-            const topLoginBtn = document.getElementById('btn-top-login');
-            if (topLoginBtn) topLoginBtn.addEventListener('click', () => window.navigateToAuth('login'));
-
-            const topSignupBtn = document.getElementById('btn-top-signup');
-            if (topSignupBtn) topSignupBtn.addEventListener('click', () => window.navigateToAuth('signup'));
-
-            const dashboardSignupBtn = document.getElementById('btn-dashboard-signup');
-            if (dashboardSignupBtn) dashboardSignupBtn.addEventListener('click', () => window.navigateToAuth('signup'));
-
-            const authBtnSidebar = document.getElementById('auth-action-btn');
-            if (authBtnSidebar) authBtnSidebar.addEventListener('click', () => window.navigateToAuth('login'));
+            const initialHash = window.location.hash.replace('#', '');
+            if (initialHash) {
+                window.forceOpenTab(initialHash);
+            } else {
+                window.forceOpenTab('dashboard');
+            }
         });
     </script>
 </body>

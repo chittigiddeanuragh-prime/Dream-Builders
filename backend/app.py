@@ -15,6 +15,13 @@ frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'fr
 app = Flask(__name__, static_folder=frontend_dir, static_url_path='')
 CORS(app)
 
+@app.after_request
+def add_no_cache_headers(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 @app.route('/')
 def serve_index():
     return send_from_directory(frontend_dir, 'index.html')
