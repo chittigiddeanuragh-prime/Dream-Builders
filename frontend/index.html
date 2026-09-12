@@ -160,7 +160,7 @@
                     </div>
                 </div>
 
-                <button id="auth-action-btn" onclick="openLoginModal()" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
+                <button id="auth-action-btn" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
                     🔑 Log In
                 </button>
             </div>
@@ -168,16 +168,16 @@
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-6 lg:p-8 overflow-y-auto h-screen space-y-6">
+    <main class="flex-1 p-6 lg:p-8 overflow-y-auto h-screen space-y-6 z-10 relative">
 
         <!-- Top Ribbon Toolbar with Auth & Firestore Sync -->
-        <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 overflow-x-auto">
+        <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 overflow-x-auto relative z-20">
             <div class="flex items-center gap-3">
                 <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 px-2 flex items-center gap-1.5">
                     <i class="fa-solid fa-fire text-amber-400"></i> Firebase Firestore DB:
                 </span>
                 <button onclick="testFirestoreWrite()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 border border-amber-500/40 text-xs font-extrabold text-amber-200 shadow-glow-sm hover:border-amber-300 transition cursor-pointer">
-                    🔥 Write Test Document (users/user_alex_chen)
+                    🔥 Write Test Document
                 </button>
                 <button onclick="testFirestoreRead()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-xs font-extrabold text-cyan-200 hover:border-cyan-300 transition cursor-pointer">
                     📖 Read Test Document
@@ -185,11 +185,11 @@
             </div>
 
             <!-- Header Auth Buttons -->
-            <div class="flex items-center gap-2 shrink-0">
-                <button onclick="openLoginModal()" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-3.5 py-1.5 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
+            <div class="flex items-center gap-2 shrink-0 relative z-30">
+                <button id="btn-header-login" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-right-to-bracket"></i> Log In
                 </button>
-                <button onclick="openSignupModal()" class="bg-purple-950 border border-purple-500/40 hover:bg-purple-900 text-purple-200 font-extrabold px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer">
+                <button id="btn-header-signup" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-purple transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-user-plus"></i> Sign Up
                 </button>
             </div>
@@ -205,10 +205,80 @@
                     <p class="text-slate-400 text-sm mt-1">Firebase Project: <strong class="text-cyan-300">campusminds-4c038</strong> (Number: 89380595571)</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="openSignupModal()" class="px-4 py-2 bg-purple-950/80 text-purple-300 font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer hover:border-purple-300 transition">
+                    <button id="btn-banner-signup" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
                         🔑 Create Firestore Account
                     </button>
                 </div>
+            </div>
+
+            <!-- EMBEDDED HOME AUTHENTICATION CARD (DIRECT ACCESS NO MODAL NEEDED) -->
+            <div class="glass-card p-6 rounded-2xl border border-cyan-500/30 shadow-neon-cyan space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></span>
+                        <h3 class="font-extrabold text-white text-base">🔑 Student Authentication & Database Sync</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleEmbeddedTab('signup')" id="tab-btn-signup" class="px-3 py-1 rounded-lg text-xs font-black bg-purple-950 text-purple-300 border border-purple-500/40">Create Account</button>
+                        <button onclick="toggleEmbeddedTab('login')" id="tab-btn-login" class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 border border-slate-800">Log In</button>
+                        <button onclick="toggleEmbeddedTab('forgot')" id="tab-btn-forgot" class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 border border-slate-800">Forgot Password</button>
+                    </div>
+                </div>
+
+                <!-- EMBEDDED SIGN UP FORM -->
+                <form id="embedded-signup-form" onsubmit="handleSignupSubmit(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Full Student Name</label>
+                        <input type="text" id="embedded-signup-name" placeholder="Anu" required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Course / Major</label>
+                        <input type="text" id="embedded-signup-major" placeholder="CSE" required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Email Address</label>
+                        <input type="email" id="embedded-signup-email" placeholder="anu@gmail.com" required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Password (Min 6 chars)</label>
+                        <input type="password" id="embedded-signup-password" placeholder="••••••••" required minlength="6" class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+                    <div class="sm:col-span-2 pt-1">
+                        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-purple cursor-pointer">
+                            🚀 Submit & Save Account to Database
+                        </button>
+                    </div>
+                </form>
+
+                <!-- EMBEDDED LOG IN FORM -->
+                <form id="embedded-login-form" onsubmit="handleLoginSubmit(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs hidden">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Email Address</label>
+                        <input type="email" id="embedded-login-email" placeholder="anu@gmail.com" required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Password (Min 6 chars)</label>
+                        <input type="password" id="embedded-login-password" placeholder="••••••••" required minlength="6" class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+                    <div class="sm:col-span-2 pt-1">
+                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-cyan cursor-pointer">
+                            🔑 Log In to Dashboard
+                        </button>
+                    </div>
+                </form>
+
+                <!-- EMBEDDED FORGOT PASSWORD FORM -->
+                <form id="embedded-forgot-form" onsubmit="handleForgotPasswordSubmit(event)" class="grid grid-cols-1 gap-3.5 text-xs hidden">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Registered Email Address</label>
+                        <input type="email" id="embedded-forgot-email" placeholder="anu@gmail.com" required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+                    <div class="pt-1">
+                        <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-sm cursor-pointer">
+                            ✉️ Send Password Reset Email
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <!-- Featured Core Integrations -->
@@ -351,7 +421,7 @@
             <form onsubmit="handleLoginSubmit(event)" class="space-y-3.5 text-xs">
                 <div>
                     <label class="block font-bold text-slate-300 mb-1">Email Address</label>
-                    <input type="email" id="login-email" placeholder="alex.chen@campusminds.edu" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    <input type="email" id="login-email" placeholder="anu@gmail.com" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
                 </div>
                 <div>
                     <div class="flex items-center justify-between mb-1">
@@ -429,7 +499,7 @@
 
     <!-- App JavaScript Logic -->
     <script>
-        // Global Modal Window Handlers
+        // Modal Handlers
         window.openLoginModal = function() {
             const lm = document.getElementById('login-modal');
             if (lm) lm.classList.remove('hidden');
@@ -458,6 +528,27 @@
         };
         window.switchToSignup = function() { window.openSignupModal(); };
         window.switchToLogin = function() { window.closeSignupModal(); window.openLoginModal(); };
+
+        function toggleEmbeddedTab(tabName) {
+            document.getElementById('embedded-signup-form').classList.add('hidden');
+            document.getElementById('embedded-login-form').classList.add('hidden');
+            document.getElementById('embedded-forgot-form').classList.add('hidden');
+
+            document.getElementById('tab-btn-signup').className = 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 border border-slate-800';
+            document.getElementById('tab-btn-login').className = 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 border border-slate-800';
+            document.getElementById('tab-btn-forgot').className = 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 border border-slate-800';
+
+            if (tabName === 'signup') {
+                document.getElementById('embedded-signup-form').classList.remove('hidden');
+                document.getElementById('tab-btn-signup').className = 'px-3 py-1 rounded-lg text-xs font-black bg-purple-950 text-purple-300 border border-purple-500/40';
+            } else if (tabName === 'login') {
+                document.getElementById('embedded-login-form').classList.remove('hidden');
+                document.getElementById('tab-btn-login').className = 'px-3 py-1 rounded-lg text-xs font-black bg-cyan-950 text-cyan-300 border border-cyan-500/40';
+            } else if (tabName === 'forgot') {
+                document.getElementById('embedded-forgot-form').classList.remove('hidden');
+                document.getElementById('tab-btn-forgot').className = 'px-3 py-1 rounded-lg text-xs font-black bg-rose-950 text-rose-300 border border-rose-500/40';
+            }
+        }
 
         const API_BASE = 'http://127.0.0.1:5000';
         let currentTab = 'dashboard';
@@ -496,8 +587,10 @@
 
         async function handleLoginSubmit(e) {
             e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+            const emailInput = document.getElementById('login-email') || document.getElementById('embedded-login-email');
+            const passwordInput = document.getElementById('login-password') || document.getElementById('embedded-login-password');
+            const email = emailInput ? emailInput.value : '';
+            const password = passwordInput ? passwordInput.value : '';
             
             if (password.length < 6) {
                 return showToast("Password must be at least 6 characters long.", "error");
@@ -515,10 +608,10 @@
 
         async function handleSignupSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById('signup-name').value;
-            const major = document.getElementById('signup-major').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
+            const name = (document.getElementById('signup-name') && document.getElementById('signup-name').value) || (document.getElementById('embedded-signup-name') && document.getElementById('embedded-signup-name').value) || 'Anu';
+            const major = (document.getElementById('signup-major') && document.getElementById('signup-major').value) || (document.getElementById('embedded-signup-major') && document.getElementById('embedded-signup-major').value) || 'CSE';
+            const email = (document.getElementById('signup-email') && document.getElementById('signup-email').value) || (document.getElementById('embedded-signup-email') && document.getElementById('embedded-signup-email').value) || 'anu@gmail.com';
+            const password = (document.getElementById('signup-password') && document.getElementById('signup-password').value) || (document.getElementById('embedded-signup-password') && document.getElementById('embedded-signup-password').value) || '';
 
             if (password.length < 6) {
                 return showToast("Password must be at least 6 characters long.", "error");
@@ -536,7 +629,8 @@
 
         async function handleForgotPasswordSubmit(e) {
             e.preventDefault();
-            const email = document.getElementById('forgot-email').value;
+            const emailInput = document.getElementById('forgot-email') || document.getElementById('embedded-forgot-email');
+            const email = emailInput ? emailInput.value : '';
             const res = await resetPassword(email);
             closeForgotPasswordModal();
             showToast(res.message || `Password reset link sent to ${email}`);
@@ -610,7 +704,22 @@
         function appendUserMessage(msg) { document.getElementById('chat-messages').innerHTML += `<div class="flex justify-end"><div class="chat-bubble-user p-3 rounded-2xl max-w-xl text-xs">${msg}</div></div>`; }
         function appendAIMessage(reply, tools) { document.getElementById('chat-messages').innerHTML += `<div class="flex gap-2"><div class="chat-bubble-ai p-3 rounded-2xl max-w-2xl text-xs">${reply}</div></div>`; }
 
-        document.addEventListener('DOMContentLoaded', () => { loadDashboard(); });
+        // Attach Event Listeners on DOM load for 100% click reliability
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboard();
+
+            const loginBtnHeader = document.getElementById('btn-header-login');
+            if (loginBtnHeader) loginBtnHeader.addEventListener('click', window.openLoginModal);
+
+            const signupBtnHeader = document.getElementById('btn-header-signup');
+            if (signupBtnHeader) signupBtnHeader.addEventListener('click', window.openSignupModal);
+
+            const signupBtnBanner = document.getElementById('btn-banner-signup');
+            if (signupBtnBanner) signupBtnBanner.addEventListener('click', window.openSignupModal);
+
+            const authBtnSidebar = document.getElementById('auth-action-btn');
+            if (authBtnSidebar) authBtnSidebar.addEventListener('click', window.openLoginModal);
+        });
     </script>
 </body>
 </html>
