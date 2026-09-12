@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>CampusMind AI — All-In-One AI Platform for College Life</title>
+    <title>CampusMind AI — Single Dashboard Co-Pilot</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -105,51 +105,51 @@
                 </div>
             </div>
 
-            <!-- Navigation Links for All 13 Separate Pages -->
+            <!-- Navigation Links for All 13 Dashboard Modules -->
             <nav class="mt-4 px-3 space-y-1 overflow-y-auto max-h-[calc(100vh-14rem)]">
-                <button onclick="forceOpenTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition active-nav cursor-pointer">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition active-nav cursor-pointer">
                     <i class="fa-solid fa-house text-cyan-400 w-4"></i> Home Dashboard
                 </button>
-                <button onclick="forceOpenTab('auth'); setAuthSubTab('signup');" id="nav-auth" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
-                    <i class="fa-solid fa-user-shield text-purple-400 w-4"></i> Sign In / Log In Page
+                <button onclick="switchTab('auth')" id="nav-auth" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                    <i class="fa-solid fa-user-shield text-purple-400 w-4"></i> Sign In / Log In Portal
                 </button>
-                <button onclick="forceOpenTab('map')" id="nav-map" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('map')" id="nav-map" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-map-location-dot text-teal-400 w-4"></i> Campus Map Navigator (15)
                 </button>
-                <button onclick="forceOpenTab('notes')" id="nav-notes" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('notes')" id="nav-notes" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-book-open text-pink-400 w-4"></i> Notes & Knowledge
                 </button>
-                <button onclick="forceOpenTab('opportunities')" id="nav-opportunities" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('opportunities')" id="nav-opportunities" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-award text-amber-400 w-4"></i> Scholarships & Opps
                 </button>
-                <button onclick="forceOpenTab('integrations')" id="nav-integrations" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('integrations')" id="nav-integrations" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-plug text-emerald-400 w-4"></i> Integrations Hub (10)
                 </button>
-                <button onclick="forceOpenTab('chat')" id="nav-chat" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-user-astronaut text-purple-400 w-4"></i> AI Study Coach / Chat
                 </button>
-                <button onclick="forceOpenTab('assignments')" id="nav-assignments" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('assignments')" id="nav-assignments" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-list-check text-rose-400 w-4"></i> Assignments & Deadlines
                 </button>
-                <button onclick="forceOpenTab('community')" id="nav-community" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('community')" id="nav-community" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-users text-pink-400 w-4"></i> Campus & Community
                 </button>
-                <button onclick="forceOpenTab('lab')" id="nav-lab" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('lab')" id="nav-lab" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-flask text-violet-400 w-4"></i> Lab Exams & Viva Solver
                 </button>
-                <button onclick="forceOpenTab('career')" id="nav-career" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('career')" id="nav-career" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-compass text-orange-400 w-4"></i> Career Roadmap & AI
                 </button>
-                <button onclick="forceOpenTab('projects')" id="nav-projects" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('projects')" id="nav-projects" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-code text-teal-400 w-4"></i> Projects & Teammates
                 </button>
-                <button onclick="forceOpenTab('mentorship')" id="nav-mentorship" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
+                <button onclick="switchTab('mentorship')" id="nav-mentorship" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition cursor-pointer">
                     <i class="fa-solid fa-handshake text-indigo-400 w-4"></i> Mentorship & Guidance
                 </button>
             </nav>
         </div>
 
-        <!-- Student Profile & Auth Footer -->
+        <!-- Student Profile Footer -->
         <div class="p-4 border-t border-slate-800/80 bg-[#070b14]/80">
             <div class="flex items-center justify-between gap-2">
                 <div class="flex items-center gap-3 overflow-hidden">
@@ -164,17 +164,17 @@
                     </div>
                 </div>
 
-                <button id="auth-action-btn" onclick="forceOpenTab('auth'); setAuthSubTab('login');" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
+                <button id="auth-action-btn" onclick="switchTab('auth'); setAuthSubTab('login');" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
                     🔑 Log In
                 </button>
             </div>
         </div>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Area (Unified Single Dashboard Container) -->
     <main class="flex-1 p-6 lg:p-8 overflow-y-auto h-screen space-y-6 z-10 relative">
 
-        <!-- Top Ribbon Toolbar with Auth & Firestore Sync -->
+        <!-- Top Toolbar with Auth & Firestore Sync -->
         <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 relative z-40">
             <div class="flex items-center gap-3">
                 <img src="logo.png" alt="Logo" class="w-8 h-8 rounded-lg object-cover border border-cyan-500/30">
@@ -191,16 +191,16 @@
 
             <!-- Header Auth Buttons -->
             <div class="flex items-center gap-2 shrink-0 relative z-50">
-                <button id="btn-top-login" onclick="forceOpenTab('auth'); setAuthSubTab('login');" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
+                <button id="btn-top-login" onclick="switchTab('auth'); setAuthSubTab('login');" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-right-to-bracket"></i> Log In
                 </button>
-                <button id="btn-top-signup" onclick="forceOpenTab('auth'); setAuthSubTab('signup');" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-purple transition flex items-center gap-1.5 cursor-pointer">
+                <button id="btn-top-signup" onclick="switchTab('auth'); setAuthSubTab('signup');" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-purple transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-user-plus"></i> Sign Up
                 </button>
             </div>
         </div>
 
-        <!-- 1. HOME DASHBOARD SEPARATE PAGE -->
+        <!-- 1. HOME DASHBOARD MODULE -->
         <section id="screen-dashboard" class="space-y-6" style="display: block;">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
@@ -213,7 +213,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button id="btn-dashboard-signup" onclick="forceOpenTab('auth'); setAuthSubTab('signup');" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
+                    <button id="btn-dashboard-signup" onclick="switchTab('auth'); setAuthSubTab('signup');" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
                         🔑 Create Firestore Account
                     </button>
                 </div>
@@ -273,43 +273,43 @@
 
             <!-- Search Bar -->
             <div class="relative">
-                <input type="text" id="dashboard-search-input" onkeypress="if(event.key==='Enter'){ forceOpenTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything..." class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
-                <button onclick="forceOpenTab('chat'); sendQuickPrompt(document.getElementById('dashboard-search-input').value);" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition cursor-pointer">
+                <input type="text" id="dashboard-search-input" onkeypress="if(event.key==='Enter'){ switchTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything..." class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
+                <button onclick="switchTab('chat'); sendQuickPrompt(document.getElementById('dashboard-search-input').value);" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition cursor-pointer">
                     Ask AI
                 </button>
             </div>
 
             <!-- Quick Modules Grid -->
             <div class="grid grid-cols-4 sm:grid-cols-8 gap-3">
-                <button onclick="forceOpenTab('map')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-teal-400 transition cursor-pointer">
+                <button onclick="switchTab('map')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-teal-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-teal-600/30 text-teal-400 flex items-center justify-center text-lg"><i class="fa-solid fa-map-location-dot"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Campus Map</span>
                 </button>
-                <button onclick="forceOpenTab('notes')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-pink-400 transition cursor-pointer">
+                <button onclick="switchTab('notes')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-pink-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-pink-600/30 text-pink-400 flex items-center justify-center text-lg"><i class="fa-solid fa-book-open"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Notes Base</span>
                 </button>
-                <button onclick="forceOpenTab('opportunities')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-amber-400 transition cursor-pointer">
+                <button onclick="switchTab('opportunities')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-amber-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-amber-600/30 text-amber-400 flex items-center justify-center text-lg"><i class="fa-solid fa-award"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Scholarships</span>
                 </button>
-                <button onclick="forceOpenTab('integrations')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-emerald-400 transition cursor-pointer">
+                <button onclick="switchTab('integrations')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-emerald-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-emerald-600/30 text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-plug"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Integrations</span>
                 </button>
-                <button onclick="forceOpenTab('dashboard')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="switchTab('dashboard')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-purple-600/30 text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-calendar-check"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Schedule</span>
                 </button>
-                <button onclick="forceOpenTab('assignments')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="switchTab('assignments')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-rose-600/30 text-rose-400 flex items-center justify-center text-lg"><i class="fa-solid fa-briefcase"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Assignments</span>
                 </button>
-                <button onclick="forceOpenTab('chat')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="switchTab('chat')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-cyan-600/30 text-cyan-400 flex items-center justify-center text-lg"><i class="fa-solid fa-robot"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">AI Coach</span>
                 </button>
-                <button onclick="forceOpenTab('career')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
+                <button onclick="switchTab('career')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition cursor-pointer">
                     <div class="w-10 h-10 rounded-xl bg-orange-600/30 text-orange-400 flex items-center justify-center text-lg"><i class="fa-solid fa-compass"></i></div>
                     <span class="text-[11px] font-bold text-slate-300">Career</span>
                 </button>
@@ -327,7 +327,7 @@
                 <div class="glass-card rounded-2xl p-5 space-y-3">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
                         <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-bell text-rose-400"></i> Upcoming Deadlines</h3>
-                        <button onclick="forceOpenTab('assignments')" class="text-xs text-cyan-400 font-bold hover:underline cursor-pointer">View All</button>
+                        <button onclick="switchTab('assignments')" class="text-xs text-cyan-400 font-bold hover:underline cursor-pointer">View All</button>
                     </div>
                     <div id="urgent-assignments-list" class="space-y-2.5"><p class="text-xs text-slate-500">Loading assignments...</p></div>
                 </div>
@@ -335,7 +335,7 @@
         </section>
 
 
-        <!-- 2. AUTHENTICATION SEPARATE PAGE -->
+        <!-- 2. AUTHENTICATION MODULE -->
         <section id="screen-auth" class="space-y-6 max-w-2xl mx-auto py-4 hidden" style="display: none;">
             <div class="text-center space-y-2">
                 <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover border border-purple-500/40 shadow-neon-purple">
@@ -454,7 +454,7 @@
         </section>
 
 
-        <!-- 3. CAMPUS MAP SEPARATE PAGE -->
+        <!-- 3. CAMPUS MAP MODULE -->
         <section id="screen-map" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -467,7 +467,7 @@
             <div id="campus-map-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- 4. NOTES SEPARATE PAGE -->
+        <!-- 4. NOTES MODULE -->
         <section id="screen-notes" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -480,7 +480,7 @@
             <div id="notes-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 5. SCHOLARSHIPS & OPPS SEPARATE PAGE -->
+        <!-- 5. SCHOLARSHIPS MODULE -->
         <section id="screen-opportunities" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -493,7 +493,7 @@
             <div id="opportunities-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 6. INTEGRATIONS HUB SEPARATE PAGE -->
+        <!-- 6. INTEGRATIONS HUB MODULE -->
         <section id="screen-integrations" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -506,7 +506,7 @@
             <div id="integrations-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         </section>
 
-        <!-- 7. AI STUDY COACH SEPARATE PAGE -->
+        <!-- 7. AI STUDY COACH MODULE -->
         <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h2 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-user-astronaut text-purple-400"></i> AI Study Coach & Assistant</h2>
@@ -518,7 +518,7 @@
             </form>
         </section>
 
-        <!-- 8. ASSIGNMENTS & DEADLINES SEPARATE PAGE -->
+        <!-- 8. ASSIGNMENTS MODULE -->
         <section id="screen-assignments" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -531,7 +531,7 @@
             <div id="assignments-cards-container" class="space-y-4"></div>
         </section>
 
-        <!-- 9. CAMPUS COMMUNITY SEPARATE PAGE -->
+        <!-- 9. CAMPUS COMMUNITY MODULE -->
         <section id="screen-community" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -544,7 +544,7 @@
             <div id="community-events-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- 10. LAB EXAMS SEPARATE PAGE -->
+        <!-- 10. LAB EXAMS MODULE -->
         <section id="screen-lab" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -557,7 +557,7 @@
             <div id="lab-prep-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 11. CAREER ROADMAP SEPARATE PAGE -->
+        <!-- 11. CAREER ROADMAP MODULE -->
         <section id="screen-career" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -570,7 +570,7 @@
             <div id="career-roadmap-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </section>
 
-        <!-- 12. PROJECTS SEPARATE PAGE -->
+        <!-- 12. PROJECTS MODULE -->
         <section id="screen-projects" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -583,7 +583,7 @@
             <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 13. MENTORSHIP SEPARATE PAGE -->
+        <!-- 13. MENTORSHIP MODULE -->
         <section id="screen-mentorship" class="space-y-6 hidden" style="display: none;">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
@@ -604,26 +604,26 @@
         let currentTab = 'dashboard';
         let chatHistory = [];
 
-        // Fail-Proof Forced Section Navigation with Hash Support
-        window.forceOpenTab = function(tabId) {
-            console.log("Forcing open separate page tab:", tabId);
+        // Fail-Proof Single Dashboard Tab Switcher
+        window.switchTab = function(tabId) {
+            console.log("Switching dashboard tab to:", tabId);
             currentTab = tabId;
 
-            // Hide ALL sections explicitly
+            // Hide ALL sections
             const allSections = document.querySelectorAll('main > section');
             allSections.forEach(sec => {
                 sec.style.display = 'none';
                 sec.classList.add('hidden');
             });
 
-            // Show target section explicitly
+            // Show selected section
             const targetSec = document.getElementById(`screen-${tabId}`);
             if (targetSec) {
                 targetSec.style.display = (tabId === 'chat') ? 'flex' : 'block';
                 targetSec.classList.remove('hidden');
             }
 
-            // Update Active Nav Highlight
+            // Update Active Sidebar Highlight
             document.querySelectorAll('aside nav button').forEach(btn => {
                 btn.classList.remove('active-nav');
                 btn.classList.add('text-slate-400');
@@ -634,12 +634,7 @@
                 activeBtn.classList.remove('text-slate-400');
             }
 
-            // Sync URL hash
-            if (window.location.hash !== `#${tabId}`) {
-                window.location.hash = `#${tabId}`;
-            }
-
-            // Load Section Data
+            // Load & render section data
             try {
                 if (tabId === 'dashboard') loadDashboard();
                 if (tabId === 'map') loadMap();
@@ -657,10 +652,8 @@
             }
         };
 
-        window.switchTab = window.forceOpenTab;
-
         window.navigateToAuth = function(mode = 'signup') {
-            window.forceOpenTab('auth');
+            window.switchTab('auth');
             window.setAuthSubTab(mode);
         };
 
@@ -751,7 +744,7 @@
             if (res.success) {
                 updateUIUser(res.user.displayName || email.split('@')[0], email, res.user.major || "CSE");
                 showToast(`Logged in successfully as ${res.user.displayName || email}!`);
-                window.forceOpenTab('dashboard');
+                window.switchTab('dashboard');
             } else {
                 showToast(res.error || "Login failed", "error");
             }
@@ -777,7 +770,7 @@
             if (res.success) {
                 updateUIUser(name, email, major);
                 showToast(`Account '${name}' saved to Database!`);
-                window.forceOpenTab('dashboard');
+                window.switchTab('dashboard');
             } else {
                 showToast(res.error || "Sign Up failed", "error");
             }
@@ -812,7 +805,7 @@
             showToast(`📖 Read User: ${data ? data.name : 'Alex Chen'} (${data ? data.major : 'CSE'})`);
         }
 
-        // Section Loaders
+        // Section Data Renderers
         async function loadDashboard() {
             try {
                 const res = await fetch(`${API_BASE}/dashboard`);
@@ -938,20 +931,9 @@
         function appendUserMessage(msg) { const chat = document.getElementById('chat-messages'); if (chat) chat.innerHTML += `<div class="flex justify-end"><div class="chat-bubble-user p-3 rounded-2xl max-w-xl text-xs">${msg}</div></div>`; }
         function appendAIMessage(reply, tools) { const chat = document.getElementById('chat-messages'); if (chat) chat.innerHTML += `<div class="flex gap-2"><div class="chat-bubble-ai p-3 rounded-2xl max-w-2xl text-xs">${reply}</div></div>`; }
 
-        // Window Hash Change Event Listener
-        window.addEventListener('hashchange', () => {
-            const hash = window.location.hash.replace('#', '');
-            if (hash) window.forceOpenTab(hash);
-        });
-
-        // Initial Load Event
+        // Initialize single dashboard view on load
         document.addEventListener('DOMContentLoaded', () => {
-            const initialHash = window.location.hash.replace('#', '');
-            if (initialHash) {
-                window.forceOpenTab(initialHash);
-            } else {
-                window.forceOpenTab('dashboard');
-            }
+            window.switchTab('dashboard');
         });
     </script>
 </body>
