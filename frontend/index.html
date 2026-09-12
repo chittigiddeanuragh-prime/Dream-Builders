@@ -86,7 +86,7 @@
 <body class="text-slate-100 font-sans antialiased min-h-screen flex selection:bg-cyan-500 selection:text-white">
 
     <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+    <div id="toast-container" class="fixed top-5 right-5 z-[100] space-y-2 pointer-events-none"></div>
 
     <!-- Sidebar Navigation -->
     <aside class="w-64 bg-[#090e1a]/95 border-r border-slate-800/80 flex flex-col justify-between shrink-0 h-screen sticky top-0 z-30">
@@ -160,7 +160,7 @@
                     </div>
                 </div>
 
-                <button id="auth-action-btn" onclick="openLoginModal()" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0">
+                <button id="auth-action-btn" onclick="openLoginModal()" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
                     🔑 Log In
                 </button>
             </div>
@@ -176,20 +176,20 @@
                 <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 px-2 flex items-center gap-1.5">
                     <i class="fa-solid fa-fire text-amber-400"></i> Firebase Firestore DB:
                 </span>
-                <button onclick="testFirestoreWrite()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 border border-amber-500/40 text-xs font-extrabold text-amber-200 shadow-glow-sm hover:border-amber-300 transition">
+                <button onclick="testFirestoreWrite()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 border border-amber-500/40 text-xs font-extrabold text-amber-200 shadow-glow-sm hover:border-amber-300 transition cursor-pointer">
                     🔥 Write Test Document (users/user_alex_chen)
                 </button>
-                <button onclick="testFirestoreRead()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-xs font-extrabold text-cyan-200 hover:border-cyan-300 transition">
+                <button onclick="testFirestoreRead()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-xs font-extrabold text-cyan-200 hover:border-cyan-300 transition cursor-pointer">
                     📖 Read Test Document
                 </button>
             </div>
 
             <!-- Header Auth Buttons -->
-            <div class="flex items-center gap-2">
-                <button onclick="openLoginModal()" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-3.5 py-1.5 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5">
+            <div class="flex items-center gap-2 shrink-0">
+                <button onclick="openLoginModal()" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-3.5 py-1.5 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-right-to-bracket"></i> Log In
                 </button>
-                <button onclick="openSignupModal()" class="bg-purple-950 border border-purple-500/40 hover:bg-purple-900 text-purple-200 font-extrabold px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5">
+                <button onclick="openSignupModal()" class="bg-purple-950 border border-purple-500/40 hover:bg-purple-900 text-purple-200 font-extrabold px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-user-plus"></i> Sign Up
                 </button>
             </div>
@@ -205,7 +205,7 @@
                     <p class="text-slate-400 text-sm mt-1">Firebase Project: <strong class="text-cyan-300">campusminds-4c038</strong> (Number: 89380595571)</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="openSignupModal()" class="px-4 py-2 bg-purple-950/80 text-purple-300 font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2">
+                    <button onclick="openSignupModal()" class="px-4 py-2 bg-purple-950/80 text-purple-300 font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer hover:border-purple-300 transition">
                         🔑 Create Firestore Account
                     </button>
                 </div>
@@ -342,11 +342,11 @@
     </main>
 
     <!-- 🔑 1. LOG IN MODAL -->
-    <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[90] flex items-center justify-center hidden">
         <div class="glass-card p-6 rounded-2xl w-full max-w-md space-y-4 border border-cyan-500/30 shadow-neon-cyan">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-right-to-bracket text-cyan-400"></i> Student Log In</h3>
-                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <form onsubmit="handleLoginSubmit(event)" class="space-y-3.5 text-xs">
                 <div>
@@ -356,27 +356,27 @@
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label class="font-bold text-slate-300">Password</label>
-                        <button type="button" onclick="openForgotPasswordModal()" class="text-cyan-400 text-[11px] font-bold hover:underline">Forgot Password?</button>
+                        <button type="button" onclick="openForgotPasswordModal()" class="text-cyan-400 text-[11px] font-bold hover:underline cursor-pointer">Forgot Password?</button>
                     </div>
                     <input type="password" id="login-password" placeholder="•••••••• (Min 6 characters)" required minlength="6" class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
                 </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-cyan">
+                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-cyan cursor-pointer">
                     Log In to CampusMind
                 </button>
             </form>
             <div class="text-center pt-2 border-t border-slate-800 text-xs">
                 <span class="text-slate-400">Don't have an account? </span>
-                <button onclick="switchToSignup()" class="text-cyan-400 font-extrabold hover:underline">Sign Up & Save to Database</button>
+                <button onclick="switchToSignup()" class="text-cyan-400 font-extrabold hover:underline cursor-pointer">Sign Up & Save to Database</button>
             </div>
         </div>
     </div>
 
     <!-- 📝 2. SIGN UP / REGISTER MODAL -->
-    <div id="signup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div id="signup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[90] flex items-center justify-center hidden">
         <div class="glass-card p-6 rounded-2xl w-full max-w-md space-y-4 border border-purple-500/30 shadow-neon-purple">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-user-plus text-purple-400"></i> Create Firestore Account</h3>
-                <button onclick="closeSignupModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeSignupModal()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <form onsubmit="handleSignupSubmit(event)" class="space-y-3.5 text-xs">
                 <div>
@@ -396,23 +396,23 @@
                     <input type="password" id="signup-password" placeholder="••••••••" required minlength="6" class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
                     <p class="text-[10px] text-slate-400 mt-1">⚠️ Password must be at least 6 characters long.</p>
                 </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-purple">
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-purple cursor-pointer">
                     Create Account & Sync to Firestore
                 </button>
             </form>
             <div class="text-center pt-2 border-t border-slate-800 text-xs">
                 <span class="text-slate-400">Already have an account? </span>
-                <button onclick="switchToLogin()" class="text-purple-400 font-extrabold hover:underline">Log In</button>
+                <button onclick="switchToLogin()" class="text-purple-400 font-extrabold hover:underline cursor-pointer">Log In</button>
             </div>
         </div>
     </div>
 
     <!-- ✉️ 3. FORGOT PASSWORD MODAL -->
-    <div id="forgot-password-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div id="forgot-password-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[90] flex items-center justify-center hidden">
         <div class="glass-card p-6 rounded-2xl w-full max-w-md space-y-4 border border-rose-500/30">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-key text-rose-400"></i> Reset Password</h3>
-                <button onclick="closeForgotPasswordModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeForgotPasswordModal()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <p class="text-xs text-slate-300">Enter your registered email address and we'll send you a password reset link.</p>
             <form onsubmit="handleForgotPasswordSubmit(event)" class="space-y-3.5 text-xs">
@@ -420,7 +420,7 @@
                     <label class="block font-bold text-slate-300 mb-1">Email Address</label>
                     <input type="email" id="forgot-email" placeholder="anu@gmail.com" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
                 </div>
-                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-sm">
+                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-sm cursor-pointer">
                     Send Password Reset Link
                 </button>
             </form>
@@ -429,6 +429,36 @@
 
     <!-- App JavaScript Logic -->
     <script>
+        // Global Modal Window Handlers
+        window.openLoginModal = function() {
+            const lm = document.getElementById('login-modal');
+            if (lm) lm.classList.remove('hidden');
+        };
+        window.closeLoginModal = function() {
+            const lm = document.getElementById('login-modal');
+            if (lm) lm.classList.add('hidden');
+        };
+        window.openSignupModal = function() {
+            window.closeLoginModal();
+            const sm = document.getElementById('signup-modal');
+            if (sm) sm.classList.remove('hidden');
+        };
+        window.closeSignupModal = function() {
+            const sm = document.getElementById('signup-modal');
+            if (sm) sm.classList.add('hidden');
+        };
+        window.openForgotPasswordModal = function() {
+            window.closeLoginModal();
+            const fm = document.getElementById('forgot-password-modal');
+            if (fm) fm.classList.remove('hidden');
+        };
+        window.closeForgotPasswordModal = function() {
+            const fm = document.getElementById('forgot-password-modal');
+            if (fm) fm.classList.add('hidden');
+        };
+        window.switchToSignup = function() { window.openSignupModal(); };
+        window.switchToLogin = function() { window.closeSignupModal(); window.openLoginModal(); };
+
         const API_BASE = 'http://127.0.0.1:5000';
         let currentTab = 'dashboard';
         let chatHistory = [];
@@ -454,7 +484,7 @@
             btn.onclick = handleSignOut;
         }
 
-        // Firebase Auth State Listener
+        // Firebase Auth Listener
         if (typeof firebase !== 'undefined' && firebase.auth) {
             firebase.auth().onAuthStateChanged(user => {
                 if (user) {
@@ -463,15 +493,6 @@
                 }
             });
         }
-
-        function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
-        function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
-        function openSignupModal() { closeLoginModal(); document.getElementById('signup-modal').classList.remove('hidden'); }
-        function closeSignupModal() { document.getElementById('signup-modal').classList.add('hidden'); }
-        function openForgotPasswordModal() { closeLoginModal(); document.getElementById('forgot-password-modal').classList.remove('hidden'); }
-        function closeForgotPasswordModal() { document.getElementById('forgot-password-modal').classList.add('hidden'); }
-        function switchToSignup() { closeLoginModal(); openSignupModal(); }
-        function switchToLogin() { closeSignupModal(); openLoginModal(); }
 
         async function handleLoginSubmit(e) {
             e.preventDefault();
@@ -526,7 +547,7 @@
             updateUIUser("Alex", "campusminds-4c038", "CS");
             const btn = document.getElementById('auth-action-btn');
             btn.innerHTML = `🔑 Log In`;
-            btn.onclick = openLoginModal;
+            btn.onclick = window.openLoginModal;
             showToast("Signed out successfully.");
         }
 
