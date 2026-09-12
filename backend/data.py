@@ -1,6 +1,6 @@
 """
 CampusMind Expanded Data Store (data.py)
-Includes full database persistence for registered users and at least 10 rich items per module.
+Includes full database persistence for registered users, official brand logos, and visual images for all modules.
 """
 
 from datetime import datetime, timedelta
@@ -58,7 +58,7 @@ def login_user_in_db(email, password):
     name = email.split('@')[0].capitalize()
     return register_user_in_db(name, email, "Computer Science", password)
 
-# 1. 15 Campus Locations
+# 1. 15 Campus Locations with Visual Preview Images
 CAMPUS_MAP = [
     {
         "id": "loc-1",
@@ -66,6 +66,7 @@ CAMPUS_MAP = [
         "type": "Classroom",
         "block": "Academic Block B, 1st Floor",
         "hours": "8:00 AM - 6:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80",
         "directions": "Take main staircase next to lobby, turn right down Hallway B, door 102 on left.",
         "steps": ["Start at Main Campus Lobby.", "Walk straight toward Academic Block B.", "Take staircase to 1st Floor.", "Turn right to B-102."]
     },
@@ -75,6 +76,7 @@ CAMPUS_MAP = [
         "type": "Laboratory",
         "block": "CS Department Building, 3rd Floor",
         "hours": "9:00 AM - 7:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80",
         "directions": "Enter CS Building, take elevator to 3rd floor, door 304 opposite server room.",
         "steps": ["Enter CS Department Building.", "Take elevator to 3rd Floor.", "Door 304 is opposite the server room."]
     },
@@ -84,6 +86,7 @@ CAMPUS_MAP = [
         "type": "Library",
         "block": "Central Academic Building, Ground & 1st Floor",
         "hours": "8:00 AM - 10:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80",
         "directions": "Walk straight from South Gate, enter main glass doors of Central Academic Building.",
         "steps": ["Enter Central Academic Building.", "Show ID at reception desk.", "Proceed to Quiet Study Zone."]
     },
@@ -93,6 +96,7 @@ CAMPUS_MAP = [
         "type": "Auditorium",
         "block": "Student Center Building, Ground Floor",
         "hours": "9:00 AM - 9:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=600&q=80",
         "directions": "Located beside the main quadrangle amphitheater.",
         "steps": ["Walk to Central Quadrangle.", "Enter main double doors under the clock tower."]
     },
@@ -102,6 +106,7 @@ CAMPUS_MAP = [
         "type": "Dining",
         "block": "Student Activity Complex, Ground Floor",
         "hours": "7:30 AM - 9:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80",
         "directions": "Next to the Sports Complex and Student Activity Center.",
         "steps": ["Walk towards West Gate.", "Follow signs to Student Activity Complex."]
     },
@@ -111,6 +116,7 @@ CAMPUS_MAP = [
         "type": "Sports",
         "block": "West Campus Athletics Ground",
         "hours": "6:00 AM - 9:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
         "directions": "Behind the College Canteen across the football turf.",
         "steps": ["Head West from Main Library.", "Cross the athletic track."]
     },
@@ -120,6 +126,7 @@ CAMPUS_MAP = [
         "type": "Laboratory",
         "block": "ECE & CS Joint Wing, 2nd Floor",
         "hours": "9:00 AM - 8:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
         "directions": "Take East staircase in ECE Wing to Room 215.",
         "steps": ["Enter ECE Wing.", "Go up to 2nd Floor.", "Room 215 on right."]
     },
@@ -129,6 +136,7 @@ CAMPUS_MAP = [
         "type": "Faculty Offices",
         "block": "Academic Block C, 2nd Floor",
         "hours": "9:00 AM - 5:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80",
         "directions": "Elevator B to 2nd floor, turn left past HOD Office.",
         "steps": ["Take Elevator B in Block C.", "Turn left past HOD Office."]
     },
@@ -138,6 +146,7 @@ CAMPUS_MAP = [
         "type": "Career Services",
         "block": "Administrative Wing, 1st Floor",
         "hours": "9:00 AM - 6:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
         "directions": "Above Central Admissions Desk in Admin Wing.",
         "steps": ["Enter Admin Wing.", "Staircase to 1st Floor.", "Room 110."]
     },
@@ -147,6 +156,7 @@ CAMPUS_MAP = [
         "type": "Clubs",
         "block": "SAC Building, Ground Floor",
         "hours": "8:00 AM - 10:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80",
         "directions": "Adjacent to Gymnasium and Music Club rooms.",
         "steps": ["Walk to SAC Quad.", "Main glass entrance."]
     },
@@ -156,6 +166,7 @@ CAMPUS_MAP = [
         "type": "Research",
         "block": "Innovation Tower, 4th Floor",
         "hours": "24/7 Access",
+        "image_url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
         "directions": "Take Innovation Elevator to 4th Floor.",
         "steps": ["Swipe Student Card at Innovation Tower Lobby.", "Take High-Speed Elevator to 4th Floor."]
     },
@@ -165,6 +176,7 @@ CAMPUS_MAP = [
         "type": "Seminar",
         "block": "Academic Block A, Ground Floor",
         "hours": "9:00 AM - 6:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=600&q=80",
         "directions": "Directly behind Central Fountain.",
         "steps": ["Walk past Central Fountain.", "Door A-05."]
     },
@@ -174,6 +186,7 @@ CAMPUS_MAP = [
         "type": "Medical",
         "block": "Residential Hostel Zone",
         "hours": "24/7 Service",
+        "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80",
         "directions": "Near Boys Hostel 1 main entrance.",
         "steps": ["Follow Medical Signs near Hostel Circle."]
     },
@@ -183,6 +196,7 @@ CAMPUS_MAP = [
         "type": "Entrepreneurship",
         "block": "Innovation Tower, 2nd Floor",
         "hours": "8:00 AM - 11:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80",
         "directions": "Innovation Tower, Floor 2.",
         "steps": ["Enter Innovation Tower.", "Stairs to 2nd Floor."]
     },
@@ -192,6 +206,7 @@ CAMPUS_MAP = [
         "type": "Admin",
         "block": "Main Admin Building, 2nd Floor",
         "hours": "9:00 AM - 5:00 PM",
+        "image_url": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80",
         "directions": "Main entrance building facing North Gate.",
         "steps": ["Enter Main Admin Building.", "Staircase to Dean Office."]
     }
@@ -281,14 +296,14 @@ NOTES = [
     }
 ]
 
-# 3. 10 Integrations
+# 3. 10 Integrations with Official High-Res Brand Logos
 INTEGRATIONS = [
     {
         "id": "gcal",
         "name": "Google Calendar",
         "category": "Productivity",
         "status": "Connected",
-        "icon": "fa-calendar-days",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg",
         "color": "text-blue-400 border-blue-500/40 bg-blue-950/40",
         "last_sync": "Just now",
         "synced_count": "15 Events (Timetable + Deadlines)",
@@ -300,7 +315,7 @@ INTEGRATIONS = [
         "name": "Microsoft Teams",
         "category": "Communication",
         "status": "Connected",
-        "icon": "fa-people-group",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg",
         "color": "text-indigo-400 border-indigo-500/40 bg-indigo-950/40",
         "last_sync": "10 mins ago",
         "synced_count": "3 Online Class Links Active",
@@ -312,7 +327,7 @@ INTEGRATIONS = [
         "name": "Slack",
         "category": "Communication",
         "status": "Connected",
-        "icon": "fa-hashtag",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
         "color": "text-emerald-400 border-emerald-500/40 bg-emerald-950/40",
         "last_sync": "1 hour ago",
         "synced_count": "4 Club Channels (AI & Robotics)",
@@ -324,7 +339,7 @@ INTEGRATIONS = [
         "name": "College ERP/Portal",
         "category": "University",
         "status": "Connected",
-        "icon": "fa-building-columns",
+        "logo_url": "https://img.icons8.com/color/96/university.png",
         "color": "text-cyan-400 border-cyan-500/40 bg-cyan-950/40",
         "last_sync": "Today 08:00 AM",
         "synced_count": "94.2% Attendance • GPA 3.85",
@@ -336,7 +351,7 @@ INTEGRATIONS = [
         "name": "Notion",
         "category": "Notes",
         "status": "Connected",
-        "icon": "fa-note-sticky",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg",
         "color": "text-slate-200 border-slate-500/40 bg-slate-900/60",
         "last_sync": "2 hours ago",
         "synced_count": "6 Exam Plans & Summaries",
@@ -348,7 +363,7 @@ INTEGRATIONS = [
         "name": "Gmail",
         "category": "Email",
         "status": "Connected",
-        "icon": "fa-envelope",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg",
         "color": "text-rose-400 border-rose-500/40 bg-rose-950/40",
         "last_sync": "15 mins ago",
         "synced_count": "12 Official Announcements",
@@ -360,7 +375,7 @@ INTEGRATIONS = [
         "name": "Google Drive",
         "category": "Storage",
         "status": "Connected",
-        "icon": "fa-hard-drive",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg",
         "color": "text-amber-400 border-amber-500/40 bg-amber-950/40",
         "last_sync": "Today 11:00 AM",
         "synced_count": "8 Course PDFs & Datasets",
@@ -372,7 +387,7 @@ INTEGRATIONS = [
         "name": "GitHub",
         "category": "Developer",
         "status": "Connected",
-        "icon": "fa-code-branch",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
         "color": "text-purple-400 border-purple-500/40 bg-purple-950/40",
         "last_sync": "30 mins ago",
         "synced_count": "5 Active Repositories",
@@ -384,7 +399,7 @@ INTEGRATIONS = [
         "name": "YouTube Learning",
         "category": "Education",
         "status": "Connected",
-        "icon": "fa-circle-play",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
         "color": "text-red-400 border-red-500/40 bg-red-950/40",
         "last_sync": "Active",
         "synced_count": "Curated Video Playlists",
@@ -396,7 +411,7 @@ INTEGRATIONS = [
         "name": "LinkedIn",
         "category": "Career",
         "status": "Connected",
-        "icon": "fa-link",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/ca/ca/LinkedIn_logo_initials.png",
         "color": "text-blue-500 border-blue-500/40 bg-blue-950/40",
         "last_sync": "Yesterday",
         "synced_count": "Profile Skills & Job Alerts",
@@ -405,7 +420,7 @@ INTEGRATIONS = [
     }
 ]
 
-# 4. 10 Opportunities (Scholarships, Hackathons, Internships)
+# 4. 10 Opportunities (Scholarships, Hackathons, Internships) with Brand Logos
 OPPORTUNITIES = [
     {
         "id": "opp-1",
@@ -413,6 +428,7 @@ OPPORTUNITIES = [
         "category": "Scholarships",
         "type": "Scholarships",
         "organization": "National Scholarship Portal",
+        "logo_url": "https://img.icons8.com/color/96/guarantee.png",
         "description": "Financial aid grant for top performing undergraduate students in engineering.",
         "required_skills": ["Computer Science", "Academic Merit"],
         "deadline": "20 Oct 2026",
@@ -425,6 +441,7 @@ OPPORTUNITIES = [
         "category": "Scholarships",
         "type": "Scholarships",
         "organization": "Google India",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
         "description": "Scholarship and mentorship retreat for female computer science students.",
         "required_skills": ["Python", "Leadership", "Data Structures"],
         "deadline": "30 Oct 2026",
@@ -437,6 +454,7 @@ OPPORTUNITIES = [
         "category": "Hackathons",
         "type": "Hackathons",
         "organization": "Devpost & Unstop",
+        "logo_url": "https://img.icons8.com/color/96/artificial-intelligence.png",
         "description": "36-hour hackathon to build generative AI solutions for campus productivity.",
         "required_skills": ["Python", "Machine Learning", "API Integration"],
         "deadline": "12 Sep 2026",
@@ -449,6 +467,7 @@ OPPORTUNITIES = [
         "category": "Hackathons",
         "type": "Hackathons",
         "organization": "Microsoft",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
         "description": "Global student developer competition leveraging Azure and OpenAI technologies.",
         "required_skills": ["Azure", "C#", "React", "AI"],
         "deadline": "15 Nov 2026",
@@ -461,6 +480,7 @@ OPPORTUNITIES = [
         "category": "Internships",
         "type": "Internships",
         "organization": "Amazon Science",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
         "description": "Exclusive training and internship offer for undergraduate CS students in ML.",
         "required_skills": ["Python", "Machine Learning", "Linear Algebra"],
         "deadline": "05 Oct 2026",
@@ -473,6 +493,7 @@ OPPORTUNITIES = [
         "category": "Hackathons",
         "type": "Hackathons",
         "organization": "Ministry of Education India",
+        "logo_url": "https://img.icons8.com/color/96/india.png",
         "description": "Nationwide competition solving real-world government department challenges.",
         "required_skills": ["Full Stack", "IoT", "Problem Solving"],
         "deadline": "10 Oct 2026",
@@ -485,6 +506,7 @@ OPPORTUNITIES = [
         "category": "Fellowships",
         "type": "Fellowships",
         "organization": "Meta Engineering",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
         "description": "3-month paid open-source internship working on React, PyTorch, and Llama models.",
         "required_skills": ["React", "PyTorch", "C++"],
         "deadline": "01 Nov 2026",
@@ -497,6 +519,7 @@ OPPORTUNITIES = [
         "category": "Internships",
         "type": "Internships",
         "organization": "GitHub Campus",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
         "description": "Remote paid internships for student open-source contributors.",
         "required_skills": ["Git", "JavaScript", "Python"],
         "deadline": "25 Sep 2026",
@@ -509,6 +532,7 @@ OPPORTUNITIES = [
         "category": "Scholarships",
         "type": "Scholarships",
         "organization": "Intel Labs",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282020%29.svg",
         "description": "Grant for student projects focusing on edge AI acceleration and OpenVINO.",
         "required_skills": ["Computer Vision", "C++", "OpenVINO"],
         "deadline": "18 Oct 2026",
@@ -521,6 +545,7 @@ OPPORTUNITIES = [
         "category": "Scholarships",
         "type": "Scholarships",
         "organization": "AICTE India",
+        "logo_url": "https://img.icons8.com/color/96/graduation-cap.png",
         "description": "Government scholarship promoting women in technical higher education.",
         "required_skills": ["Engineering", "Academic Excellence"],
         "deadline": "31 Oct 2026",
@@ -712,18 +737,18 @@ ASSIGNMENTS = [
     }
 ]
 
-# 8. 10 Campus Events & Club Meetups
+# 8. 10 Campus Events & Club Meetups with Visual Banner Images
 CAMPUS_EVENTS = [
-    {"id": "evt-1", "title": "AI Thinkers Global Hackathon 2026", "location": "Main Auditorium A", "category": "Hackathons", "date": "12 Sep 2026", "time": "09:00 AM"},
-    {"id": "evt-2", "title": "Annual Tech Symposium (TechFest 2026)", "location": "Central Quadrangle", "category": "Symposium", "date": "18 Sep 2026", "time": "10:00 AM"},
-    {"id": "evt-3", "title": "Google Developer Student Club (GDSC) Orientation", "location": "Seminar Hall 2", "category": "Club Orientation", "date": "20 Sep 2026", "time": "02:00 PM"},
-    {"id": "evt-4", "title": "Competitive Programming Code-a-Thon", "location": "Lab-3 Web Lab", "category": "Coding", "date": "22 Sep 2026", "time": "04:00 PM"},
-    {"id": "evt-5", "title": "Cybersecurity CTF Flag Hunt Competition", "location": "Lab-4 Network Lab", "category": "Security", "date": "25 Sep 2026", "time": "11:00 AM"},
-    {"id": "evt-6", "title": "Open Source Software & Git Workshop", "location": "B-102 Lecture Hall", "category": "Workshop", "date": "28 Sep 2026", "time": "03:00 PM"},
-    {"id": "evt-7", "title": "Robotics Club Live Autonomous Drone Exhibition", "location": "Sports Ground", "category": "Robotics", "date": "02 Oct 2026", "time": "04:30 PM"},
-    {"id": "evt-8", "title": "Entrepreneurship & Startup Pitch Day", "location": "Incubation Hub", "category": "Startups", "date": "05 Oct 2026", "time": "10:30 AM"},
-    {"id": "evt-9", "title": "Data Science & GenAI Industry Seminar", "location": "Main Auditorium A", "category": "Seminar", "date": "08 Oct 2026", "time": "02:00 PM"},
-    {"id": "evt-10", "title": "Alumni Placement & Career Networking Night", "location": "Student Activity Center", "category": "Networking", "date": "12 Oct 2026", "time": "06:00 PM"}
+    {"id": "evt-1", "title": "AI Thinkers Global Hackathon 2026", "location": "Main Auditorium A", "category": "Hackathons", "date": "12 Sep 2026", "time": "09:00 AM", "banner_url": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-2", "title": "Annual Tech Symposium (TechFest 2026)", "location": "Central Quadrangle", "category": "Symposium", "date": "18 Sep 2026", "time": "10:00 AM", "banner_url": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-3", "title": "Google Developer Student Club Orientation", "location": "Seminar Hall 2", "category": "Club Orientation", "date": "20 Sep 2026", "time": "02:00 PM", "banner_url": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-4", "title": "Competitive Programming Code-a-Thon", "location": "Lab-3 Web Lab", "category": "Coding", "date": "22 Sep 2026", "time": "04:00 PM", "banner_url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-5", "title": "Cybersecurity CTF Flag Hunt Competition", "location": "Lab-4 Network Lab", "category": "Security", "date": "25 Sep 2026", "time": "11:00 AM", "banner_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-6", "title": "Open Source Software & Git Workshop", "location": "B-102 Lecture Hall", "category": "Workshop", "date": "28 Sep 2026", "time": "03:00 PM", "banner_url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-7", "title": "Robotics Club Live Autonomous Drone Exhibition", "location": "Sports Ground", "category": "Robotics", "date": "02 Oct 2026", "time": "04:30 PM", "banner_url": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-8", "title": "Entrepreneurship & Startup Pitch Day", "location": "Incubation Hub", "category": "Startups", "date": "05 Oct 2026", "time": "10:30 AM", "banner_url": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-9", "title": "Data Science & GenAI Industry Seminar", "location": "Main Auditorium A", "category": "Seminar", "date": "08 Oct 2026", "time": "02:00 PM", "banner_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80"},
+    {"id": "evt-10", "title": "Alumni Placement & Career Networking Night", "location": "Student Activity Center", "category": "Networking", "date": "12 Oct 2026", "time": "06:00 PM", "banner_url": "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80"}
 ]
 
 # 9. 10 Lab Exams Viva Solvers
@@ -754,32 +779,32 @@ CAREER_ROADMAPS = [
     {"id": "road-10", "role": "UI/UX & Product Experience Designer", "description": "Master Figma Design Systems, User Research, Wireframing, and Prototyping.", "milestones": ["1. User Research & Personas", "2. Wireframing & Information Architecture", "3. Interactive Figma Components", "4. Usability Testing & Hand-off"]}
 ]
 
-# 11. 10 Student Projects
+# 11. 10 Student Projects with Banner Images
 PROJECTS = [
-    {"id": "proj-1", "title": "CampusMind AI Student Co-Pilot", "category": "AI / Web", "tech": "Flask, React, Firebase, Exa AI", "description": "All-in-one AI assistant for student schedules, notes, and scholarships.", "needed_roles": ["Frontend Dev", "Backend Dev"]},
-    {"id": "proj-2", "title": "Smart Indoor Campus Navigation App", "category": "Mobile / AR", "tech": "Flutter, ARCore, Bluetooth Beacons", "description": "AR indoor navigation app guiding students to classrooms and labs.", "needed_roles": ["Flutter Dev", "AR Designer"]},
-    {"id": "proj-3", "title": "Automated Exam Question Generator", "category": "GenAI", "tech": "Python, Gemini API, PyPDF2", "description": "Generates viva quizzes and practice exams from uploaded lecture notes.", "needed_roles": ["ML Engineer", "UI Designer"]},
-    {"id": "proj-4", "title": "Peer-to-Peer Notes & Book Exchange", "category": "Web App", "tech": "Node.js, MongoDB, React", "description": "Student marketplace for sharing class notes, textbooks, and lab gear.", "needed_roles": ["Full Stack Dev"]},
-    {"id": "proj-5", "title": "AI Resume Matcher & Mock Interviewer", "category": "Career AI", "tech": "Python, OpenAI/Gemini, WebRTC", "description": "Conducts AI voice mock interviews and scores resume skill gaps.", "needed_roles": ["AI/ML Specialist", "WebRTC Engineer"]},
-    {"id": "proj-6", "title": "IoT Smart Library Seat & Attendance System", "category": "IoT / Cloud", "tech": "ESP32, MQTT, Firebase, React", "description": "Real-time occupancy tracking for quiet study zones and library seats.", "needed_roles": ["Hardware Engineer", "Cloud Dev"]},
-    {"id": "proj-7", "title": "College Canteen Pre-Ordering & Queue App", "category": "Mobile", "tech": "React Native, Node.js, Stripe", "description": "Pre-order meals to skip lunchtime canteen queues on campus.", "needed_roles": ["Mobile Dev", "Backend Dev"]},
-    {"id": "proj-8", "title": "Blockchain Degree Verification Portal", "category": "Web3", "tech": "Solidity, Ethereum, IPFS, React", "description": "Tamper-proof academic transcript and degree certificate verification.", "needed_roles": ["Smart Contract Dev"]},
-    {"id": "proj-9", "title": "Code Error Diagnostic VSCode Extension", "category": "Developer Tools", "tech": "TypeScript, VSCode API, LLM API", "description": "Real-time AI syntax error fixer inside VSCode editor.", "needed_roles": ["TypeScript Dev"]},
-    {"id": "proj-10", "title": "Virtual Campus 3D Metaverse Tour", "category": "3D / Gaming", "tech": "Three.js, WebGL, React", "description": "Interactive 3D virtual tour of the college campus for prospective students.", "needed_roles": ["3D Artist", "Three.js Developer"]}
+    {"id": "proj-1", "title": "CampusMind AI Student Co-Pilot", "category": "AI / Web", "tech": "Flask, React, Firebase, Exa AI", "banner_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80", "description": "All-in-one AI assistant for student schedules, notes, and scholarships.", "needed_roles": ["Frontend Dev", "Backend Dev"]},
+    {"id": "proj-2", "title": "Smart Indoor Campus Navigation App", "category": "Mobile / AR", "tech": "Flutter, ARCore, Bluetooth Beacons", "banner_url": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80", "description": "AR indoor navigation app guiding students to classrooms and labs.", "needed_roles": ["Flutter Dev", "AR Designer"]},
+    {"id": "proj-3", "title": "Automated Exam Question Generator", "category": "GenAI", "tech": "Python, Gemini API, PyPDF2", "banner_url": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80", "description": "Generates viva quizzes and practice exams from uploaded lecture notes.", "needed_roles": ["ML Engineer", "UI Designer"]},
+    {"id": "proj-4", "title": "Peer-to-Peer Notes & Book Exchange", "category": "Web App", "tech": "Node.js, MongoDB, React", "banner_url": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80", "description": "Student marketplace for sharing class notes, textbooks, and lab gear.", "needed_roles": ["Full Stack Dev"]},
+    {"id": "proj-5", "title": "AI Resume Matcher & Mock Interviewer", "category": "Career AI", "tech": "Python, OpenAI/Gemini, WebRTC", "banner_url": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80", "description": "Conducts AI voice mock interviews and scores resume skill gaps.", "needed_roles": ["AI/ML Specialist", "WebRTC Engineer"]},
+    {"id": "proj-6", "title": "IoT Smart Library Seat & Attendance System", "category": "IoT / Cloud", "tech": "ESP32, MQTT, Firebase, React", "banner_url": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80", "description": "Real-time occupancy tracking for quiet study zones and library seats.", "needed_roles": ["Hardware Engineer", "Cloud Dev"]},
+    {"id": "proj-7", "title": "College Canteen Pre-Ordering & Queue App", "category": "Mobile", "tech": "React Native, Node.js, Stripe", "banner_url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80", "description": "Pre-order meals to skip lunchtime canteen queues on campus.", "needed_roles": ["Mobile Dev", "Backend Dev"]},
+    {"id": "proj-8", "title": "Blockchain Degree Verification Portal", "category": "Web3", "tech": "Solidity, Ethereum, IPFS, React", "banner_url": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80", "description": "Tamper-proof academic transcript and degree certificate verification.", "needed_roles": ["Smart Contract Dev"]},
+    {"id": "proj-9", "title": "Code Error Diagnostic VSCode Extension", "category": "Developer Tools", "tech": "TypeScript, VSCode API, LLM API", "banner_url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80", "description": "Real-time AI syntax error fixer inside VSCode editor.", "needed_roles": ["TypeScript Dev"]},
+    {"id": "proj-10", "title": "Virtual Campus 3D Metaverse Tour", "category": "3D / Gaming", "tech": "Three.js, WebGL, React", "banner_url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80", "description": "Interactive 3D virtual tour of the college campus for prospective students.", "needed_roles": ["3D Artist", "Three.js Developer"]}
 ]
 
-# 12. 10 Faculty & Alumni Mentors
+# 12. 10 Faculty & Alumni Mentors with Professional Avatars
 MENTORS = [
-    {"id": "men-1", "name": "Dr. Sarah Jenkins", "role": "Associate Professor (Operating Systems)", "expertise": "OS Kernels, C/C++, Synchronization", "availability": "Mon & Wed 2:00 PM"},
-    {"id": "men-2", "name": "Prof. Ramesh Gupta", "role": "Head of Department (DBMS)", "expertise": "SQL Tuning, B+ Trees, Database Architecture", "availability": "Tue & Thu 10:00 AM"},
-    {"id": "men-3", "name": "Dr. Alan Turing", "role": "AI Research Chair", "expertise": "Machine Learning, PyTorch, Neural Networks", "availability": "Friday 3:00 PM"},
-    {"id": "men-4", "name": "Prof. Grace Hopper", "role": "Professor (Software Engineering)", "expertise": "Agile Scrum, System Design, CI/CD", "availability": "Wednesday 11:00 AM"},
-    {"id": "men-5", "name": "Dr. Linus Torvalds", "role": "Distinguished Visiting Faculty", "expertise": "Linux Architecture, Git, Open Source", "availability": "Monday 4:00 PM"},
-    {"id": "men-6", "name": "Mentor Priya Sharma", "role": "Senior SDE @ Google (Alumni 2022)", "expertise": "DSA, Tech Interviews, Cloud Infrastructure", "availability": "Saturday 11:00 AM"},
-    {"id": "men-7", "name": "Mentor Rahul Verma", "role": "Staff Software Engineer @ Microsoft", "expertise": "Full Stack React/Node, System Architecture", "availability": "Sunday 2:00 PM"},
-    {"id": "men-8", "name": "Dr. Anita Borg", "role": "Professor (Networks & Security)", "expertise": "Cryptography, Penetration Testing, SSL", "availability": "Thursday 1:00 PM"},
-    {"id": "men-9", "name": "Mentor David Patel", "role": "AI Researcher @ OpenAI Alumni", "expertise": "Large Language Models, GenAI, MLOps", "availability": "Saturday 4:00 PM"},
-    {"id": "men-10", "name": "Prof. Ken Thompson", "role": "Professor (Algorithms)", "expertise": "Data Structures, Go Language, Unix", "availability": "Tuesday 3:00 PM"}
+    {"id": "men-1", "name": "Dr. Sarah Jenkins", "role": "Associate Professor (Operating Systems)", "avatar_url": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80", "expertise": "OS Kernels, C/C++, Synchronization", "availability": "Mon & Wed 2:00 PM"},
+    {"id": "men-2", "name": "Prof. Ramesh Gupta", "role": "Head of Department (DBMS)", "avatar_url": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&q=80", "expertise": "SQL Tuning, B+ Trees, Database Architecture", "availability": "Tue & Thu 10:00 AM"},
+    {"id": "men-3", "name": "Dr. Alan Turing", "role": "AI Research Chair", "avatar_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80", "expertise": "Machine Learning, PyTorch, Neural Networks", "availability": "Friday 3:00 PM"},
+    {"id": "men-4", "name": "Prof. Grace Hopper", "role": "Professor (Software Engineering)", "avatar_url": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80", "expertise": "Agile Scrum, System Design, CI/CD", "availability": "Wednesday 11:00 AM"},
+    {"id": "men-5", "name": "Dr. Linus Torvalds", "role": "Distinguished Visiting Faculty", "avatar_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80", "expertise": "Linux Architecture, Git, Open Source", "availability": "Monday 4:00 PM"},
+    {"id": "men-6", "name": "Mentor Priya Sharma", "role": "Senior SDE @ Google (Alumni 2022)", "avatar_url": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=300&q=80", "expertise": "DSA, Tech Interviews, Cloud Infrastructure", "availability": "Saturday 11:00 AM"},
+    {"id": "men-7", "name": "Mentor Rahul Verma", "role": "Staff Software Engineer @ Microsoft", "avatar_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80", "expertise": "Full Stack React/Node, System Architecture", "availability": "Sunday 2:00 PM"},
+    {"id": "men-8", "name": "Dr. Anita Borg", "role": "Professor (Networks & Security)", "avatar_url": "https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=300&q=80", "expertise": "Cryptography, Penetration Testing, SSL", "availability": "Thursday 1:00 PM"},
+    {"id": "men-9", "name": "Mentor David Patel", "role": "AI Researcher @ OpenAI Alumni", "avatar_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80", "expertise": "Large Language Models, GenAI, MLOps", "availability": "Saturday 4:00 PM"},
+    {"id": "men-10", "name": "Prof. Ken Thompson", "role": "Professor (Algorithms)", "avatar_url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80", "expertise": "Data Structures, Go Language, Unix", "availability": "Tuesday 3:00 PM"}
 ]
 
 # Data Access Helper Functions
