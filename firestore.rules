@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Users Collection (Profile Data)
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Assignments Collection
+    match /assignments/{assignmentId} {
+      allow read, write: if true;
+    }
+
+    // Course Notes Collection
+    match /notes/{noteId} {
+      allow read, write: if true;
+    }
+
+    // Opportunities & Campus Map Locations
+    match /opportunities/{opportunityId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /locations/{locationId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
