@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusMind AI — All-In-One AI Platform for College Life</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#070b14',
+                        cardbg: '#0d1424',
+                        cardborder: 'rgba(56, 189, 248, 0.15)',
+                        neonCyan: '#06b6d4',
+                        neonBlue: '#3b82f6',
+                        neonPurple: '#a855f7',
+                        neonPink: '#ec4899',
+                        neonEmerald: '#10b981',
+                        neonAmber: '#f59e0b'
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px rgba(6, 182, 212, 0.25)',
+                        'neon-purple': '0 0 20px rgba(168, 85, 247, 0.25)',
+                        'neon-pink': '0 0 20px rgba(236, 72, 153, 0.25)',
+                        'glow-sm': '0 0 10px rgba(56, 189, 248, 0.2)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #070b14;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 60%);
+        }
+        .active-nav {
+            background: linear-gradient(90deg, rgba(6, 182, 212, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+            color: #38bdf8;
+            border-right: 3px solid #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        }
+        .chat-bubble-user {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #ffffff;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+        .chat-bubble-ai {
+            background: #111a2e;
+            color: #f1f5f9;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .glass-card {
+            background: #0d1424;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            backdrop-filter: blur(12px);
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #070b14; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    </style>
+</head>
+<body class="text-slate-100 font-sans antialiased min-h-screen flex selection:bg-cyan-500 selection:text-white">
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-[#090e1a]/95 border-r border-slate-800/80 flex flex-col justify-between shrink-0 h-screen sticky top-0 z-30">
+        <div>
+            <!-- Header Brand -->
+            <div class="p-5 border-b border-slate-800/80 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-white text-lg tracking-wide flex items-center gap-1.5">
+                        CampusMind <span class="text-[10px] bg-gradient-to-r from-cyan-400 to-purple-500 text-black px-1.5 py-0.5 rounded font-black uppercase">AI</span>
+                    </h1>
+                    <p class="text-[10px] text-cyan-400 font-bold tracking-wider uppercase">ALL-IN-ONE COLLEGE PLATFORM</p>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="mt-4 px-3 space-y-1 overflow-y-auto max-h-[calc(100vh-14rem)]">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition active-nav">
+                    <i class="fa-solid fa-house text-cyan-400 w-4"></i> Home Dashboard
+                </button>
+                <button onclick="switchTab('map')" id="nav-map" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-map-location-dot text-teal-400 w-4"></i> Campus Map Navigator (15)
+                </button>
+                <button onclick="switchTab('notes')" id="nav-notes" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-book-open text-pink-400 w-4"></i> Notes & Knowledge
+                </button>
+                <button onclick="switchTab('opportunities')" id="nav-opportunities" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-award text-amber-400 w-4"></i> Scholarships & Opps
+                </button>
+                <button onclick="switchTab('integrations')" id="nav-integrations" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-plug text-emerald-400 w-4"></i> Integrations Hub (10)
+                </button>
+                <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-user-astronaut text-purple-400 w-4"></i> AI Study Coach / Chat
+                </button>
+                <button onclick="switchTab('assignments')" id="nav-assignments" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-list-check text-rose-400 w-4"></i> Assignments & Deadlines
+                </button>
+                <button onclick="switchTab('community')" id="nav-community" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-users text-pink-400 w-4"></i> Campus & Community
+                </button>
+                <button onclick="switchTab('lab')" id="nav-lab" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-flask text-violet-400 w-4"></i> Lab Exams & Viva Solver
+                </button>
+                <button onclick="switchTab('career')" id="nav-career" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-compass text-orange-400 w-4"></i> Career Roadmap & AI
+                </button>
+                <button onclick="switchTab('projects')" id="nav-projects" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-code text-teal-400 w-4"></i> Projects & Teammates
+                </button>
+                <button onclick="switchTab('mentorship')" id="nav-mentorship" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                    <i class="fa-solid fa-handshake text-indigo-400 w-4"></i> Mentorship & Guidance
+                </button>
+            </nav>
+        </div>
+
+        <!-- Student Profile Footer -->
+        <div class="p-4 border-t border-slate-800/80 bg-[#070b14]/80">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+                    AC
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold text-white truncate flex items-center gap-1">
+                        Alex Chen <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>
+                    </p>
+                    <p class="text-[10px] text-slate-400 truncate">CS & Engineering (Sem 6)</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-6 lg:p-8 overflow-y-auto h-screen space-y-6">
+
+        <!-- Top Ribbon -->
+        <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center gap-3 overflow-x-auto">
+            <span class="text-[11px] font-black uppercase tracking-wider text-teal-400 shrink-0 px-2 flex items-center gap-1.5">
+                <i class="fa-solid fa-map-location-dot text-teal-400"></i> Interactive Campus Navigator:
+            </span>
+            <div class="flex items-center gap-2 shrink-0">
+                <button onclick="switchTab('map')" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-teal-900/60 border border-teal-500/40 text-xs font-extrabold text-teal-200 shadow-glow-sm">
+                    🗺️ 15 Campus Locations & Step Directions
+                </button>
+                <button onclick="switchTab('notes')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-pink-900/40 border border-pink-500/30 text-xs font-bold text-pink-200">📚 Notes Base</button>
+                <button onclick="switchTab('opportunities')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-900/40 border border-amber-500/30 text-xs font-bold text-amber-200">🎓 Scholarships</button>
+            </div>
+        </div>
+
+        <!-- 1. HOME DASHBOARD SCREEN -->
+        <section id="screen-dashboard" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl lg:text-3xl font-black text-white tracking-tight flex items-center gap-2">
+                        Good Morning, Alex! <span class="animate-bounce">👋</span>
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Your AI College Co-Pilot • 15 Interactive Locations & Live Step Directions</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="current-day-badge" class="px-4 py-2 bg-cyan-950/80 text-cyan-400 font-extrabold text-xs rounded-xl border border-cyan-500/40 shadow-neon-cyan flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Today: Loading...
+                    </span>
+                    <button onclick="switchTab('map')" class="bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-glow-sm transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-map-location-dot"></i> Campus Navigator
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative">
+                <input type="text" onkeypress="if(event.key==='Enter'){ switchTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything... (e.g. 'Where is B-102?', 'Directions to Lab-3', 'Where is 24/7 Library?')" class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
+                <button onclick="switchTab('chat')" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition">
+                    Ask AI
+                </button>
+            </div>
+
+            <!-- Quick Modules Grid -->
+            <div class="grid grid-cols-4 sm:grid-cols-8 gap-3">
+                <button onclick="switchTab('map')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-teal-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-teal-600/30 text-teal-400 flex items-center justify-center text-lg"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">Campus Map</span>
+                </button>
+                <button onclick="switchTab('notes')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-pink-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-pink-600/30 text-pink-400 flex items-center justify-center text-lg"><i class="fa-solid fa-book-open"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">Notes Base</span>
+                </button>
+                <button onclick="switchTab('opportunities')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-amber-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-amber-600/30 text-amber-400 flex items-center justify-center text-lg"><i class="fa-solid fa-award"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">Scholarships</span>
+                </button>
+                <button onclick="switchTab('integrations')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-emerald-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600/30 text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-plug"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">Integrations</span>
+                </button>
+                <button onclick="switchTab('dashboard')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-purple-600/30 text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-calendar-check"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">Schedule</span>
+                </button>
+                <button onclick="switchTab('assignments')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-rose-600/30 text-rose-400 flex items-center justify-center text-lg"><i class="fa-solid fa-briefcase"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">Assignments</span>
+                </button>
+                <button onclick="switchTab('chat')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-600/30 text-cyan-400 flex items-center justify-center text-lg"><i class="fa-solid fa-robot"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">AI Coach</span>
+                </button>
+                <button onclick="switchTab('career')" class="glass-card p-3 rounded-2xl flex flex-col items-center gap-1.5 hover:border-cyan-400 transition">
+                    <div class="w-10 h-10 rounded-xl bg-orange-600/30 text-orange-400 flex items-center justify-center text-lg"><i class="fa-solid fa-compass"></i></div>
+                    <span class="text-[11px] font-bold text-slate-300">Career</span>
+                </button>
+            </div>
+
+            <!-- Schedule & Deadlines Split -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                        <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-clock text-cyan-400"></i> Today's Schedule</h3>
+                        <span id="schedule-day-label" class="text-xs font-bold text-cyan-400">Monday</span>
+                    </div>
+                    <div id="today-classes-list" class="space-y-2.5"><p class="text-xs text-slate-500">Loading schedule...</p></div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                        <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-bell text-rose-400"></i> Upcoming Deadlines</h3>
+                        <button onclick="switchTab('assignments')" class="text-xs text-cyan-400 font-bold hover:underline">View All</button>
+                    </div>
+                    <div id="urgent-assignments-list" class="space-y-2.5"><p class="text-xs text-slate-500">Loading assignments...</p></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 2. CAMPUS MAP NAVIGATOR SCREEN (15 LOCATIONS + STEP DIRECTIONS MODAL) -->
+        <section id="screen-map" class="space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-map-location-dot text-teal-400"></i> Campus Map Navigator (15 Interactive Locations)
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Interactive campus directions, room numbers, floor levels, and step-by-step navigation.</p>
+                </div>
+            </div>
+
+            <!-- Location Category Filter Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800">
+                <button onclick="filterMapLocations('')" class="map-filter-btn px-4 py-1.5 rounded-xl text-xs font-black bg-teal-950 text-teal-300 border border-teal-500/40">All Locations (15)</button>
+                <button onclick="filterMapLocations('Classroom')" class="map-filter-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0d1424] text-slate-300 border border-slate-800 hover:border-teal-500/40">Classrooms</button>
+                <button onclick="filterMapLocations('Laboratory')" class="map-filter-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0d1424] text-slate-300 border border-slate-800 hover:border-teal-500/40">Laboratories</button>
+                <button onclick="filterMapLocations('Auditorium')" class="map-filter-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0d1424] text-slate-300 border border-slate-800 hover:border-teal-500/40">Auditoriums</button>
+                <button onclick="filterMapLocations('Library')" class="map-filter-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0d1424] text-slate-300 border border-slate-800 hover:border-teal-500/40">Library & Pods</button>
+                <button onclick="filterMapLocations('Administrative')" class="map-filter-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0d1424] text-slate-300 border border-slate-800 hover:border-teal-500/40">Administrative</button>
+                <button onclick="filterMapLocations('Sports')" class="map-filter-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0d1424] text-slate-300 border border-slate-800 hover:border-teal-500/40">Sports & SAC</button>
+            </div>
+
+            <!-- 15 Locations Grid -->
+            <div id="campus-map-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Loaded dynamically -->
+            </div>
+        </section>
+
+
+        <!-- 3. NOTES & KNOWLEDGE BASE -->
+        <section id="screen-notes" class="space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h2 class="text-2xl font-black text-white"><i class="fa-solid fa-book-open text-pink-400"></i> Notes to Knowledge Base</h2>
+                <button onclick="openAddNoteModal()" class="bg-gradient-to-r from-pink-600 to-purple-600 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs">+ Add New Note</button>
+            </div>
+            <div id="notes-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- 4. SCHOLARSHIPS -->
+        <section id="screen-opportunities" class="space-y-6 hidden">
+            <h2 class="text-2xl font-black text-white">Scholarships & Opportunities</h2>
+            <div id="opportunities-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- 5. INTEGRATIONS HUB -->
+        <section id="screen-integrations" class="space-y-6 hidden">
+            <h2 class="text-2xl font-black text-white">Integrations Hub (10)</h2>
+            <div id="integrations-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+        </section>
+
+        <!-- 6. AI CHAT -->
+        <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden">
+            <h2 class="text-xl font-black text-white">AI Study Coach</h2>
+            <div id="chat-messages" class="flex-1 overflow-y-auto bg-[#090f1e] rounded-2xl border border-slate-800 p-4 space-y-4"></div>
+            <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
+                <input type="text" id="chat-input" placeholder="Ask CampusMind..." class="flex-1 px-4 py-3 bg-[#0d1424] border border-cyan-500/30 text-sm text-slate-100">
+                <button type="submit" class="bg-cyan-600 text-white font-black px-5 py-3 rounded-2xl">Send</button>
+            </form>
+        </section>
+
+        <!-- OTHER SECTIONS -->
+        <section id="screen-assignments" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Assignments</h2><div id="assignments-cards-container" class="space-y-4"></div></section>
+        <section id="screen-community" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Community</h2><div id="community-events-grid" class="grid grid-cols-3 gap-4"></div></section>
+        <section id="screen-lab" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Lab Exams</h2><div id="lab-prep-container" class="grid grid-cols-2 gap-4"></div></section>
+        <section id="screen-career" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Career Roadmap</h2><div id="career-roadmap-container" class="grid grid-cols-2 gap-6"></div></section>
+        <section id="screen-projects" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Projects</h2><div id="projects-grid" class="grid grid-cols-2 gap-4"></div></section>
+        <section id="screen-mentorship" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Mentorship</h2><div id="mentorship-grid" class="grid grid-cols-2 gap-4"></div></section>
+
+    </main>
+
+    <!-- Step-by-Step Directions Modal -->
+    <div id="directions-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="glass-card p-6 rounded-2xl w-full max-w-lg space-y-4 border border-teal-500/30 shadow-glow-sm">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div>
+                    <span id="directions-type-badge" class="bg-teal-950 text-teal-300 font-black text-[10px] px-2.5 py-0.5 rounded border border-teal-500/40">Classroom</span>
+                    <h3 id="directions-title" class="font-black text-white text-lg mt-1">B-102 DBMS Classroom</h3>
+                </div>
+                <button onclick="closeDirectionsModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div class="space-y-2">
+                <p class="text-xs text-slate-400 font-bold" id="directions-block-label">Academic Block B, Floor 1</p>
+                <div class="bg-[#070b14] p-4 rounded-xl border border-slate-800 space-y-3">
+                    <h4 class="text-xs font-black uppercase text-teal-400 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-route"></i> Turn-by-Turn Directions
+                    </h4>
+                    <ol id="directions-steps-list" class="space-y-2.5 text-xs text-slate-200">
+                        <!-- Loaded dynamically -->
+                    </ol>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between border-t border-slate-800 pt-3">
+                <span id="directions-hours-label" class="text-xs text-slate-500">Hours: 8:00 AM - 6:00 PM</span>
+                <button onclick="askAIDirectionsFromModal()" class="bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-extrabold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-robot"></i> Ask AI Nav Assistant
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="add-note-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="glass-card p-6 rounded-2xl w-full max-w-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-extrabold text-white text-base">Add Note</h3>
+                <button onclick="closeAddNoteModal()" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleAddNoteSubmit(event)" class="space-y-3 text-xs">
+                <input type="text" id="modal-note-title" placeholder="Note Title" required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                <select id="modal-note-course" class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                    <option value="CS304">CS304</option><option value="CS301">CS301</option><option value="CS308">CS308</option>
+                </select>
+                <textarea id="modal-note-content" rows="4" placeholder="Content..." required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200"></textarea>
+                <button type="submit" class="w-full bg-pink-600 text-white font-black py-2.5 rounded-xl">Save Note</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- App JavaScript Logic -->
+    <script>
+        const API_BASE = 'http://127.0.0.1:5000';
+        let currentTab = 'dashboard';
+        let chatHistory = [];
+        let allMapLocations = [];
+        let selectedNavLocation = null;
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl text-xs font-extrabold text-white shadow-xl transition opacity-100 flex items-center gap-2 ${type==='success' ? 'bg-emerald-600 border border-emerald-400' : 'bg-indigo-600 border border-indigo-400'}`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3000);
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('aside nav button').forEach(btn => {
+                btn.classList.remove('active-nav');
+                btn.classList.add('text-slate-400');
+            });
+
+            document.getElementById(`screen-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active-nav');
+                activeBtn.classList.remove('text-slate-400');
+            }
+
+            if (tabId === 'dashboard') loadDashboard();
+            if (tabId === 'map') loadMap();
+            if (tabId === 'notes') loadNotes();
+            if (tabId === 'opportunities') loadOpportunities();
+            if (tabId === 'integrations') loadIntegrations();
+        }
+
+        // 1. 15 Campus Map Locations & Step Directions Logic
+        async function loadMap(typeFilter = '') {
+            try {
+                const res = await fetch(`${API_BASE}/campus/map`);
+                const data = await res.json();
+                allMapLocations = data.locations;
+                renderMapGrid(typeFilter ? data.locations.filter(l => l.type.toLowerCase().includes(typeFilter.toLowerCase())) : data.locations);
+            } catch (err) { console.error("Error loading map:", err); }
+        }
+
+        function renderMapGrid(locations) {
+            const container = document.getElementById('campus-map-grid');
+            if (!locations || locations.length === 0) {
+                container.innerHTML = `<p class="text-sm text-slate-400 col-span-3 text-center py-8">No locations match this category.</p>`;
+                return;
+            }
+
+            container.innerHTML = locations.map(l => `
+                <div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between hover:border-teal-500/40 transition">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-teal-950 text-teal-300 font-black text-[10px] px-2.5 py-0.5 rounded border border-teal-500/40">${l.type}</span>
+                            <span class="text-[10px] text-slate-400 font-mono"><i class="fa-solid fa-clock"></i> ${l.hours || '8:00 AM - 6:00 PM'}</span>
+                        </div>
+                        <h3 class="font-extrabold text-white text-base">${l.name}</h3>
+                        <p class="text-xs font-bold text-teal-400">${l.block}</p>
+                        <p class="text-xs text-slate-300 leading-relaxed bg-[#070b14] p-3 rounded-xl border border-slate-800">
+                            📍 ${l.directions}
+                        </p>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                        <button onclick="openDirectionsModal('${l.id}')" class="bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 text-white font-extrabold px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shadow-glow-sm transition">
+                            <i class="fa-solid fa-route"></i> Turn-by-Turn Steps
+                        </button>
+                        <button onclick="askAIDirections('${l.name}')" class="text-xs text-cyan-400 font-bold hover:underline">
+                            <i class="fa-solid fa-robot"></i> Ask AI
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMapLocations(typeTag) {
+            document.querySelectorAll('.map-filter-btn').forEach(btn => {
+                btn.className = 'map-filter-btn px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0d1424] text-slate-300 border border-slate-800 hover:border-teal-500/40';
+            });
+            event.target.className = 'map-filter-btn px-4 py-1.5 rounded-xl text-xs font-black bg-teal-950 text-teal-300 border border-teal-500/40';
+            loadMap(typeTag);
+        }
+
+        function openDirectionsModal(locId) {
+            const loc = allMapLocations.find(l => l.id === locId);
+            if (!loc) return;
+            selectedNavLocation = loc;
+
+            document.getElementById('directions-type-badge').innerText = loc.type;
+            document.getElementById('directions-title').innerText = loc.name;
+            document.getElementById('directions-block-label').innerText = loc.block;
+            document.getElementById('directions-hours-label').innerText = `Hours: ${loc.hours || '8:00 AM - 6:00 PM'}`;
+
+            const stepsList = document.getElementById('directions-steps-list');
+            const steps = loc.steps || [
+                `Start at Main Campus Foyer / Lobby.`,
+                `Proceed toward ${loc.block}.`,
+                `Follow direction signs to ${loc.name}.`
+            ];
+
+            stepsList.innerHTML = steps.map((s, idx) => `
+                <li class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-teal-950 text-teal-300 border border-teal-500/40 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">${idx+1}</span>
+                    <span class="leading-snug">${s}</span>
+                </li>
+            `).join('');
+
+            document.getElementById('directions-modal').classList.remove('hidden');
+        }
+
+        function closeDirectionsModal() { document.getElementById('directions-modal').classList.add('hidden'); }
+
+        function askAIDirections(locName) {
+            closeDirectionsModal();
+            switchTab('chat');
+            sendQuickPrompt(`Give me step-by-step directions to ${locName}`);
+        }
+
+        function askAIDirectionsFromModal() {
+            if (selectedNavLocation) askAIDirections(selectedNavLocation.name);
+        }
+
+        // Notes & Other Modules
+        async function loadNotes() {
+            const res = await fetch(`${API_BASE}/notes`);
+            const data = await res.json();
+            document.getElementById('notes-cards-grid').innerHTML = data.notes.map(n => `
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <span class="bg-pink-950 text-pink-300 text-[10px] font-bold px-2 py-0.5 rounded">${n.course_tag}</span>
+                    <h3 class="font-bold text-white text-sm">${n.title}</h3>
+                    <p class="text-xs text-slate-300 font-mono line-clamp-3 bg-[#070b14] p-3 rounded-xl">${n.content}</p>
+                </div>
+            `).join('');
+        }
+
+        function openAddNoteModal() { document.getElementById('add-note-modal').classList.remove('hidden'); }
+        function closeAddNoteModal() { document.getElementById('add-note-modal').classList.add('hidden'); }
+        async function handleAddNoteSubmit(e) {
+            e.preventDefault();
+            await fetch(`${API_BASE}/notes/upload`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    course_tag: document.getElementById('modal-note-course').value,
+                    title: document.getElementById('modal-note-title').value,
+                    content: document.getElementById('modal-note-content').value
+                })
+            });
+            closeAddNoteModal();
+            showToast("Note saved!");
+            loadNotes();
+        }
+
+        async function loadOpportunities() {
+            const res = await fetch(`${API_BASE}/opportunities`);
+            const data = await res.json();
+            document.getElementById('opportunities-grid').innerHTML = data.opportunities.map(o => `
+                <div class="glass-card p-5 rounded-2xl space-y-3">
+                    <h3 class="font-black text-white text-base">${o.title}</h3>
+                    <p class="text-xs text-slate-300">${o.description}</p>
+                    <a href="${o.url}" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-600 text-white font-extrabold px-4 py-2 rounded-xl text-xs">Apply on Official Site <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+            `).join('');
+        }
+
+        async function loadIntegrations() {
+            const res = await fetch(`${API_BASE}/integrations`);
+            const data = await res.json();
+            document.getElementById('integrations-cards-grid').innerHTML = data.integrations.map(item => `
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-white text-sm">${item.name}</h3>
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="text-xs text-cyan-400 font-bold">${item.action} <i class="fa-solid fa-up-right-from-square text-[9px]"></i></a>
+                </div>
+            `).join('');
+        }
+
+        async function loadDashboard() {
+            const res = await fetch(`${API_BASE}/dashboard`);
+            const data = await res.json();
+            document.getElementById('current-day-badge').innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Today: ${data.today_day}`;
+            document.getElementById('schedule-day-label').innerText = data.today_day;
+            document.getElementById('stat-urgent-count').innerText = data.urgent_assignments.length;
+            document.getElementById('stat-subtasks-count').innerText = data.pending_subtask_count;
+            document.getElementById('stat-classes-count').innerText = data.today_classes.length;
+
+            const classesContainer = document.getElementById('today-classes-list');
+            classesContainer.innerHTML = data.today_classes.map(c => `
+                <div class="p-3 bg-[#080d19] rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div><h4 class="font-extrabold text-white text-xs">${c.course}</h4><p class="text-[11px] text-slate-400">${c.instructor} • ${c.room}</p></div>
+                    <span class="text-xs font-black text-cyan-300">${c.time}</span>
+                </div>
+            `).join('');
+
+            const urgentContainer = document.getElementById('urgent-assignments-list');
+            urgentContainer.innerHTML = data.urgent_assignments.map(a => `
+                <div class="p-3 bg-[#080d19] rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div><h4 class="font-extrabold text-white text-xs">${a.title}</h4><p class="text-[11px] text-slate-400">Due: ${a.due_date}</p></div>
+                    <span class="text-xs font-black text-rose-400">${a.days_left}d left</span>
+                </div>
+            `).join('');
+        }
+
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+            input.value = '';
+            appendUserMessage(msg);
+
+            const res = await fetch(`${API_BASE}/agent/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg, history: chatHistory })
+            });
+            const data = await res.json();
+            appendAIMessage(data.reply, data.tool_calls_executed);
+        }
+
+        function sendQuickPrompt(txt) { document.getElementById('chat-input').value = txt; handleChatSubmit(new Event('submit')); }
+        function appendUserMessage(msg) { document.getElementById('chat-messages').innerHTML += `<div class="flex justify-end"><div class="chat-bubble-user p-3 rounded-2xl max-w-xl text-xs">${msg}</div></div>`; }
+        function appendAIMessage(reply, tools) { document.getElementById('chat-messages').innerHTML += `<div class="flex gap-2"><div class="chat-bubble-ai p-3 rounded-2xl max-w-2xl text-xs">${reply}</div></div>`; }
+
+        document.addEventListener('DOMContentLoaded', () => { loadDashboard(); });
+    </script>
+</body>
+</html>
