@@ -1,11 +1,26 @@
 """
 CampusMind Full Tools Suite (tools.py)
-Includes Integrations Hub & Real-World Sync Tools.
+Includes Integrations Hub & Real-World Sync Tools + Exa AI Live Opportunities Search.
 """
 
+import os
 import json
 from datetime import datetime
 import data
+
+# Load .env file if available
+env_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(env_path):
+    with open(env_path, 'r') as f:
+        for line in f:
+            if '=' in line and not line.startswith('#'):
+                k, v = line.strip().split('=', 1)
+                os.environ[k] = v
+
+try:
+    from exa_py import Exa
+except ImportError:
+    Exa = None
 
 def tool_get_timetable(day=None):
     if day:
@@ -101,36 +116,102 @@ def tool_generate_study_plan(course, exam_date, topics=None):
         })
     return {"course": course, "exam_date": exam_date, "study_plan": plan_days}
 
+def _exa_search_opportunities(category=None, query=None):
+    api_key = os.environ.get("EXA_API_KEY")
+    if not api_key or not Exa:
+        return None
+
+    student = getattr(data, "STUDENT_PROFILE", {})
+    skills_str = " ".join(student.get("skills", []))
+    major_str = student.get("major", "")
+    category_term = category if category else "scholarship internship hackathon competition"
+    q_term = query if query else ""
+    query_str = f"{category_term} for {major_str} student {skills_str} {q_term}".strip()
+
+    try:
+        exa = Exa(api_key=api_key)
+        res = exa.search(
+            query_str,
+            type="auto",
+            num_results=8,
+            contents={"highlights": True}
+        )
+        results = getattr(res, "results", [])
+        if not results:
+            return None
+
+        mapped = []
+        for idx, item in enumerate(results):
+            title = getattr(item, "title", None) or "Global Opportunity"
+            url = getattr(item, "url", "#")
+            highlights = getattr(item, "highlights", [])
+            desc = highlights[0] if highlights else title
+
+            try:
+                from urllib.parse import urlparse
+                domain = urlparse(url).netloc.replace("www.", "")
+            except Exception:
+                domain = "Official Site"
+
+            mapped.append({
+                "id": getattr(item, "id", f"exa-{idx+1}"),
+                "title": title,
+                "category": category.capitalize() if category else "Opportunity",
+                "organization": domain.capitalize() if domain else "Official Sponsor",
+                "description": desc,
+                "deadline": "See Official Portal",
+                "stipend_or_prize": "Stipend / Prize Available",
+                "required_skills": student.get("skills", ["Computer Science"])[:3],
+                "url": url
+            })
+        return mapped
+    except Exception as e:
+        print(f"[Exa API Fallback Triggered]: {e}")
+        return None
+
 def tool_get_opportunities(category=None, query=None):
-    student = data.STUDENT_PROFILE
-    opps = data.OPPORTUNITIES
+    exa_results = _exa_search_opportunities(category, query)
+    if exa_results is not None and len(exa_results) > 0:
+        raw_opps = exa_results
+        source = "live"
+    else:
+        raw_opps = data.OPPORTUNITIES
+        source = "seed"
+
+    student = getattr(data, "STUDENT_PROFILE", {})
+    student_skills = student.get("skills", [])
     results = []
     cat_lower = category.lower() if category else ""
     q_lower = query.lower() if query else ""
-    for opp in opps:
-        if cat_lower and cat_lower not in opp["category"].lower():
-            continue
-        if q_lower and q_lower not in opp["title"].lower() and q_lower in opp["description"].lower():
-            continue
-        req_skills = opp["required_skills"]
-        student_skills = student["skills"]
+
+    for idx, opp in enumerate(raw_opps):
+        if source == "seed":
+            if cat_lower and cat_lower not in opp.get("category", "").lower() and cat_lower not in opp.get("type", "").lower():
+                continue
+            if q_lower and q_lower not in opp.get("title", "").lower() and q_lower not in opp.get("description", "").lower():
+                continue
+
+        req_skills = opp.get("required_skills", ["Computer Science"])
         matched_skills = [s for s in req_skills if any(s.lower() in st.lower() or st.lower() in s.lower() for st in student_skills)]
         missing_skills = [s for s in req_skills if s not in matched_skills]
         match_score = int((len(matched_skills) / len(req_skills)) * 100) if req_skills else 100
+
         results.append({
-            "id": opp["id"],
-            "title": opp["title"],
-            "category": opp["category"],
-            "organization": opp["organization"],
-            "description": opp["description"],
-            "deadline": opp["deadline"],
-            "stipend_or_prize": opp["stipend_or_prize"],
+            "id": opp.get("id", f"opp-{idx+1}"),
+            "title": opp.get("title", "Opportunity"),
+            "category": opp.get("category", category.capitalize() if category else "Scholarships"),
+            "organization": opp.get("organization", "Global Program"),
+            "description": opp.get("description", ""),
+            "deadline": opp.get("deadline", "Open Registration"),
+            "stipend_or_prize": opp.get("stipend_or_prize", "Funding Available"),
             "required_skills": req_skills,
             "matched_skills": matched_skills,
             "missing_skills": missing_skills,
-            "match_score": match_score
+            "match_score": match_score,
+            "url": opp.get("url", "#")
         })
-    return {"opportunities": results, "count": len(results)}
+
+    return {"opportunities": results, "count": len(results), "source": source}
 
 # Real-World Integration Tools
 

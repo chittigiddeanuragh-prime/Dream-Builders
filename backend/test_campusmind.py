@@ -1,9 +1,10 @@
 """
 CampusMind Backend Automated Test Suite
-Verifies Flask endpoints, Tool Execution, and Agent Loop functionality.
+Verifies Flask endpoints, Tool Execution, Exa Live Search Fallback, and Agent Loop functionality.
 """
 
 import unittest
+from unittest.mock import patch
 import json
 from app import app
 
@@ -80,6 +81,15 @@ class CampusMindTestCase(unittest.TestCase):
         self.assertIn("match_score", first_opp)
         self.assertIn("missing_skills", first_opp)
         print("OK - GET /opportunities passed")
+
+    def test_06_opportunities_exa_fallback(self):
+        """Test tool_get_opportunities falls back to seed data when _exa_search_opportunities returns None"""
+        with patch('tools._exa_search_opportunities', return_value=None):
+            from tools import tool_get_opportunities
+            res = tool_get_opportunities(category="Hackathons")
+            self.assertEqual(res["source"], "seed")
+            self.assertGreaterEqual(len(res["opportunities"]), 1)
+            print("OK - Exa fallback to seed opportunities passed")
 
 if __name__ == '__main__':
     unittest.main()
