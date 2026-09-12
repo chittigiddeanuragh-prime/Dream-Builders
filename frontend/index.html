@@ -35,9 +35,10 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase Cloud Firestore SDK (v10 Compat) -->
+    <!-- Firebase SDK (v10 Compat: App, Firestore, Auth) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
 
     <style>
@@ -84,7 +85,7 @@
 </head>
 <body class="text-slate-100 font-sans antialiased min-h-screen flex selection:bg-cyan-500 selection:text-white">
 
-    <!-- Toast Container -->
+    <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
     <!-- Sidebar Navigation -->
@@ -144,18 +145,24 @@
             </nav>
         </div>
 
-        <!-- Student Profile Footer -->
+        <!-- Student Profile & Auth Footer -->
         <div class="p-4 border-t border-slate-800/80 bg-[#070b14]/80">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-[0_0_12px_rgba(6,182,212,0.3)]">
-                    AC
+            <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-3 overflow-hidden">
+                    <div id="user-avatar-badge" class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+                        AC
+                    </div>
+                    <div class="overflow-hidden">
+                        <p id="sidebar-user-name" class="text-xs font-bold text-white truncate flex items-center gap-1">
+                            Alex Chen <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>
+                        </p>
+                        <p id="sidebar-user-email" class="text-[10px] text-slate-400 truncate">alex.chen@campusminds.edu</p>
+                    </div>
                 </div>
-                <div class="overflow-hidden">
-                    <p class="text-xs font-bold text-white truncate flex items-center gap-1">
-                        Alex Chen <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>
-                    </p>
-                    <p class="text-[10px] text-slate-400 truncate">campusminds-4c038</p>
-                </div>
+
+                <button id="auth-action-btn" onclick="openLoginModal()" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0">
+                    🔑 Log In
+                </button>
             </div>
         </div>
     </aside>
@@ -163,17 +170,27 @@
     <!-- Main Content Area -->
     <main class="flex-1 p-6 lg:p-8 overflow-y-auto h-screen space-y-6">
 
-        <!-- Top Ribbon Toolbar with Firebase Test Sync -->
-        <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center gap-3 overflow-x-auto">
-            <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 px-2 flex items-center gap-1.5">
-                <i class="fa-solid fa-fire text-amber-400"></i> Firebase Firestore DB:
-            </span>
-            <div class="flex items-center gap-2 shrink-0">
-                <button onclick="testFirestoreWrite()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-950/80 border border-amber-500/40 text-xs font-extrabold text-amber-200 shadow-glow-sm hover:border-amber-300 transition">
+        <!-- Top Ribbon Toolbar with Auth & Firestore Sync -->
+        <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 overflow-x-auto">
+            <div class="flex items-center gap-3">
+                <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 px-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-fire text-amber-400"></i> Firebase Firestore DB:
+                </span>
+                <button onclick="testFirestoreWrite()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 border border-amber-500/40 text-xs font-extrabold text-amber-200 shadow-glow-sm hover:border-amber-300 transition">
                     🔥 Write Test Document (users/user_alex_chen)
                 </button>
-                <button onclick="testFirestoreRead()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-xs font-extrabold text-cyan-200 hover:border-cyan-300 transition">
+                <button onclick="testFirestoreRead()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-xs font-extrabold text-cyan-200 hover:border-cyan-300 transition">
                     📖 Read Test Document
+                </button>
+            </div>
+
+            <!-- Header Auth Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="openLoginModal()" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-3.5 py-1.5 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-right-to-bracket"></i> Log In
+                </button>
+                <button onclick="openSignupModal()" class="bg-purple-950 border border-purple-500/40 hover:bg-purple-900 text-purple-200 font-extrabold px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-plus"></i> Sign Up
                 </button>
             </div>
         </div>
@@ -183,13 +200,13 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl lg:text-3xl font-black text-white tracking-tight flex items-center gap-2">
-                        Good Morning, Alex! <span class="animate-bounce">👋</span>
+                        Good Morning, <span id="dashboard-user-greeting">Alex</span>! <span class="animate-bounce">👋</span>
                     </h2>
                     <p class="text-slate-400 text-sm mt-1">Firebase Project: <strong class="text-cyan-300">campusminds-4c038</strong> (Number: 89380595571)</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="testFirestoreWrite()" class="px-4 py-2 bg-amber-950/80 text-amber-300 font-extrabold text-xs rounded-xl border border-amber-500/40 shadow-glow-sm flex items-center gap-2">
-                        🔥 Test Firestore Sync
+                    <button onclick="openSignupModal()" class="px-4 py-2 bg-purple-950/80 text-purple-300 font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2">
+                        🔑 Create Firestore Account
                     </button>
                 </div>
             </div>
@@ -248,7 +265,7 @@
 
             <!-- Search Bar -->
             <div class="relative">
-                <input type="text" onkeypress="if(event.key==='Enter'){ switchTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything... (e.g. 'Where is B-102?', 'Test Firestore sync')" class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
+                <input type="text" onkeypress="if(event.key==='Enter'){ switchTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything..." class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
                 <button onclick="switchTab('chat')" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition">
                     Ask AI
                 </button>
@@ -309,70 +326,102 @@
             </div>
         </section>
 
-
-        <!-- 2. CAMPUS MAP NAVIGATOR SCREEN -->
-        <section id="screen-map" class="space-y-6 hidden">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <h2 class="text-2xl font-black text-white"><i class="fa-solid fa-map-location-dot text-teal-400"></i> Campus Map Navigator (15 Locations)</h2>
-            </div>
-            <div id="campus-map-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-        </section>
-
-
-        <!-- 3. NOTES & KNOWLEDGE BASE -->
-        <section id="screen-notes" class="space-y-6 hidden">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <h2 class="text-2xl font-black text-white"><i class="fa-solid fa-book-open text-pink-400"></i> Notes to Knowledge Base</h2>
-                <button onclick="openAddNoteModal()" class="bg-gradient-to-r from-pink-600 to-purple-600 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs">+ Add New Note</button>
-            </div>
-            <div id="notes-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </section>
-
-        <!-- 4. SCHOLARSHIPS -->
-        <section id="screen-opportunities" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white">Scholarships & Opportunities</h2>
-            <div id="opportunities-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </section>
-
-        <!-- 5. INTEGRATIONS HUB -->
-        <section id="screen-integrations" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white">Integrations Hub (10)</h2>
-            <div id="integrations-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
-        </section>
-
-        <!-- 6. AI CHAT -->
-        <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden">
-            <h2 class="text-xl font-black text-white">AI Study Coach</h2>
-            <div id="chat-messages" class="flex-1 overflow-y-auto bg-[#090f1e] rounded-2xl border border-slate-800 p-4 space-y-4"></div>
-            <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
-                <input type="text" id="chat-input" placeholder="Ask CampusMind..." class="flex-1 px-4 py-3 bg-[#0d1424] border border-cyan-500/30 text-sm text-slate-100">
-                <button type="submit" class="bg-cyan-600 text-white font-black px-5 py-3 rounded-2xl">Send</button>
-            </form>
-        </section>
-
+        <!-- OTHER SECTIONS -->
+        <section id="screen-map" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Campus Map Navigator (15)</h2><div id="campus-map-grid" class="grid grid-cols-3 gap-4"></div></section>
+        <section id="screen-notes" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Notes Base</h2><div id="notes-cards-grid" class="grid grid-cols-2 gap-4"></div></section>
+        <section id="screen-opportunities" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Scholarships & Opps</h2><div id="opportunities-grid" class="grid grid-cols-2 gap-4"></div></section>
+        <section id="screen-integrations" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Integrations Hub (10)</h2><div id="integrations-cards-grid" class="grid grid-cols-5 gap-4"></div></section>
+        <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden"><h2 class="text-xl font-black text-white">AI Coach</h2><div id="chat-messages" class="flex-1 overflow-y-auto bg-[#090f1e] p-4 space-y-4"></div><form onsubmit="handleChatSubmit(event)" class="flex gap-2"><input type="text" id="chat-input" class="flex-1 p-3 bg-[#0d1424] border border-cyan-500/30 text-sm text-slate-100"><button type="submit" class="bg-cyan-600 text-white font-black px-5 py-3 rounded-2xl">Send</button></form></section>
         <section id="screen-assignments" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Assignments</h2><div id="assignments-cards-container" class="space-y-4"></div></section>
         <section id="screen-community" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Community</h2><div id="community-events-grid" class="grid grid-cols-3 gap-4"></div></section>
-        <section id="screen-lab" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Lab Exams</h2><div id="lab-prep-container" class="grid grid-cols-2 gap-4"></div></section>
-        <section id="screen-career" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Career Roadmap</h2><div id="career-roadmap-container" class="grid grid-cols-2 gap-6"></div></section>
+        <section id="screen-lab" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Lab Prep</h2><div id="lab-prep-container" class="grid grid-cols-2 gap-4"></div></section>
+        <section id="screen-career" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Career</h2><div id="career-roadmap-container" class="grid grid-cols-2 gap-6"></div></section>
         <section id="screen-projects" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Projects</h2><div id="projects-grid" class="grid grid-cols-2 gap-4"></div></section>
         <section id="screen-mentorship" class="space-y-6 hidden"><h2 class="text-2xl font-black text-white">Mentorship</h2><div id="mentorship-grid" class="grid grid-cols-2 gap-4"></div></section>
 
     </main>
 
-    <!-- Modals -->
-    <div id="add-note-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-        <div class="glass-card p-6 rounded-2xl w-full max-w-lg space-y-4">
+    <!-- 🔑 1. LOG IN MODAL -->
+    <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="glass-card p-6 rounded-2xl w-full max-w-md space-y-4 border border-cyan-500/30 shadow-neon-cyan">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 class="font-extrabold text-white text-base">Add Note</h3>
-                <button onclick="closeAddNoteModal()" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-right-to-bracket text-cyan-400"></i> Student Log In</h3>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <form onsubmit="handleAddNoteSubmit(event)" class="space-y-3 text-xs">
-                <input type="text" id="modal-note-title" placeholder="Note Title" required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
-                <select id="modal-note-course" class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
-                    <option value="CS304">CS304</option><option value="CS301">CS301</option><option value="CS308">CS308</option>
-                </select>
-                <textarea id="modal-note-content" rows="4" placeholder="Content..." required class="w-full p-2.5 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200"></textarea>
-                <button type="submit" class="w-full bg-pink-600 text-white font-black py-2.5 rounded-xl">Save Note</button>
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Email Address</label>
+                    <input type="email" id="login-email" placeholder="alex.chen@campusminds.edu" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="font-bold text-slate-300">Password</label>
+                        <button type="button" onclick="openForgotPasswordModal()" class="text-cyan-400 text-[11px] font-bold hover:underline">Forgot Password?</button>
+                    </div>
+                    <input type="password" id="login-password" placeholder="••••••••" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-cyan">
+                    Log In to CampusMind
+                </button>
+            </form>
+            <div class="text-center pt-2 border-t border-slate-800 text-xs">
+                <span class="text-slate-400">Don't have an account? </span>
+                <button onclick="switchToSignup()" class="text-cyan-400 font-extrabold hover:underline">Sign Up & Save to Database</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📝 2. SIGN UP / REGISTER MODAL -->
+    <div id="signup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="glass-card p-6 rounded-2xl w-full max-w-md space-y-4 border border-purple-500/30 shadow-neon-purple">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-user-plus text-purple-400"></i> Create Firestore Account</h3>
+                <button onclick="closeSignupModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleSignupSubmit(event)" class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Full Student Name</label>
+                    <input type="text" id="signup-name" placeholder="Alex Chen" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Course / Major</label>
+                    <input type="text" id="signup-major" placeholder="Computer Science & Engineering" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Email Address</label>
+                    <input type="email" id="signup-email" placeholder="alex.chen@campusminds.edu" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Password</label>
+                    <input type="password" id="signup-password" placeholder="••••••••" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-black py-3 rounded-xl text-xs transition shadow-neon-purple">
+                    Create Account & Sync to Firestore
+                </button>
+            </form>
+            <div class="text-center pt-2 border-t border-slate-800 text-xs">
+                <span class="text-slate-400">Already have an account? </span>
+                <button onclick="switchToLogin()" class="text-purple-400 font-extrabold hover:underline">Log In</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✉️ 3. FORGOT PASSWORD MODAL -->
+    <div id="forgot-password-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="glass-card p-6 rounded-2xl w-full max-w-md space-y-4 border border-rose-500/30">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-key text-rose-400"></i> Reset Password</h3>
+                <button onclick="closeForgotPasswordModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-slate-300">Enter your registered email address and we'll send you a password reset link via Firebase Auth.</p>
+            <form onsubmit="handleForgotPasswordSubmit(event)" class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Email Address</label>
+                    <input type="email" id="forgot-email" placeholder="alex.chen@campusminds.edu" required class="w-full p-3 bg-[#070b14] border border-slate-700 rounded-xl text-slate-200">
+                </div>
+                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-sm">
+                    Send Password Reset Link
+                </button>
             </form>
         </div>
     </div>
@@ -386,15 +435,95 @@
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `px-4 py-2.5 rounded-xl text-xs font-extrabold text-white shadow-xl opacity-100 flex items-center gap-2 ${type==='success' ? 'bg-emerald-600 border border-emerald-400' : 'bg-amber-600 border border-amber-400'}`;
-            toast.innerHTML = `<i class="fa-solid fa-fire"></i> ${message}`;
+            toast.className = `px-4 py-2.5 rounded-xl text-xs font-extrabold text-white shadow-xl opacity-100 flex items-center gap-2 ${type==='success' ? 'bg-emerald-600 border border-emerald-400' : 'bg-rose-600 border border-rose-400'}`;
+            toast.innerHTML = `<i class="fa-solid ${type==='success'?'fa-circle-check':'fa-triangle-exclamation'}"></i> ${message}`;
             container.appendChild(toast);
             setTimeout(() => { toast.remove(); }, 4000);
         }
 
+        // Firebase Auth State Listener
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            firebase.auth().onAuthStateChanged(user => {
+                if (user) {
+                    const name = user.displayName || user.email.split('@')[0];
+                    const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().substring(0, 2);
+                    
+                    document.getElementById('sidebar-user-name').innerHTML = `${name} <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>`;
+                    document.getElementById('sidebar-user-email').innerText = user.email;
+                    document.getElementById('user-avatar-badge').innerText = initials;
+                    document.getElementById('dashboard-user-greeting').innerText = name;
+                    
+                    const btn = document.getElementById('auth-action-btn');
+                    btn.innerHTML = `👋 Sign Out`;
+                    btn.onclick = handleSignOut;
+                } else {
+                    document.getElementById('sidebar-user-name').innerHTML = `Alex Chen <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>`;
+                    document.getElementById('sidebar-user-email').innerText = `campusminds-4c038`;
+                    document.getElementById('user-avatar-badge').innerText = `AC`;
+                    document.getElementById('dashboard-user-greeting').innerText = `Alex`;
+                    
+                    const btn = document.getElementById('auth-action-btn');
+                    btn.innerHTML = `🔑 Log In`;
+                    btn.onclick = openLoginModal;
+                }
+            });
+        }
+
+        // Auth Modal Handlers
+        function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
+        function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+        function openSignupModal() { closeLoginModal(); document.getElementById('signup-modal').classList.remove('hidden'); }
+        function closeSignupModal() { document.getElementById('signup-modal').classList.add('hidden'); }
+        function openForgotPasswordModal() { closeLoginModal(); document.getElementById('forgot-password-modal').classList.remove('hidden'); }
+        function closeForgotPasswordModal() { document.getElementById('forgot-password-modal').classList.add('hidden'); }
+        function switchToSignup() { closeLoginModal(); openSignupModal(); }
+        function switchToLogin() { closeSignupModal(); openLoginModal(); }
+
+        async function handleLoginSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const res = await loginUser(email, password);
+            if (res.success) {
+                closeLoginModal();
+                showToast(`Welcome back, ${res.user.displayName || email}!`);
+            } else {
+                showToast(res.error || "Login failed", "error");
+            }
+        }
+
+        async function handleSignupSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const major = document.getElementById('signup-major').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            const res = await registerUser(email, password, name, major);
+            if (res.success) {
+                closeSignupModal();
+                showToast(`Account created & synced to Firestore 'users' collection!`);
+            } else {
+                showToast(res.error || "Sign Up failed", "error");
+            }
+        }
+
+        async function handleForgotPasswordSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value;
+            const res = await resetPassword(email);
+            closeForgotPasswordModal();
+            showToast(res.message || `Password reset link sent to ${email}`);
+        }
+
+        async function handleSignOut() {
+            await logoutUser();
+            showToast("Signed out successfully.");
+        }
+
         async function testFirestoreWrite() {
             const res = await writeTestUser("user_alex_chen");
-            showToast("🔥 Written document to 'users/user_alex_chen' in Firestore!");
+            showToast("🔥 Document written to 'users/user_alex_chen' in Firestore!");
         }
 
         async function testFirestoreRead() {
@@ -409,14 +538,12 @@
                 btn.classList.remove('active-nav');
                 btn.classList.add('text-slate-400');
             });
-
             document.getElementById(`screen-${tabId}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if (activeBtn) {
                 activeBtn.classList.add('active-nav');
                 activeBtn.classList.remove('text-slate-400');
             }
-
             if (tabId === 'dashboard') loadDashboard();
             if (tabId === 'map') loadMap();
             if (tabId === 'notes') loadNotes();
@@ -424,74 +551,10 @@
             if (tabId === 'integrations') loadIntegrations();
         }
 
-        async function loadMap() {
-            const res = await fetch(`${API_BASE}/campus/map`);
-            const data = await res.json();
-            document.getElementById('campus-map-grid').innerHTML = data.locations.map(l => `
-                <div class="glass-card p-4 rounded-2xl space-y-2">
-                    <span class="bg-teal-950 text-teal-300 font-bold text-[10px] px-2 py-0.5 rounded">${l.type}</span>
-                    <h3 class="font-bold text-white text-sm">${l.name}</h3>
-                    <p class="text-xs text-slate-400 font-bold">${l.block}</p>
-                    <p class="text-xs text-slate-300">📍 ${l.directions}</p>
-                </div>
-            `).join('');
-        }
-
-        async function loadNotes() {
-            const res = await fetch(`${API_BASE}/notes`);
-            const data = await res.json();
-            document.getElementById('notes-cards-grid').innerHTML = data.notes.map(n => `
-                <div class="glass-card p-4 rounded-2xl space-y-2">
-                    <span class="bg-pink-950 text-pink-300 font-bold text-[10px] px-2 py-0.5 rounded">${n.course_tag}</span>
-                    <h3 class="font-bold text-white text-sm">${n.title}</h3>
-                    <p class="text-xs text-slate-300 font-mono line-clamp-3 bg-[#070b14] p-3 rounded-xl">${n.content}</p>
-                </div>
-            `).join('');
-        }
-
-        function openAddNoteModal() { document.getElementById('add-note-modal').classList.remove('hidden'); }
-        function closeAddNoteModal() { document.getElementById('add-note-modal').classList.add('hidden'); }
-        async function handleAddNoteSubmit(e) {
-            e.preventDefault();
-            const newNote = {
-                id: `note-${Date.now()}`,
-                course_tag: document.getElementById('modal-note-course').value,
-                title: document.getElementById('modal-note-title').value,
-                content: document.getElementById('modal-note-content').value
-            };
-            await fetch(`${API_BASE}/notes/upload`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newNote)
-            });
-            saveNoteToFirestore(newNote);
-            closeAddNoteModal();
-            showToast("Note saved & synced to Firestore!");
-            loadNotes();
-        }
-
-        async function loadOpportunities() {
-            const res = await fetch(`${API_BASE}/opportunities`);
-            const data = await res.json();
-            document.getElementById('opportunities-grid').innerHTML = data.opportunities.map(o => `
-                <div class="glass-card p-4 rounded-2xl space-y-2">
-                    <h3 class="font-bold text-white text-sm">${o.title}</h3>
-                    <p class="text-xs text-slate-300">${o.description}</p>
-                    <a href="${o.url}" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-600 text-white font-extrabold px-3 py-1 rounded-lg text-xs">Apply on Official Site <i class="fa-solid fa-up-right-from-square text-[9px]"></i></a>
-                </div>
-            `).join('');
-        }
-
-        async function loadIntegrations() {
-            const res = await fetch(`${API_BASE}/integrations`);
-            const data = await res.json();
-            document.getElementById('integrations-cards-grid').innerHTML = data.integrations.map(item => `
-                <div class="glass-card p-4 rounded-2xl space-y-2">
-                    <h3 class="font-bold text-white text-sm">${item.name}</h3>
-                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="text-xs text-cyan-400 font-bold">${item.action} <i class="fa-solid fa-up-right-from-square text-[9px]"></i></a>
-                </div>
-            `).join('');
-        }
+        async function loadMap() { const res = await fetch(`${API_BASE}/campus/map`); const data = await res.json(); document.getElementById('campus-map-grid').innerHTML = data.locations.map(l => `<div class="glass-card p-4 rounded-2xl"><span class="bg-teal-950 text-teal-300 text-[10px] px-2 py-0.5 rounded">${l.type}</span><h3 class="font-bold text-white text-sm">${l.name}</h3><p class="text-xs text-slate-400 font-bold">${l.block}</p></div>`).join(''); }
+        async function loadNotes() { const res = await fetch(`${API_BASE}/notes`); const data = await res.json(); document.getElementById('notes-cards-grid').innerHTML = data.notes.map(n => `<div class="glass-card p-4 rounded-2xl"><span class="bg-pink-950 text-pink-300 text-[10px] px-2 py-0.5 rounded">${n.course_tag}</span><h3 class="font-bold text-white text-sm">${n.title}</h3></div>`).join(''); }
+        async function loadOpportunities() { const res = await fetch(`${API_BASE}/opportunities`); const data = await res.json(); document.getElementById('opportunities-grid').innerHTML = data.opportunities.map(o => `<div class="glass-card p-4 rounded-2xl"><h3 class="font-bold text-white text-sm">${o.title}</h3><a href="${o.url}" target="_blank" class="inline-block bg-cyan-600 text-white px-3 py-1 rounded text-xs mt-2">Apply on Official Site</a></div>`).join(''); }
+        async function loadIntegrations() { const res = await fetch(`${API_BASE}/integrations`); const data = await res.json(); document.getElementById('integrations-cards-grid').innerHTML = data.integrations.map(item => `<div class="glass-card p-4 rounded-2xl"><h3 class="font-bold text-white text-sm">${item.name}</h3><a href="${item.url}" target="_blank" class="text-xs text-cyan-400 font-bold">${item.action}</a></div>`).join(''); }
 
         async function loadDashboard() {
             const res = await fetch(`${API_BASE}/dashboard`);

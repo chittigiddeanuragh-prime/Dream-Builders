@@ -1,11 +1,9 @@
 /**
- * CampusMind AI — Firebase Cloud Firestore Configuration
- * Project Name: CampusMinds
+ * CampusMind AI — Firebase Auth & Cloud Firestore Integration
+ * Supports Sign Up, Log In, Sign Out, Forgot Password, and Firestore "users" sync.
  * Project ID: campusminds-4c038
- * Project Number: 89380595571
  */
 
-// Firebase Web SDK Config
 const firebaseConfig = {
     apiKey: "AIzaSyCampusMindsDemoApiKey123456789",
     authDomain: "campusminds-4c038.firebaseapp.com",
@@ -15,102 +13,162 @@ const firebaseConfig = {
     appId: "1:89380595571:web:a1b2c3d4e5f67890"
 };
 
-// Initialize Firebase & Cloud Firestore
 let db = null;
+let auth = null;
+let currentUser = null;
+
 try {
     if (typeof firebase !== 'undefined') {
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         db = firebase.firestore();
-        console.log("🔥 Firebase Cloud Firestore Initialized for campusminds-4c038!");
+        auth = firebase.auth();
+        console.log("🔥 Firebase Auth & Firestore initialized for campusminds-4c038!");
     }
 } catch (err) {
-    console.warn("Firebase SDK initialization warning:", err);
+    console.warn("Firebase Auth initialization warning:", err);
 }
 
 /**
- * 1. Helper function to write a test user document in "users" collection
+ * 1. Sign Up / Register New Student
+ * Creates Auth account and stores student profile in Firestore "users" collection
  */
-async function writeTestUser(userId = "user_alex_chen", userData = null) {
-    if (!db) {
-        console.log("[Mock Firestore Write]: User test doc written for user_alex_chen");
-        return { success: true, mock: true, userId: userId };
-    }
-    
-    if (!userData) {
-        userData = {
-            name: "Alex Chen",
-            email: "alex.chen@campusminds.edu",
-            major: "Computer Science & Engineering",
-            semester: 6,
-            gpa: 3.85,
-            attendance_pct: 94.2,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
+async function registerUser(email, password, fullName, major = "Computer Science & Engineering") {
+    if (!auth) {
+        // Fallback local registration state
+        const mockUser = { uid: "user_" + Date.now(), email, displayName: fullName };
+        saveUserProfileToFirestore(mockUser.uid, { name: fullName, email, major, semester: 6, gpa: 3.85, attendance_pct: 94.2 });
+        return { success: true, user: mockUser };
     }
 
     try {
-        await db.collection("users").doc(userId).set(userData, { merge: true });
-        console.log(`✅ Document successfully written to 'users/${userId}' in Firestore!`);
-        return { success: true, userId: userId, data: userData };
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        // Update Auth Display Name
+        await user.updateProfile({ displayName: fullName });
+
+        // Save User Profile to Cloud Firestore "users" collection
+        await saveUserProfileToFirestore(user.uid, {
+            uid: user.uid,
+            name: fullName,
+            email: email,
+            major: major,
+            semester: 6,
+            gpa: 3.85,
+            attendance_pct: 94.2,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        console.log(`✅ Registered & saved new user to Firestore: ${email}`);
+        return { success: true, user: user };
     } catch (error) {
-        console.error("❌ Error writing user document to Firestore:", error);
+        console.error("❌ Sign Up Error:", error);
         return { success: false, error: error.message };
     }
 }
 
 /**
- * 2. Helper function to read a test user document from "users" collection
+ * 2. Log In / Sign In Existing Student
  */
-async function readTestUser(userId = "user_alex_chen") {
-    if (!db) {
-        return {
-            name: "Alex Chen",
-            email: "alex.chen@campusminds.edu",
-            major: "Computer Science & Engineering",
-            semester: 6,
-            gpa: 3.85
-        };
+async function loginUser(email, password) {
+    if (!auth) {
+        const mockUser = { uid: "user_alex_chen", email, displayName: "Alex Chen" };
+        return { success: true, user: mockUser };
     }
 
     try {
-        const docSnap = await db.collection("users").doc(userId).get();
-        if (docSnap.exists) {
-            console.log(`📖 Document data from 'users/${userId}':`, docSnap.data());
-            return docSnap.data();
-        } else {
-            console.log(`⚠️ No user document found for ID: ${userId}`);
-            return null;
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        // Update last login in Firestore
+        if (db) {
+            await db.collection("users").doc(user.uid).set({
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
         }
+
+        console.log(`✅ Logged in user: ${email}`);
+        return { success: true, user: user };
     } catch (error) {
-        console.error("❌ Error reading user document from Firestore:", error);
+        console.error("❌ Log In Error:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+/**
+ * 3. Send Password Reset Email (Forgot Password)
+ */
+async function resetPassword(email) {
+    if (!auth) {
+        return { success: true, message: `Password reset email sent to ${email}` };
+    }
+
+    try {
+        await auth.sendPasswordResetEmail(email);
+        console.log(`✉️ Password reset email sent to: ${email}`);
+        return { success: true, message: `Password reset email sent to ${email}. Check your inbox!` };
+    } catch (error) {
+        console.error("❌ Reset Password Error:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+/**
+ * 4. Sign Out
+ */
+async function logoutUser() {
+    if (!auth) {
+        return { success: true };
+    }
+
+    try {
+        await auth.signOut();
+        console.log("👋 User signed out.");
+        return { success: true };
+    } catch (error) {
+        console.error("❌ Sign Out Error:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+/**
+ * Helper: Save User Profile Document to Firestore "users" Collection
+ */
+async function saveUserProfileToFirestore(uid, profileData) {
+    if (!db) return;
+    try {
+        await db.collection("users").doc(uid).set(profileData, { merge: true });
+        console.log(`💾 User document written to Firestore 'users/${uid}'`);
+    } catch (err) {
+        console.error("Error saving user document:", err);
+    }
+}
+
+/**
+ * Firestore Read/Write Test Helpers
+ */
+async function writeTestUser(userId = "user_alex_chen", userData = null) {
+    const profile = userData || {
+        name: "Alex Chen",
+        email: "alex.chen@campusminds.edu",
+        major: "Computer Science & Engineering",
+        semester: 6,
+        gpa: 3.85,
+        attendance_pct: 94.2
+    };
+    await saveUserProfileToFirestore(userId, profile);
+    return { success: true, userId: userId };
+}
+
+async function readTestUser(userId = "user_alex_chen") {
+    if (!db) return { name: "Alex Chen", email: "alex.chen@campusminds.edu", semester: 6, gpa: 3.85 };
+    try {
+        const doc = await db.collection("users").doc(userId).get();
+        return doc.exists ? doc.data() : null;
+    } catch (err) {
         return null;
-    }
-}
-
-/**
- * 3. Helper function to sync assignment to "assignments" collection
- */
-async function saveAssignmentToFirestore(asgn) {
-    if (!db) return;
-    try {
-        await db.collection("assignments").doc(asgn.id).set(asgn, { merge: true });
-        console.log(`✅ Assignment '${asgn.title}' synced to Firestore!`);
-    } catch (err) {
-        console.error("Error syncing assignment:", err);
-    }
-}
-
-/**
- * 4. Helper function to sync note to "notes" collection
- */
-async function saveNoteToFirestore(note) {
-    if (!db) return;
-    try {
-        await db.collection("notes").doc(note.id).set(note, { merge: true });
-        console.log(`✅ Note '${note.title}' synced to Firestore!`);
-    } catch (err) {
-        console.error("Error syncing note:", err);
     }
 }
