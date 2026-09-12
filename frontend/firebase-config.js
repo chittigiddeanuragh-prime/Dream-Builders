@@ -3,7 +3,10 @@
  * Project ID: campusminds-4c038
  */
 
-const API_BASE = window.location.origin.includes('http') ? window.location.origin : 'http://127.0.0.1:5000';
+if (typeof window.API_BASE === 'undefined') {
+    window.API_BASE = window.location.origin.includes('http') ? window.location.origin : 'http://127.0.0.1:5000';
+}
+var API_BASE = window.API_BASE;
 
 const firebaseConfig = {
     apiKey: "AIzaSyCampusMindsDemoApiKey123456789",
@@ -164,8 +167,7 @@ async function writeTestUser(userId = "user_alex_chen", userData = null) {
 async function readTestUser(userId = "user_alex_chen") {
     if (!db) return { name: "Alex Chen", email: "alex.chen@campusminds.edu", major: "CSE" };
     try {
-        const doc = await db.collection("users").doc(userId).get();
-        return doc.exists ? doc.data() : { name: "Alex Chen", major: "CSE" };
+        const doc = await doc.exists ? doc.data() : { name: "Alex Chen", major: "CSE" };
     } catch (err) {
         return { name: "Alex Chen", major: "CSE" };
     }
