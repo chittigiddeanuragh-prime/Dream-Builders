@@ -91,11 +91,9 @@
     <!-- Sidebar Navigation -->
     <aside class="w-64 bg-[#090e1a]/95 border-r border-slate-800/80 flex flex-col justify-between shrink-0 h-screen sticky top-0 z-30">
         <div>
-            <!-- Header Brand -->
-            <div class="p-5 border-b border-slate-800/80 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(6,182,212,0.4)]">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
+            <!-- Header Brand with Official Logo -->
+            <div class="p-4 border-b border-slate-800/80 flex items-center gap-3">
+                <img src="logo.png" alt="CampusMind Logo" class="w-11 h-11 rounded-xl object-cover shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-cyan-500/30">
                 <div>
                     <h1 class="font-extrabold text-white text-lg tracking-wide flex items-center gap-1.5">
                         CampusMind <span class="text-[10px] bg-gradient-to-r from-cyan-400 to-purple-500 text-black px-1.5 py-0.5 rounded font-black uppercase">AI</span>
@@ -104,7 +102,7 @@
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            <!-- Navigation Links for All 13 Separate Pages -->
             <nav class="mt-4 px-3 space-y-1 overflow-y-auto max-h-[calc(100vh-14rem)]">
                 <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition active-nav cursor-pointer">
                     <i class="fa-solid fa-house text-cyan-400 w-4"></i> Home Dashboard
@@ -176,7 +174,8 @@
         <!-- Top Ribbon Toolbar with Auth & Firestore Sync -->
         <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 relative z-40">
             <div class="flex items-center gap-3">
-                <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 px-2 flex items-center gap-1.5">
+                <img src="logo.png" alt="Logo" class="w-8 h-8 rounded-lg object-cover border border-cyan-500/30">
+                <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 flex items-center gap-1.5">
                     <i class="fa-solid fa-fire text-amber-400"></i> Firebase Firestore DB:
                 </span>
                 <button onclick="testFirestoreWrite()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 border border-amber-500/40 text-xs font-extrabold text-amber-200 shadow-glow-sm hover:border-amber-300 transition cursor-pointer">
@@ -187,7 +186,7 @@
                 </button>
             </div>
 
-            <!-- Header Auth Buttons (Switches to Dedicated Auth Page) -->
+            <!-- Header Auth Buttons -->
             <div class="flex items-center gap-2 shrink-0 relative z-50">
                 <button id="btn-top-login" onclick="navigateToAuth('login')" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-right-to-bracket"></i> Log In
@@ -198,17 +197,20 @@
             </div>
         </div>
 
-        <!-- 1. HOME DASHBOARD SCREEN -->
+        <!-- 1. HOME DASHBOARD SEPARATE PAGE -->
         <section id="screen-dashboard" class="space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-2xl lg:text-3xl font-black text-white tracking-tight flex items-center gap-2">
-                        Good Morning, <span id="dashboard-user-greeting">Alex</span>! <span class="animate-bounce">👋</span>
-                    </h2>
-                    <p class="text-slate-400 text-sm mt-1">Firebase Project: <strong class="text-cyan-300">campusminds-4c038</strong> (Number: 89380595571)</p>
+                <div class="flex items-center gap-4">
+                    <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl object-cover border border-cyan-500/40 shadow-neon-cyan">
+                    <div>
+                        <h2 class="text-2xl lg:text-3xl font-black text-white tracking-tight flex items-center gap-2">
+                            Good Morning, <span id="dashboard-user-greeting">Alex</span>! <span class="animate-bounce">👋</span>
+                        </h2>
+                        <p class="text-slate-400 text-sm mt-1">Firebase Project: <strong class="text-cyan-300">campusminds-4c038</strong> (Number: 89380595571)</p>
+                    </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button id="btn-dashboard-signup" onclick="navigateToAuth('signup')" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
+                    <button id="btn-dashboard-signup" onclick="navigateToAuth('signup')" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
                         🔑 Create Firestore Account
                     </button>
                 </div>
@@ -330,9 +332,10 @@
         </section>
 
 
-        <!-- 🔑 2. DEDICATED SEPARATE APPLICATION PAGE FOR SIGN UP / LOG IN / FORGOT PASSWORD -->
+        <!-- 2. AUTHENTICATION SEPARATE PAGE -->
         <section id="screen-auth" class="space-y-6 max-w-2xl mx-auto py-4 hidden">
             <div class="text-center space-y-2">
+                <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover border border-purple-500/40 shadow-neon-purple">
                 <h2 class="text-3xl font-black text-white tracking-wide flex items-center justify-center gap-2.5">
                     <i class="fa-solid fa-user-shield text-purple-400"></i> Student Authentication Portal
                 </h2>
@@ -448,73 +451,145 @@
         </section>
 
 
-        <!-- 3. CAMPUS MAP -->
+        <!-- 3. CAMPUS MAP SEPARATE PAGE -->
         <section id="screen-map" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-map-location-dot text-teal-400"></i> Campus Map Navigator (15 Locations)</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-map-location-dot text-teal-400"></i> Campus Map Navigator (15 Locations)
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Step-by-step indoor map directions to classrooms, labs, & lecture halls.</p>
+                </div>
+            </div>
             <div id="campus-map-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- 4. NOTES -->
+        <!-- 4. NOTES SEPARATE PAGE -->
         <section id="screen-notes" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-book-open text-pink-400"></i> Notes to Knowledge Base</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-book-open text-pink-400"></i> Notes & Knowledge Base
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Grounded PDF lecture summaries, study notes, and syllabus guides.</p>
+                </div>
+            </div>
             <div id="notes-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 5. SCHOLARSHIPS -->
+        <!-- 5. SCHOLARSHIPS & OPPS SEPARATE PAGE -->
         <section id="screen-opportunities" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-award text-amber-400"></i> Scholarships & Opportunities</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-award text-amber-400"></i> Scholarships & Opportunities
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Powered by Exa AI Live Web Search + Skill Match Scoring.</p>
+                </div>
+            </div>
             <div id="opportunities-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 6. INTEGRATIONS -->
+        <!-- 6. INTEGRATIONS HUB SEPARATE PAGE -->
         <section id="screen-integrations" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-plug text-emerald-400"></i> Integrations Hub (10)</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-plug text-emerald-400"></i> Integrations Hub (10 Connected Services)
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Google Drive, Gmail, Notion, Slack, Teams, College ERP, GitHub & LinkedIn.</p>
+                </div>
+            </div>
             <div id="integrations-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
         </section>
 
-        <!-- 7. AI CHAT -->
+        <!-- 7. AI STUDY COACH SEPARATE PAGE -->
         <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden">
-            <h2 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-user-astronaut text-purple-400"></i> AI Study Coach</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h2 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-user-astronaut text-purple-400"></i> AI Study Coach & Assistant</h2>
+            </div>
             <div id="chat-messages" class="flex-1 overflow-y-auto bg-[#090f1e] p-4 rounded-2xl border border-slate-800 space-y-4"></div>
             <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
-                <input type="text" id="chat-input" placeholder="Ask CampusMind..." class="flex-1 p-3 bg-[#0d1424] border border-cyan-500/30 text-sm text-slate-100 rounded-xl">
-                <button type="submit" class="bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-black px-5 py-3 rounded-xl cursor-pointer">Send</button>
+                <input type="text" id="chat-input" placeholder="Ask CampusMind..." class="flex-1 p-3.5 bg-[#0d1424] border border-cyan-500/30 text-sm text-slate-100 rounded-xl">
+                <button type="submit" class="bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-black px-6 py-3.5 rounded-xl cursor-pointer">Send</button>
             </form>
         </section>
 
-        <!-- 8. ASSIGNMENTS -->
+        <!-- 8. ASSIGNMENTS & DEADLINES SEPARATE PAGE -->
         <section id="screen-assignments" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-list-check text-rose-400"></i> Assignments & Deadlines</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-list-check text-rose-400"></i> Assignments & Deadlines Tracker
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Track subtasks, priority levels, and hours remaining for all coursework.</p>
+                </div>
+            </div>
             <div id="assignments-cards-container" class="space-y-4"></div>
         </section>
 
-        <!-- 9. COMMUNITY -->
+        <!-- 9. CAMPUS COMMUNITY SEPARATE PAGE -->
         <section id="screen-community" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-users text-pink-400"></i> Campus & Community</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-users text-pink-400"></i> Campus Events & Community
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Discover upcoming workshops, hackathons, and student club meetups.</p>
+                </div>
+            </div>
             <div id="community-events-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- 10. LAB PREP -->
+        <!-- 10. LAB EXAMS SEPARATE PAGE -->
         <section id="screen-lab" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-flask text-violet-400"></i> Lab Exams & Viva Solver</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-flask text-violet-400"></i> Lab Exams & Viva Solver
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Practice viva questions, code snippets, and lab exam solutions.</p>
+                </div>
+            </div>
             <div id="lab-prep-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 11. CAREER ROADMAP -->
+        <!-- 11. CAREER ROADMAP SEPARATE PAGE -->
         <section id="screen-career" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-compass text-orange-400"></i> Career Roadmap & AI</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-compass text-orange-400"></i> Career Roadmap & AI Guidance
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Step-by-step career path guides for AI/ML, Full Stack, Data Science & Cloud.</p>
+                </div>
+            </div>
             <div id="career-roadmap-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </section>
 
-        <!-- 12. PROJECTS -->
+        <!-- 12. PROJECTS SEPARATE PAGE -->
         <section id="screen-projects" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-code text-teal-400"></i> Projects & Teammates</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-code text-teal-400"></i> Student Projects & Teammates
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Collaborate on open-source projects and find skilled student co-builders.</p>
+                </div>
+            </div>
             <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- 13. MENTORSHIP -->
+        <!-- 13. MENTORSHIP SEPARATE PAGE -->
         <section id="screen-mentorship" class="space-y-6 hidden">
-            <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-handshake text-indigo-400"></i> Mentorship & Guidance</h2>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-handshake text-indigo-400"></i> Faculty & Alumni Mentorship
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Book 1-on-1 guidance sessions with senior professors and industry alumni.</p>
+                </div>
+            </div>
             <div id="mentorship-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
@@ -526,7 +601,7 @@
         let currentTab = 'dashboard';
         let chatHistory = [];
 
-        // Global Navigation Window Functions
+        // Global Navigation Window Functions for 13 Separate Pages
         window.switchTab = function(tabId) {
             currentTab = tabId;
             document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
@@ -713,7 +788,7 @@
             showToast(`📖 Read User: ${data ? data.name : 'Alex Chen'} (${data ? data.major : 'CSE'})`);
         }
 
-        // Section Loaders with Rich Interactive Buttons
+        // Section Loaders
         async function loadDashboard() {
             try {
                 const res = await fetch(`${API_BASE}/dashboard`);
@@ -788,7 +863,7 @@
                 const res = await fetch(`${API_BASE}/lab/prep`);
                 const data = await res.json();
                 const grid = document.getElementById('lab-prep-container');
-                if (grid) grid.innerHTML = data.lab_preps.map(l => `<div class="glass-card p-5 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${l.course}</h3><button onclick="showToast('💡 Lab viva practice started!')" class="w-full bg-violet-950 border border-violet-500/40 text-violet-200 font-bold py-2 rounded-xl text-xs hover:bg-violet-900 cursor-pointer">💡 Start Viva Quiz Practice</button></div>`).join('');
+                if (grid) grid.innerHTML = data.lab_preps.map(l => `<div class="glass-card p-5 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${l.course}</h3><button onclick="showToast('💡 Lab viva practice started!')" class="w-full bg-violet-950 border border-violet-500/40 text-violet-200 font-bold py-2 rounded-xl text-xs hover:bg-violet-900 cursor-pointer">💡 Start Practice Quiz</button></div>`).join('');
             } catch (e) {}
         }
 
