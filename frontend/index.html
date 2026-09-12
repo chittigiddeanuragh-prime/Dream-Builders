@@ -109,7 +109,7 @@
                 <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition active-nav">
                     <i class="fa-solid fa-house text-cyan-400 w-4"></i> Home Dashboard
                 </button>
-                <button onclick="switchTab('auth')" id="nav-auth" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+                <button onclick="navigateToAuth('signup')" id="nav-auth" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
                     <i class="fa-solid fa-user-shield text-purple-400 w-4"></i> Sign In / Log In Page
                 </button>
                 <button onclick="switchTab('map')" id="nav-map" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
@@ -163,7 +163,7 @@
                     </div>
                 </div>
 
-                <button id="auth-action-btn" onclick="switchTab('auth')" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
+                <button id="auth-action-btn" onclick="navigateToAuth('login')" class="text-[11px] font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 px-2.5 py-1.5 rounded-lg transition shrink-0 cursor-pointer">
                     🔑 Log In
                 </button>
             </div>
@@ -174,7 +174,7 @@
     <main class="flex-1 p-6 lg:p-8 overflow-y-auto h-screen space-y-6 z-10 relative">
 
         <!-- Top Ribbon Toolbar with Auth & Firestore Sync -->
-        <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 overflow-x-auto relative z-20">
+        <div class="bg-[#0b101d] border border-cyan-500/20 p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 relative z-40">
             <div class="flex items-center gap-3">
                 <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 px-2 flex items-center gap-1.5">
                     <i class="fa-solid fa-fire text-amber-400"></i> Firebase Firestore DB:
@@ -187,18 +187,18 @@
                 </button>
             </div>
 
-            <!-- Header Auth Buttons (Switches to Dedicated Auth Page) -->
-            <div class="flex items-center gap-2 shrink-0 relative z-30">
-                <button onclick="switchTab('auth'); setAuthSubTab('login');" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
+            <!-- Header Auth Buttons (Explicitly bound to navigateToAuth) -->
+            <div class="flex items-center gap-2 shrink-0 relative z-50">
+                <button id="btn-top-login" onclick="navigateToAuth('login')" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-cyan transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-right-to-bracket"></i> Log In
                 </button>
-                <button onclick="switchTab('auth'); setAuthSubTab('signup');" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-purple transition flex items-center gap-1.5 cursor-pointer">
+                <button id="btn-top-signup" onclick="navigateToAuth('signup')" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-neon-purple transition flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-user-plus"></i> Sign Up
                 </button>
             </div>
         </div>
 
-        <!-- 1. HOME DASHBOARD SCREEN (CLEAN, NO ATTACHED AUTH CARD) -->
+        <!-- 1. HOME DASHBOARD SCREEN -->
         <section id="screen-dashboard" class="space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -208,7 +208,7 @@
                     <p class="text-slate-400 text-sm mt-1">Firebase Project: <strong class="text-cyan-300">campusminds-4c038</strong> (Number: 89380595571)</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="switchTab('auth'); setAuthSubTab('signup');" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
+                    <button id="btn-dashboard-signup" onclick="navigateToAuth('signup')" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-extrabold text-xs rounded-xl border border-purple-500/40 shadow-neon-purple flex items-center gap-2 cursor-pointer transition">
                         🔑 Create Firestore Account
                     </button>
                 </div>
@@ -469,6 +469,42 @@
         let currentTab = 'dashboard';
         let chatHistory = [];
 
+        function navigateToAuth(mode = 'signup') {
+            switchTab('auth');
+            setAuthSubTab(mode);
+        }
+        window.navigateToAuth = navigateToAuth;
+
+        function setAuthSubTab(subTab) {
+            const signupCard = document.getElementById('auth-card-signup');
+            const loginCard = document.getElementById('auth-card-login');
+            const forgotCard = document.getElementById('auth-card-forgot');
+
+            if (signupCard) signupCard.classList.add('hidden');
+            if (loginCard) loginCard.classList.add('hidden');
+            if (forgotCard) forgotCard.classList.add('hidden');
+
+            const tabSignup = document.getElementById('auth-tab-signup');
+            const tabLogin = document.getElementById('auth-tab-login');
+            const tabForgot = document.getElementById('auth-tab-forgot');
+
+            if (tabSignup) tabSignup.className = 'px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 bg-[#0d1424] border border-slate-800 hover:border-purple-400 cursor-pointer';
+            if (tabLogin) tabLogin.className = 'px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 bg-[#0d1424] border border-slate-800 hover:border-cyan-400 cursor-pointer';
+            if (tabForgot) tabForgot.className = 'px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 bg-[#0d1424] border border-slate-800 hover:border-rose-400 cursor-pointer';
+
+            if (subTab === 'signup' && signupCard && tabSignup) {
+                signupCard.classList.remove('hidden');
+                tabSignup.className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-neon-purple border border-purple-400 cursor-pointer';
+            } else if (subTab === 'login' && loginCard && tabLogin) {
+                loginCard.classList.remove('hidden');
+                tabLogin.className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-neon-cyan border border-cyan-400 cursor-pointer';
+            } else if (subTab === 'forgot' && forgotCard && tabForgot) {
+                forgotCard.classList.remove('hidden');
+                tabForgot.className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-rose-600 text-white shadow-glow-sm border border-rose-400 cursor-pointer';
+            }
+        }
+        window.setAuthSubTab = setAuthSubTab;
+
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -476,27 +512,6 @@
             toast.innerHTML = `<i class="fa-solid ${type==='success'?'fa-circle-check':'fa-triangle-exclamation'}"></i> ${message}`;
             container.appendChild(toast);
             setTimeout(() => { toast.remove(); }, 4000);
-        }
-
-        function setAuthSubTab(subTab) {
-            document.getElementById('auth-card-signup').classList.add('hidden');
-            document.getElementById('auth-card-login').classList.add('hidden');
-            document.getElementById('auth-card-forgot').classList.add('hidden');
-
-            document.getElementById('auth-tab-signup').className = 'px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 bg-[#0d1424] border border-slate-800 hover:border-purple-400 cursor-pointer';
-            document.getElementById('auth-tab-login').className = 'px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 bg-[#0d1424] border border-slate-800 hover:border-cyan-400 cursor-pointer';
-            document.getElementById('auth-tab-forgot').className = 'px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 bg-[#0d1424] border border-slate-800 hover:border-rose-400 cursor-pointer';
-
-            if (subTab === 'signup') {
-                document.getElementById('auth-card-signup').classList.remove('hidden');
-                document.getElementById('auth-tab-signup').className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-neon-purple border border-purple-400 cursor-pointer';
-            } else if (subTab === 'login') {
-                document.getElementById('auth-card-login').classList.remove('hidden');
-                document.getElementById('auth-tab-login').className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-neon-cyan border border-cyan-400 cursor-pointer';
-            } else if (subTab === 'forgot') {
-                document.getElementById('auth-card-forgot').classList.remove('hidden');
-                document.getElementById('auth-tab-forgot').className = 'px-5 py-2.5 rounded-xl text-xs font-black bg-rose-600 text-white shadow-glow-sm border border-rose-400 cursor-pointer';
-            }
         }
 
         function updateUIUser(name, email, major) {
@@ -507,8 +522,10 @@
             document.getElementById('dashboard-user-greeting').innerText = name;
 
             const btn = document.getElementById('auth-action-btn');
-            btn.innerHTML = `👋 Sign Out`;
-            btn.onclick = handleSignOut;
+            if (btn) {
+                btn.innerHTML = `👋 Sign Out`;
+                btn.onclick = handleSignOut;
+            }
         }
 
         // Firebase Auth Listener
@@ -580,8 +597,10 @@
             await logoutUser();
             updateUIUser("Alex", "campusminds-4c038", "CS");
             const btn = document.getElementById('auth-action-btn');
-            btn.innerHTML = `🔑 Log In`;
-            btn.onclick = function() { switchTab('auth'); setAuthSubTab('login'); };
+            if (btn) {
+                btn.innerHTML = `🔑 Log In`;
+                btn.onclick = function() { navigateToAuth('login'); };
+            }
             showToast("Signed out successfully.");
         }
 
@@ -602,7 +621,9 @@
                 btn.classList.remove('active-nav');
                 btn.classList.add('text-slate-400');
             });
-            document.getElementById(`screen-${tabId}`).classList.remove('hidden');
+            const targetSec = document.getElementById(`screen-${tabId}`);
+            if (targetSec) targetSec.classList.remove('hidden');
+
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if (activeBtn) {
                 activeBtn.classList.add('active-nav');
@@ -644,7 +665,19 @@
         function appendUserMessage(msg) { document.getElementById('chat-messages').innerHTML += `<div class="flex justify-end"><div class="chat-bubble-user p-3 rounded-2xl max-w-xl text-xs">${msg}</div></div>`; }
         function appendAIMessage(reply, tools) { document.getElementById('chat-messages').innerHTML += `<div class="flex gap-2"><div class="chat-bubble-ai p-3 rounded-2xl max-w-2xl text-xs">${reply}</div></div>`; }
 
-        document.addEventListener('DOMContentLoaded', () => { loadDashboard(); });
+        // Bind click events on DOMContentLoaded for 100% click reliability
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboard();
+
+            const topLoginBtn = document.getElementById('btn-top-login');
+            if (topLoginBtn) topLoginBtn.addEventListener('click', () => navigateToAuth('login'));
+
+            const topSignupBtn = document.getElementById('btn-top-signup');
+            if (topSignupBtn) topSignupBtn.addEventListener('click', () => navigateToAuth('signup'));
+
+            const dashboardSignupBtn = document.getElementById('btn-dashboard-signup');
+            if (dashboardSignupBtn) dashboardSignupBtn.addEventListener('click', () => navigateToAuth('signup'));
+        });
     </script>
 </body>
 </html>
