@@ -185,11 +185,15 @@ def tool_get_opportunities(category=None, query=None):
     q_lower = query.lower() if query else ""
 
     for idx, opp in enumerate(raw_opps):
-        if source == "seed":
-            if cat_lower and cat_lower not in opp.get("category", "").lower() and cat_lower not in opp.get("type", "").lower():
-                continue
-            if q_lower and q_lower not in opp.get("title", "").lower() and q_lower not in opp.get("description", "").lower():
-                continue
+        opp_cat = opp.get("category", "").lower() or opp.get("type", "").lower()
+        opp_title = opp.get("title", "").lower()
+        opp_desc = opp.get("description", "").lower()
+
+        # Apply category and text query filtering for both seed and live results
+        if cat_lower and cat_lower not in opp_cat and cat_lower not in opp_title and cat_lower not in opp_desc:
+            continue
+        if q_lower and q_lower not in opp_title and q_lower not in opp_desc:
+            continue
 
         req_skills = opp.get("required_skills", ["Computer Science"])
         matched_skills = [s for s in req_skills if any(s.lower() in st.lower() or st.lower() in s.lower() for st in student_skills)]
