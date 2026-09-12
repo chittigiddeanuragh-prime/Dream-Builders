@@ -268,8 +268,8 @@
 
             <!-- Search Bar -->
             <div class="relative">
-                <input type="text" onkeypress="if(event.key==='Enter'){ switchTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything..." class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
-                <button onclick="switchTab('chat')" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition">
+                <input type="text" id="dashboard-search-input" onkeypress="if(event.key==='Enter'){ switchTab('chat'); sendQuickPrompt(this.value); }" placeholder="🔍 Ask CampusMind anything..." class="w-full bg-[#0c1322] border border-cyan-500/30 rounded-2xl px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
+                <button onclick="switchTab('chat'); sendQuickPrompt(document.getElementById('dashboard-search-input').value);" class="absolute right-3 top-2.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow-md transition cursor-pointer">
                     Ask AI
                 </button>
             </div>
@@ -322,7 +322,7 @@
                 <div class="glass-card rounded-2xl p-5 space-y-3">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
                         <h3 class="font-extrabold text-white text-base flex items-center gap-2"><i class="fa-solid fa-bell text-rose-400"></i> Upcoming Deadlines</h3>
-                        <button onclick="switchTab('assignments')" class="text-xs text-cyan-400 font-bold hover:underline">View All</button>
+                        <button onclick="switchTab('assignments')" class="text-xs text-cyan-400 font-bold hover:underline cursor-pointer">View All</button>
                     </div>
                     <div id="urgent-assignments-list" class="space-y-2.5"><p class="text-xs text-slate-500">Loading assignments...</p></div>
                 </div>
@@ -522,7 +522,7 @@
 
     <!-- App JavaScript Logic -->
     <script>
-        const API_BASE = 'http://127.0.0.1:5000';
+        const API_BASE = window.location.origin.includes('http') ? window.location.origin : 'http://127.0.0.1:5000';
         let currentTab = 'dashboard';
         let chatHistory = [];
 
@@ -625,7 +625,7 @@
             }
         }
 
-        // Firebase Auth State Listener
+        // Firebase Auth Listener
         if (typeof firebase !== 'undefined' && firebase.auth) {
             try {
                 firebase.auth().onAuthStateChanged(user => {
@@ -713,7 +713,7 @@
             showToast(`📖 Read User: ${data ? data.name : 'Alex Chen'} (${data ? data.major : 'CSE'})`);
         }
 
-        // Section Loaders (100% Robust Error Handlers)
+        // Section Loaders with Rich Interactive Buttons
         async function loadDashboard() {
             try {
                 const res = await fetch(`${API_BASE}/dashboard`);
@@ -722,23 +722,102 @@
                 if (dayLbl) dayLbl.innerText = data.today_day;
 
                 const cList = document.getElementById('today-classes-list');
-                if (cList) cList.innerHTML = data.today_classes.map(c => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between"><h4 class="font-bold text-white text-xs">${c.course}</h4><span class="text-xs text-cyan-300">${c.time}</span></div>`).join('');
+                if (cList) cList.innerHTML = data.today_classes.map(c => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between items-center"><h4 class="font-bold text-white text-xs">${c.course}</h4><span class="text-xs text-cyan-300">${c.time}</span></div>`).join('');
                 
                 const uList = document.getElementById('urgent-assignments-list');
-                if (uList) uList.innerHTML = data.urgent_assignments.map(a => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between"><h4 class="font-bold text-white text-xs">${a.title}</h4><span class="text-xs text-rose-400">${a.days_left}d left</span></div>`).join('');
+                if (uList) uList.innerHTML = data.urgent_assignments.map(a => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between items-center"><h4 class="font-bold text-white text-xs">${a.title}</h4><span class="text-xs text-rose-400 font-bold">${a.days_left}d left</span></div>`).join('');
             } catch (e) {}
         }
 
-        async function loadMap() { try { const res = await fetch(`${API_BASE}/campus/map`); const data = await res.json(); const grid = document.getElementById('campus-map-grid'); if (grid) grid.innerHTML = data.locations.map(l => `<div class="glass-card p-4 rounded-2xl space-y-1"><span class="bg-teal-950 text-teal-300 text-[10px] px-2 py-0.5 rounded font-bold">${l.type}</span><h3 class="font-bold text-white text-sm mt-1">${l.name}</h3><p class="text-xs text-slate-400 font-bold">${l.block}</p><p class="text-xs text-slate-300">📍 ${l.directions}</p></div>`).join(''); } catch (e) {} }
-        async function loadNotes() { try { const res = await fetch(`${API_BASE}/notes`); const data = await res.json(); const grid = document.getElementById('notes-cards-grid'); if (grid) grid.innerHTML = data.notes.map(n => `<div class="glass-card p-4 rounded-2xl space-y-2"><span class="bg-pink-950 text-pink-300 text-[10px] px-2 py-0.5 rounded font-bold">${n.course_tag}</span><h3 class="font-bold text-white text-sm">${n.title}</h3><p class="text-xs text-slate-300 font-mono line-clamp-3 bg-[#070b14] p-3 rounded-xl">${n.content}</p></div>`).join(''); } catch (e) {} }
-        async function loadOpportunities() { try { const res = await fetch(`${API_BASE}/opportunities`); const data = await res.json(); const grid = document.getElementById('opportunities-grid'); if (grid) grid.innerHTML = data.opportunities.map(o => `<div class="glass-card p-4 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${o.title}</h3><p class="text-xs text-slate-300">${o.description}</p><a href="${o.url}" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs mt-2 transition">Apply on Official Site <i class="fa-solid fa-up-right-from-square text-[9px]"></i></a></div>`).join(''); } catch (e) {} }
-        async function loadIntegrations() { try { const res = await fetch(`${API_BASE}/integrations`); const data = await res.json(); const grid = document.getElementById('integrations-cards-grid'); if (grid) grid.innerHTML = data.integrations.map(item => `<div class="glass-card p-4 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${item.name}</h3><a href="${item.url}" target="_blank" rel="noopener noreferrer" class="text-xs text-cyan-400 font-bold">${item.action} <i class="fa-solid fa-up-right-from-square text-[9px]"></i></a></div>`).join(''); } catch (e) {} }
-        async function loadAssignments() { try { const res = await fetch(`${API_BASE}/assignments`); const data = await res.json(); const grid = document.getElementById('assignments-cards-container'); if (grid) grid.innerHTML = data.assignments.map(a => `<div class="glass-card p-4 rounded-2xl flex items-center justify-between"><div><span class="bg-cyan-950 text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded">${a.course}</span><h3 class="font-bold text-white text-sm mt-1">${a.title}</h3></div><span class="text-xs text-rose-400 font-bold">${a.days_left}d left</span></div>`).join(''); } catch (e) {} }
-        async function loadCommunity() { try { const res = await fetch(`${API_BASE}/community/events`); const data = await res.json(); const grid = document.getElementById('community-events-grid'); if (grid) grid.innerHTML = data.events.map(e => `<div class="glass-card p-4 rounded-2xl space-y-1"><h3 class="font-bold text-white text-sm">${e.title}</h3><p class="text-xs text-slate-400">${e.location}</p></div>`).join(''); } catch (e) {} }
-        async function loadLabPrep() { try { const res = await fetch(`${API_BASE}/lab/prep`); const data = await res.json(); const grid = document.getElementById('lab-prep-container'); if (grid) grid.innerHTML = data.lab_preps.map(l => `<div class="glass-card p-4 rounded-2xl"><h3 class="font-bold text-white text-sm">${l.course}</h3></div>`).join(''); } catch (e) {} }
-        async function loadCareerRoadmap() { try { const res = await fetch(`${API_BASE}/career/roadmap`); const data = await res.json(); const grid = document.getElementById('career-roadmap-container'); if (grid) grid.innerHTML = data.roadmaps.map(r => `<div class="glass-card p-4 rounded-2xl"><h3 class="font-bold text-white text-sm">${r.role}</h3></div>`).join(''); } catch (e) {} }
-        async function loadProjects() { try { const res = await fetch(`${API_BASE}/projects`); const data = await res.json(); const grid = document.getElementById('projects-grid'); if (grid) grid.innerHTML = data.projects.map(p => `<div class="glass-card p-4 rounded-2xl"><h3 class="font-bold text-white text-sm">${p.title}</h3></div>`).join(''); } catch (e) {} }
-        async function loadMentorship() { try { const res = await fetch(`${API_BASE}/mentorship`); const data = await res.json(); const grid = document.getElementById('mentorship-grid'); if (grid) grid.innerHTML = data.mentors.map(m => `<div class="glass-card p-4 rounded-2xl"><h3 class="font-bold text-white text-sm">${m.name}</h3></div>`).join(''); } catch (e) {} }
+        async function loadMap() {
+            try {
+                const res = await fetch(`${API_BASE}/campus/map`);
+                const data = await res.json();
+                const grid = document.getElementById('campus-map-grid');
+                if (grid) grid.innerHTML = data.locations.map(l => `<div class="glass-card p-5 rounded-2xl space-y-2 flex flex-col justify-between"><span class="bg-teal-950 text-teal-300 text-[10px] px-2 py-0.5 rounded font-bold w-fit">${l.type}</span><h3 class="font-bold text-white text-sm">${l.name}</h3><p class="text-xs text-slate-400 font-bold">${l.block}</p><p class="text-xs text-slate-300">📍 ${l.directions}</p><button onclick="showToast('🧭 Navigation started to ${l.name}!')" class="w-full bg-teal-950 border border-teal-500/40 hover:bg-teal-900 text-teal-200 font-extrabold py-2 rounded-xl text-xs transition cursor-pointer mt-2">🧭 Get Navigation Directions</button></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadNotes() {
+            try {
+                const res = await fetch(`${API_BASE}/notes`);
+                const data = await res.json();
+                const grid = document.getElementById('notes-cards-grid');
+                if (grid) grid.innerHTML = data.notes.map(n => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between"><span class="bg-pink-950 text-pink-300 text-[10px] px-2.5 py-0.5 rounded font-bold w-fit">${n.course_tag}</span><h3 class="font-bold text-white text-sm">${n.title}</h3><p class="text-xs text-slate-300 font-mono line-clamp-3 bg-[#070b14] p-3 rounded-xl">${n.content}</p><button onclick="showToast('📖 Notes opened for ${n.course_tag}!')" class="w-full bg-pink-950 border border-pink-500/40 hover:bg-pink-900 text-pink-200 font-extrabold py-2 rounded-xl text-xs transition cursor-pointer">📖 Read Notes Summary</button></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadOpportunities() {
+            try {
+                const res = await fetch(`${API_BASE}/opportunities`);
+                const data = await res.json();
+                const grid = document.getElementById('opportunities-grid');
+                if (grid) grid.innerHTML = data.opportunities.map(o => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between"><div class="flex justify-between items-start"><span class="bg-amber-950 text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded">${o.category} (${o.match_score}% Match)</span><span class="text-[10px] text-slate-400 font-bold">${o.deadline}</span></div><h3 class="font-bold text-white text-sm">${o.title}</h3><p class="text-xs text-slate-300">${o.description}</p><a href="${o.url}" target="_blank" rel="noopener noreferrer" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 text-white font-extrabold text-center py-2 rounded-xl text-xs transition cursor-pointer block">🚀 Apply on Official Site <i class="fa-solid fa-up-right-from-square text-[9px]"></i></a></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadIntegrations() {
+            try {
+                const res = await fetch(`${API_BASE}/integrations`);
+                const data = await res.json();
+                const grid = document.getElementById('integrations-cards-grid');
+                if (grid) grid.innerHTML = data.integrations.map(item => `<div class="glass-card p-4 rounded-2xl space-y-2 flex flex-col justify-between"><div class="flex justify-between items-center"><h3 class="font-bold text-white text-sm">${item.name}</h3><span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded font-bold">${item.status}</span></div><p class="text-[11px] text-slate-400">${item.synced_count}</p><a href="${item.url}" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-950 border border-emerald-500/40 text-emerald-200 font-bold text-center py-1.5 rounded-lg text-xs hover:bg-emerald-900 transition cursor-pointer block">${item.action}</a></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadAssignments() {
+            try {
+                const res = await fetch(`${API_BASE}/assignments`);
+                const data = await res.json();
+                const grid = document.getElementById('assignments-cards-container');
+                if (grid) grid.innerHTML = data.assignments.map(a => `<div class="glass-card p-5 rounded-2xl space-y-3"><div class="flex justify-between items-center"><div><span class="bg-rose-950 text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded">${a.course}</span><h3 class="font-bold text-white text-sm mt-1">${a.title}</h3></div><span class="text-xs text-rose-400 font-bold">${a.days_left} days remaining</span></div><div class="space-y-1.5">${(a.subtasks||[]).map(t => `<div class="flex items-center justify-between bg-[#070b14] p-2.5 rounded-xl text-xs"><span class="text-slate-300">${t.title}</span><button onclick="showToast('✅ Subtask completed!')" class="px-2.5 py-1 rounded bg-cyan-950 text-cyan-300 text-[10px] font-bold hover:bg-cyan-900 cursor-pointer">Mark Done</button></div>`).join('')}</div></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadCommunity() {
+            try {
+                const res = await fetch(`${API_BASE}/community/events`);
+                const data = await res.json();
+                const grid = document.getElementById('community-events-grid');
+                if (grid) grid.innerHTML = data.events.map(e => `<div class="glass-card p-4 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${e.title}</h3><p class="text-xs text-slate-400">📍 ${e.location}</p><button onclick="showToast('🎟️ RSVP confirmed for ${e.title}!')" class="w-full bg-purple-950 border border-purple-500/40 text-purple-200 font-bold py-1.5 rounded-lg text-xs hover:bg-purple-900 cursor-pointer">🎟️ RSVP Event</button></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadLabPrep() {
+            try {
+                const res = await fetch(`${API_BASE}/lab/prep`);
+                const data = await res.json();
+                const grid = document.getElementById('lab-prep-container');
+                if (grid) grid.innerHTML = data.lab_preps.map(l => `<div class="glass-card p-5 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${l.course}</h3><button onclick="showToast('💡 Lab viva practice started!')" class="w-full bg-violet-950 border border-violet-500/40 text-violet-200 font-bold py-2 rounded-xl text-xs hover:bg-violet-900 cursor-pointer">💡 Start Viva Quiz Practice</button></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadCareerRoadmap() {
+            try {
+                const res = await fetch(`${API_BASE}/career/roadmap`);
+                const data = await res.json();
+                const grid = document.getElementById('career-roadmap-container');
+                if (grid) grid.innerHTML = data.roadmaps.map(r => `<div class="glass-card p-5 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${r.role}</h3><p class="text-xs text-slate-300">${r.description}</p><button onclick="showToast('🎯 Career roadmap generated!')" class="w-full bg-orange-950 border border-orange-500/40 text-orange-200 font-bold py-2 rounded-xl text-xs hover:bg-orange-900 cursor-pointer">🎯 View Skill Milestones</button></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadProjects() {
+            try {
+                const res = await fetch(`${API_BASE}/projects`);
+                const data = await res.json();
+                const grid = document.getElementById('projects-grid');
+                if (grid) grid.innerHTML = data.projects.map(p => `<div class="glass-card p-4 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${p.title}</h3><button onclick="showToast('🤝 Request sent to project team!')" class="w-full bg-teal-950 border border-teal-500/40 text-teal-200 font-bold py-1.5 rounded-lg text-xs hover:bg-teal-900 cursor-pointer">🤝 Connect Teammate</button></div>`).join('');
+            } catch (e) {}
+        }
+
+        async function loadMentorship() {
+            try {
+                const res = await fetch(`${API_BASE}/mentorship`);
+                const data = await res.json();
+                const grid = document.getElementById('mentorship-grid');
+                if (grid) grid.innerHTML = data.mentors.map(m => `<div class="glass-card p-4 rounded-2xl space-y-2"><h3 class="font-bold text-white text-sm">${m.name}</h3><p class="text-xs text-slate-400">${m.role}</p><button onclick="showToast('📅 1-on-1 session request sent!')" class="w-full bg-indigo-950 border border-indigo-500/40 text-indigo-200 font-bold py-1.5 rounded-lg text-xs hover:bg-indigo-900 cursor-pointer">📅 Book Session</button></div>`).join('');
+            } catch (e) {}
+        }
 
         async function handleChatSubmit(e) {
             e.preventDefault();
