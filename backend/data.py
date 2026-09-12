@@ -1,5 +1,5 @@
 """
-CampusMind Expanded Data Store (data.py)
+EduMitra AI Expanded Data Store (data.py)
 Includes full database persistence for registered users, official brand logos, and visual images for all modules.
 """
 
@@ -10,7 +10,7 @@ USERS_DB = [
     {
         "uid": "user_alex_chen",
         "name": "Alex Chen",
-        "email": "alex.chen@campusminds.edu",
+        "email": "alex.chen@edumitra.edu",
         "major": "Computer Science & Engineering",
         "semester": 6,
         "gpa": 3.85,
@@ -296,14 +296,14 @@ NOTES = [
     }
 ]
 
-# 3. 10 Integrations with Official High-Res Brand Logos
+# 3. 10 Integrations with Official 100% Reliable High-Res Brand Logos
 INTEGRATIONS = [
     {
         "id": "gcal",
         "name": "Google Calendar",
         "category": "Productivity",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg",
+        "logo_url": "https://img.icons8.com/color/96/google-calendar--v1.png",
         "color": "text-blue-400 border-blue-500/40 bg-blue-950/40",
         "last_sync": "Just now",
         "synced_count": "15 Events (Timetable + Deadlines)",
@@ -315,7 +315,7 @@ INTEGRATIONS = [
         "name": "Microsoft Teams",
         "category": "Communication",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg",
+        "logo_url": "https://img.icons8.com/color/96/microsoft-teams.png",
         "color": "text-indigo-400 border-indigo-500/40 bg-indigo-950/40",
         "last_sync": "10 mins ago",
         "synced_count": "3 Online Class Links Active",
@@ -327,7 +327,7 @@ INTEGRATIONS = [
         "name": "Slack",
         "category": "Communication",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
+        "logo_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/slack/slack-original.svg",
         "color": "text-emerald-400 border-emerald-500/40 bg-emerald-950/40",
         "last_sync": "1 hour ago",
         "synced_count": "4 Club Channels (AI & Robotics)",
@@ -351,7 +351,7 @@ INTEGRATIONS = [
         "name": "Notion",
         "category": "Notes",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg",
+        "logo_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/notion/notion-original.svg",
         "color": "text-slate-200 border-slate-500/40 bg-slate-900/60",
         "last_sync": "2 hours ago",
         "synced_count": "6 Exam Plans & Summaries",
@@ -363,7 +363,7 @@ INTEGRATIONS = [
         "name": "Gmail",
         "category": "Email",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg",
+        "logo_url": "https://img.icons8.com/color/96/gmail-new.png",
         "color": "text-rose-400 border-rose-500/40 bg-rose-950/40",
         "last_sync": "15 mins ago",
         "synced_count": "12 Official Announcements",
@@ -375,7 +375,7 @@ INTEGRATIONS = [
         "name": "Google Drive",
         "category": "Storage",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg",
+        "logo_url": "https://img.icons8.com/color/96/google-drive--v1.png",
         "color": "text-amber-400 border-amber-500/40 bg-amber-950/40",
         "last_sync": "Today 11:00 AM",
         "synced_count": "8 Course PDFs & Datasets",
@@ -387,7 +387,7 @@ INTEGRATIONS = [
         "name": "GitHub",
         "category": "Developer",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
+        "logo_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
         "color": "text-purple-400 border-purple-500/40 bg-purple-950/40",
         "last_sync": "30 mins ago",
         "synced_count": "5 Active Repositories",
@@ -399,7 +399,7 @@ INTEGRATIONS = [
         "name": "YouTube Learning",
         "category": "Education",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
+        "logo_url": "https://img.icons8.com/color/96/youtube-play.png",
         "color": "text-red-400 border-red-500/40 bg-red-950/40",
         "last_sync": "Active",
         "synced_count": "Curated Video Playlists",
@@ -411,7 +411,7 @@ INTEGRATIONS = [
         "name": "LinkedIn",
         "category": "Career",
         "status": "Connected",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/ca/ca/LinkedIn_logo_initials.png",
+        "logo_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg",
         "color": "text-blue-500 border-blue-500/40 bg-blue-950/40",
         "last_sync": "Yesterday",
         "synced_count": "Profile Skills & Job Alerts",
@@ -441,7 +441,7 @@ OPPORTUNITIES = [
         "category": "Scholarships",
         "type": "Scholarships",
         "organization": "Google India",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+        "logo_url": "https://img.icons8.com/color/96/google-logo.png",
         "description": "Scholarship and mentorship retreat for female computer science students.",
         "required_skills": ["Python", "Leadership", "Data Structures"],
         "deadline": "30 Oct 2026",
@@ -467,7 +467,7 @@ OPPORTUNITIES = [
         "category": "Hackathons",
         "type": "Hackathons",
         "organization": "Microsoft",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+        "logo_url": "https://img.icons8.com/color/96/microsoft.png",
         "description": "Global student developer competition leveraging Azure and OpenAI technologies.",
         "required_skills": ["Azure", "C#", "React", "AI"],
         "deadline": "15 Nov 2026",
@@ -480,7 +480,7 @@ OPPORTUNITIES = [
         "category": "Internships",
         "type": "Internships",
         "organization": "Amazon Science",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+        "logo_url": "https://img.icons8.com/color/96/amazon.png",
         "description": "Exclusive training and internship offer for undergraduate CS students in ML.",
         "required_skills": ["Python", "Machine Learning", "Linear Algebra"],
         "deadline": "05 Oct 2026",
@@ -506,7 +506,7 @@ OPPORTUNITIES = [
         "category": "Fellowships",
         "type": "Fellowships",
         "organization": "Meta Engineering",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
+        "logo_url": "https://img.icons8.com/color/96/facebook.png",
         "description": "3-month paid open-source internship working on React, PyTorch, and Llama models.",
         "required_skills": ["React", "PyTorch", "C++"],
         "deadline": "01 Nov 2026",
@@ -519,7 +519,7 @@ OPPORTUNITIES = [
         "category": "Internships",
         "type": "Internships",
         "organization": "GitHub Campus",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
+        "logo_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
         "description": "Remote paid internships for student open-source contributors.",
         "required_skills": ["Git", "JavaScript", "Python"],
         "deadline": "25 Sep 2026",
@@ -532,7 +532,7 @@ OPPORTUNITIES = [
         "category": "Scholarships",
         "type": "Scholarships",
         "organization": "Intel Labs",
-        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282020%29.svg",
+        "logo_url": "https://img.icons8.com/color/96/intel.png",
         "description": "Grant for student projects focusing on edge AI acceleration and OpenVINO.",
         "required_skills": ["Computer Vision", "C++", "OpenVINO"],
         "deadline": "18 Oct 2026",

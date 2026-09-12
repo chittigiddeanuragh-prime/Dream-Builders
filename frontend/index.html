@@ -291,7 +291,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="glass-card p-4 rounded-2xl flex items-center justify-between hover:border-amber-400/60 transition group">
                     <div class="flex items-center gap-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" alt="Google Drive" class="w-10 h-10 object-contain p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
+                        <img src="https://img.icons8.com/color/96/google-drive--v1.png" alt="Google Drive" class="w-10 h-10 object-contain p-1 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
                         <div>
                             <h4 class="font-black text-white text-sm group-hover:text-amber-300 transition">Google Drive</h4>
                             <p class="text-[11px] text-slate-400">Import PDFs & Datasets</p>
@@ -301,7 +301,7 @@
                 </a>
                 <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" class="glass-card p-4 rounded-2xl flex items-center justify-between hover:border-rose-400/60 transition group">
                     <div class="flex items-center gap-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Gmail" class="w-10 h-10 object-contain p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
+                        <img src="https://img.icons8.com/color/96/gmail-new.png" alt="Gmail" class="w-10 h-10 object-contain p-1 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
                         <div>
                             <h4 class="font-black text-white text-sm group-hover:text-rose-300 transition">Gmail</h4>
                             <p class="text-[11px] text-slate-400">College Email & Notices</p>
@@ -311,7 +311,7 @@
                 </a>
                 <a href="https://www.notion.so" target="_blank" rel="noopener noreferrer" class="glass-card p-4 rounded-2xl flex items-center justify-between hover:border-slate-300 transition group">
                     <div class="flex items-center gap-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Notion-logo.svg" alt="Notion" class="w-10 h-10 object-contain p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/notion/notion-original.svg" alt="Notion" class="w-10 h-10 object-contain p-1 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
                         <div>
                             <h4 class="font-black text-white text-sm group-hover:text-slate-200 transition">Notion</h4>
                             <p class="text-[11px] text-slate-400">Export AI Study Plans</p>
@@ -321,7 +321,7 @@
                 </a>
                 <a href="https://slack.com" target="_blank" rel="noopener noreferrer" class="glass-card p-4 rounded-2xl flex items-center justify-between hover:border-emerald-400/60 transition group">
                     <div class="flex items-center gap-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" alt="Slack" class="w-10 h-10 object-contain p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/slack/slack-original.svg" alt="Slack" class="w-10 h-10 object-contain p-1 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
                         <div>
                             <h4 class="font-black text-white text-sm group-hover:text-emerald-300 transition">Slack</h4>
                             <p class="text-[11px] text-slate-400">Club Channels & Chat</p>
@@ -563,7 +563,8 @@
                     <p class="text-xs text-slate-400 mt-1">Google Drive, Gmail, Notion, Slack, Teams, College ERP, GitHub & LinkedIn.</p>
                 </div>
             </div>
-            <div id="integrations-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+            <!-- Improved Grid with Ample Spacing -->
+            <div id="integrations-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
         </section>
 
         <!-- 7. AI STUDY COACH MODULE -->
@@ -952,7 +953,7 @@
             showToast(`📖 Read User: ${data ? data.name : 'Alex Chen'} (${data ? data.major : 'CSE'})`);
         }
 
-        // Section Data Renderers in STRICT ORDER (1 to 10/15) with Number Badges
+        // Section Data Renderers in STRICT ORDER (1 to 10/15) with Number Badges & Perfect Indentation
         async function loadDashboard() {
             try {
                 const res = await fetch(`${API_BASE}/dashboard`);
@@ -961,10 +962,10 @@
                 if (dayLbl) dayLbl.innerText = data.today_day;
 
                 const cList = document.getElementById('today-classes-list');
-                if (cList) cList.innerHTML = data.today_classes.map((c, i) => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between items-center"><div class="flex items-center gap-2"><span class="text-[10px] font-black bg-cyan-950 text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded">#${i+1}</span><h4 class="font-bold text-white text-xs">${c.course}</h4></div><span class="text-xs text-cyan-300 font-bold">${c.time}</span></div>`).join('');
+                if (cList) cList.innerHTML = data.today_classes.map((c, i) => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between items-center border border-slate-800"><div class="flex items-center gap-2.5"><span class="text-[10px] font-black bg-cyan-950 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-md">#${i+1}</span><h4 class="font-bold text-white text-xs">${c.course}</h4></div><span class="text-xs text-cyan-300 font-bold">${c.time}</span></div>`).join('');
                 
                 const uList = document.getElementById('urgent-assignments-list');
-                if (uList) uList.innerHTML = data.urgent_assignments.map((a, i) => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between items-center"><div class="flex items-center gap-2"><span class="text-[10px] font-black bg-rose-950 text-rose-300 border border-rose-500/30 px-1.5 py-0.5 rounded">#${i+1}</span><h4 class="font-bold text-white text-xs">${a.title}</h4></div><span class="text-xs text-rose-400 font-bold">${a.days_left}d left</span></div>`).join('');
+                if (uList) uList.innerHTML = data.urgent_assignments.map((a, i) => `<div class="p-3 bg-[#080d19] rounded-xl flex justify-between items-center border border-slate-800"><div class="flex items-center gap-2.5"><span class="text-[10px] font-black bg-rose-950 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-md">#${i+1}</span><h4 class="font-bold text-white text-xs">${a.title}</h4></div><span class="text-xs text-rose-400 font-bold">${a.days_left}d left</span></div>`).join('');
             } catch (e) {}
         }
 
@@ -973,7 +974,7 @@
                 const res = await fetch(`${API_BASE}/campus/map`);
                 const data = await res.json();
                 const grid = document.getElementById('campus-map-grid');
-                if (grid) grid.innerHTML = data.locations.map((l, i) => `<div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-800 hover:border-teal-400 transition group"><div class="h-32 w-full overflow-hidden relative"><img src="${l.image_url}" alt="${l.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"><span class="absolute top-2.5 left-2.5 bg-teal-950/90 text-teal-300 text-[10px] font-bold px-2 py-0.5 rounded border border-teal-500/40">#${i+1} ${l.type}</span></div><div class="p-4 space-y-2 flex-1 flex flex-col justify-between"><div><h3 class="font-bold text-white text-sm">${l.name}</h3><p class="text-xs text-slate-400 font-bold mt-0.5">${l.block}</p><p class="text-xs text-slate-300 mt-1">📍 ${l.directions}</p></div><button onclick="showToast('🧭 Navigation started to #${i+1} ${l.name}!')" class="w-full bg-teal-950 border border-teal-500/40 hover:bg-teal-900 text-teal-200 font-extrabold py-2 rounded-xl text-xs transition cursor-pointer mt-2">🧭 Get Navigation Directions</button></div></div>`).join('');
+                if (grid) grid.innerHTML = data.locations.map((l, i) => `<div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-800 hover:border-teal-400 transition group shadow-lg"><div class="h-36 w-full overflow-hidden relative bg-slate-900"><img src="${l.image_url}" alt="${l.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"><span class="absolute top-2.5 left-2.5 bg-teal-950/90 text-teal-300 text-xs font-black px-2.5 py-1 rounded-xl border border-teal-500/40 shadow-md">#${i+1} ${l.type}</span></div><div class="p-5 space-y-3 flex-1 flex flex-col justify-between"><div><h3 class="font-bold text-white text-sm leading-snug">${l.name}</h3><p class="text-xs text-slate-400 font-bold mt-1">${l.block}</p><p class="text-xs text-slate-300 mt-2 bg-[#070b14] p-3 rounded-xl border border-slate-800/80">📍 ${l.directions}</p></div><button onclick="showToast('🧭 Navigation started to #${i+1} ${l.name}!')" class="w-full bg-teal-950 border border-teal-500/40 hover:bg-teal-900 text-teal-200 font-extrabold py-2.5 rounded-xl text-xs transition cursor-pointer mt-2 shadow-glow-sm">🧭 Get Navigation Directions</button></div></div>`).join('');
             } catch (e) {}
         }
 
@@ -982,7 +983,7 @@
                 const res = await fetch(`${API_BASE}/notes`);
                 const data = await res.json();
                 const grid = document.getElementById('notes-cards-grid');
-                if (grid) grid.innerHTML = data.notes.map((n, i) => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between hover:border-pink-400/50 transition"><div class="flex justify-between items-center"><div class="flex items-center gap-2"><span class="bg-pink-950 text-pink-300 border border-pink-500/40 text-[10px] px-2 py-0.5 rounded font-bold">#${i+1}</span><span class="bg-slate-900 text-slate-300 border border-slate-700/60 text-[10px] px-2 py-0.5 rounded font-bold">${n.course_tag}</span></div><span class="text-[10px] text-slate-400 font-mono"><i class="fa-solid fa-file-pdf text-rose-400"></i> ${n.filename}</span></div><h3 class="font-bold text-white text-sm">${n.title}</h3><p class="text-xs text-slate-300 font-mono line-clamp-3 bg-[#070b14] p-3 rounded-xl border border-slate-800">${n.content}</p><button onclick="showToast('📖 Notes opened for #${i+1} ${n.course_tag}!')" class="w-full bg-pink-950 border border-pink-500/40 hover:bg-pink-900 text-pink-200 font-extrabold py-2 rounded-xl text-xs transition cursor-pointer">📖 Read Notes Summary</button></div>`).join('');
+                if (grid) grid.innerHTML = data.notes.map((n, i) => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between hover:border-pink-400/50 transition shadow-lg"><div class="flex justify-between items-center"><div class="flex items-center gap-2.5"><span class="bg-pink-950 text-pink-300 border border-pink-500/40 text-xs font-black px-2.5 py-1 rounded-xl">#${i+1}</span><span class="bg-slate-900 text-slate-300 border border-slate-700/60 text-xs font-bold px-2.5 py-1 rounded-xl">${n.course_tag}</span></div><span class="text-xs text-slate-400 font-mono"><i class="fa-solid fa-file-pdf text-rose-400"></i> ${n.filename}</span></div><h3 class="font-bold text-white text-sm leading-snug">${n.title}</h3><p class="text-xs text-slate-300 font-mono leading-relaxed line-clamp-3 bg-[#070b14] p-3 rounded-xl border border-slate-800/80">${n.content}</p><button onclick="showToast('📖 Notes opened for #${i+1} ${n.course_tag}!')" class="w-full bg-pink-950 border border-pink-500/40 hover:bg-pink-900 text-pink-200 font-extrabold py-2.5 rounded-xl text-xs transition cursor-pointer">📖 Read Notes Summary</button></div>`).join('');
             } catch (e) {}
         }
 
@@ -994,17 +995,19 @@
                 if (grid) grid.innerHTML = data.opportunities.map((o, i) => {
                     const descExcerpt = (o.description && o.description.length > 160) ? o.description.substring(0, 160) + '...' : (o.description || 'Global opportunity for engineering students.');
                     const skillsPills = (o.required_skills || []).map(s => `<span class="text-[10px] bg-slate-900 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded font-mono mr-1">${s}</span>`).join('');
-                    return `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between hover:border-amber-400/50 transition">
+                    return `<div class="glass-card p-5 rounded-2xl space-y-4 flex flex-col justify-between hover:border-amber-400/50 transition shadow-lg">
                         <div class="flex justify-between items-start gap-3">
                             <div class="flex items-center gap-3">
-                                <span class="bg-amber-950 text-amber-300 border border-amber-500/40 font-black text-xs px-2.5 py-1 rounded-xl shrink-0">#${i+1}</span>
-                                <img src="${o.logo_url || 'https://img.icons8.com/color/96/award.png'}" alt="${o.organization}" class="w-10 h-10 object-contain p-1 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0">
+                                <span class="bg-amber-950 text-amber-300 border border-amber-500/40 font-black text-xs px-2.5 py-1.5 rounded-xl shrink-0">#${i+1}</span>
+                                <div class="w-11 h-11 p-1 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0 flex items-center justify-center">
+                                    <img src="${o.logo_url || 'https://img.icons8.com/color/96/award.png'}" alt="${o.organization}" class="w-full h-full object-contain">
+                                </div>
                                 <div>
-                                    <h3 class="font-bold text-white text-sm">${o.title}</h3>
-                                    <p class="text-[10px] text-amber-400 font-bold">${o.organization}</p>
+                                    <h3 class="font-bold text-white text-sm leading-tight">${o.title}</h3>
+                                    <p class="text-[10px] text-amber-400 font-bold mt-0.5">${o.organization}</p>
                                 </div>
                             </div>
-                            <span class="text-[10px] bg-amber-950 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded font-bold shrink-0">${o.category} (${o.match_score||100}% Match)</span>
+                            <span class="text-[10px] bg-amber-950 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded-md font-bold shrink-0">${o.category} (${o.match_score||100}% Match)</span>
                         </div>
                         <p class="text-xs text-slate-300 leading-relaxed bg-[#070b14] p-3 rounded-xl border border-slate-800/80">${descExcerpt}</p>
                         <div class="flex items-center justify-between gap-2">
@@ -1022,7 +1025,32 @@
                 const res = await fetch(`${API_BASE}/integrations`);
                 const data = await res.json();
                 const grid = document.getElementById('integrations-cards-grid');
-                if (grid) grid.innerHTML = data.integrations.map((item, i) => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between hover:border-emerald-400/50 transition"><div class="flex justify-between items-center"><div class="flex items-center gap-2.5"><span class="bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-[10px] font-black px-1.5 py-0.5 rounded">#${i+1}</span><img src="${item.logo_url}" alt="${item.name}" class="w-9 h-9 object-contain p-1 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0"><div><h3 class="font-bold text-white text-sm">${item.name}</h3><p class="text-[10px] text-slate-400">${item.category}</p></div></div><span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-bold shrink-0">${item.status}</span></div><p class="text-xs text-slate-300 font-medium">${item.synced_count}</p><a href="${item.url}" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-950 border border-emerald-500/40 text-emerald-200 font-extrabold text-center py-2 rounded-xl text-xs hover:bg-emerald-900 transition cursor-pointer block">${item.action}</a></div>`).join('');
+                if (grid) grid.innerHTML = data.integrations.map((item, i) => `
+                    <div class="glass-card p-5 rounded-2xl space-y-4 flex flex-col justify-between hover:border-emerald-400/50 transition shadow-lg">
+                        <!-- Top Header: Number Badge, Logo, Name & Category, Status Tag -->
+                        <div class="flex items-start justify-between gap-2.5">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs font-black px-2.5 py-1 rounded-xl shrink-0">#${i+1}</span>
+                                <div class="w-11 h-11 p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 shadow-md shrink-0 flex items-center justify-center">
+                                    <img src="${item.logo_url}" alt="${item.name}" class="w-full h-full object-contain">
+                                </div>
+                                <div class="overflow-hidden">
+                                    <h3 class="font-bold text-white text-sm truncate leading-tight">${item.name}</h3>
+                                    <p class="text-[10px] text-slate-400 font-medium truncate mt-0.5">${item.category}</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-md font-bold shrink-0">${item.status}</span>
+                        </div>
+                        <!-- Synced Count Indented Info Pill -->
+                        <div class="bg-[#070b14] p-3 rounded-xl border border-slate-800 text-xs text-slate-300 font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-arrows-rotate text-emerald-400 text-xs"></i> ${item.synced_count}
+                        </div>
+                        <!-- Action Link Button -->
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-950 border border-emerald-500/40 text-emerald-200 font-extrabold text-center py-2.5 rounded-xl text-xs hover:bg-emerald-900 transition cursor-pointer block shadow-glow-sm">
+                            🚀 ${item.action}
+                        </a>
+                    </div>
+                `).join('');
             } catch (e) {}
         }
 
@@ -1031,7 +1059,7 @@
                 const res = await fetch(`${API_BASE}/assignments`);
                 const data = await res.json();
                 const grid = document.getElementById('assignments-cards-container');
-                if (grid) grid.innerHTML = data.assignments.map((a, i) => `<div class="glass-card p-5 rounded-2xl space-y-3"><div class="flex justify-between items-center"><div class="flex items-center gap-2.5"><span class="bg-rose-950 text-rose-300 border border-rose-500/40 text-[10px] font-black px-2 py-0.5 rounded">#${i+1}</span><div><span class="bg-rose-950 text-rose-300 border border-rose-500/40 text-[10px] font-bold px-2 py-0.5 rounded">${a.course}</span><h3 class="font-bold text-white text-sm mt-1">${a.title}</h3></div></div><span class="text-xs text-rose-400 font-bold">${a.days_left} days remaining</span></div><div class="space-y-1.5">${(a.subtasks||[]).map(t => `<div class="flex items-center justify-between bg-[#070b14] p-2.5 rounded-xl text-xs border border-slate-800"><span class="text-slate-300">${t.title}</span><button onclick="showToast('✅ Subtask completed!')" class="px-2.5 py-1 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold hover:bg-cyan-900 cursor-pointer">Mark Done</button></div>`).join('')}</div></div>`).join('');
+                if (grid) grid.innerHTML = data.assignments.map((a, i) => `<div class="glass-card p-5 rounded-2xl space-y-3.5 shadow-lg"><div class="flex justify-between items-center"><div class="flex items-center gap-3"><span class="bg-rose-950 text-rose-300 border border-rose-500/40 text-xs font-black px-2.5 py-1 rounded-xl">#${i+1}</span><div><span class="bg-rose-950 text-rose-300 border border-rose-500/40 text-[10px] font-bold px-2 py-0.5 rounded">${a.course}</span><h3 class="font-bold text-white text-sm mt-1">${a.title}</h3></div></div><span class="text-xs text-rose-400 font-bold">${a.days_left} days remaining</span></div><div class="space-y-2">${(a.subtasks||[]).map(t => `<div class="flex items-center justify-between bg-[#070b14] p-3 rounded-xl text-xs border border-slate-800"><span class="text-slate-300 font-medium">${t.title}</span><button onclick="showToast('✅ Subtask completed!')" class="px-3 py-1 rounded-lg bg-cyan-950 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold hover:bg-cyan-900 cursor-pointer">Mark Done</button></div>`).join('')}</div></div>`).join('');
             } catch (e) {}
         }
 
@@ -1040,7 +1068,7 @@
                 const res = await fetch(`${API_BASE}/community/events`);
                 const data = await res.json();
                 const grid = document.getElementById('community-events-grid');
-                if (grid) grid.innerHTML = data.events.map((e, i) => `<div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-800 hover:border-purple-400 transition group"><div class="h-32 w-full overflow-hidden relative"><img src="${e.banner_url || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80'}" alt="${e.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"><span class="absolute top-2.5 left-2.5 bg-purple-950/90 text-purple-300 text-[10px] font-bold px-2 py-0.5 rounded border border-purple-500/40">#${i+1} ${e.category || 'Event'}</span></div><div class="p-4 space-y-2 flex-1 flex flex-col justify-between"><div><h3 class="font-bold text-white text-sm">${e.title}</h3><p class="text-xs text-slate-400 mt-1">📍 ${e.location}</p><p class="text-xs text-cyan-300 font-bold mt-0.5">📅 ${e.date || ''} • ${e.time || ''}</p></div><button onclick="showToast('🎟️ RSVP confirmed for #${i+1} ${e.title}!')" class="w-full bg-purple-950 border border-purple-500/40 text-purple-200 font-bold py-2 rounded-xl text-xs hover:bg-purple-900 cursor-pointer transition mt-2">🎟️ RSVP Event</button></div></div>`).join('');
+                if (grid) grid.innerHTML = data.events.map((e, i) => `<div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-800 hover:border-purple-400 transition group shadow-lg"><div class="h-36 w-full overflow-hidden relative bg-slate-900"><img src="${e.banner_url || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80'}" alt="${e.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"><span class="absolute top-2.5 left-2.5 bg-purple-950/90 text-purple-300 text-xs font-black px-2.5 py-1 rounded-xl border border-purple-500/40 shadow-md">#${i+1} ${e.category || 'Event'}</span></div><div class="p-5 space-y-3 flex-1 flex flex-col justify-between"><div><h3 class="font-bold text-white text-sm leading-snug">${e.title}</h3><p class="text-xs text-slate-400 mt-1">📍 ${e.location}</p><p class="text-xs text-cyan-300 font-bold mt-1">📅 ${e.date || ''} • ${e.time || ''}</p></div><button onclick="showToast('🎟️ RSVP confirmed for #${i+1} ${e.title}!')" class="w-full bg-purple-950 border border-purple-500/40 text-purple-200 font-extrabold py-2.5 rounded-xl text-xs hover:bg-purple-900 cursor-pointer transition mt-2">🎟️ RSVP Event</button></div></div>`).join('');
             } catch (e) {}
         }
 
@@ -1049,7 +1077,7 @@
                 const res = await fetch(`${API_BASE}/lab/prep`);
                 const data = await res.json();
                 const grid = document.getElementById('lab-prep-container');
-                if (grid) grid.innerHTML = data.lab_preps.map((l, i) => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-2 flex items-center gap-2"><span class="bg-violet-950 text-violet-300 border border-violet-500/40 text-[10px] font-black px-2 py-0.5 rounded">#${i+1}</span> <i class="fa-solid fa-flask text-violet-400"></i> ${l.course}</h3><div class="space-y-1.5">${(l.viva_questions||[]).map(q=>`<p class="text-xs text-slate-300 bg-[#070b14] p-2.5 rounded-xl font-mono border border-slate-800">❓ ${q}</p>`).join('')}</div><button onclick="showToast('💡 Lab viva practice quiz started for #${i+1}!')" class="w-full bg-violet-950 border border-violet-500/40 text-violet-200 font-bold py-2 rounded-xl text-xs hover:bg-violet-900 cursor-pointer transition">💡 Start Practice Quiz</button></div>`).join('');
+                if (grid) grid.innerHTML = data.lab_preps.map((l, i) => `<div class="glass-card p-5 rounded-2xl space-y-3.5 flex flex-col justify-between shadow-lg"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-2.5 flex items-center gap-2.5"><span class="bg-violet-950 text-violet-300 border border-violet-500/40 text-xs font-black px-2.5 py-1 rounded-xl">#${i+1}</span> <i class="fa-solid fa-flask text-violet-400"></i> ${l.course}</h3><div class="space-y-2">${(l.viva_questions||[]).map(q=>`<p class="text-xs text-slate-300 bg-[#070b14] p-3 rounded-xl font-mono border border-slate-800/80">❓ ${q}</p>`).join('')}</div><button onclick="showToast('💡 Lab viva practice quiz started for #${i+1}!')" class="w-full bg-violet-950 border border-violet-500/40 text-violet-200 font-extrabold py-2.5 rounded-xl text-xs hover:bg-violet-900 cursor-pointer transition">💡 Start Practice Quiz</button></div>`).join('');
             } catch (e) {}
         }
 
@@ -1058,7 +1086,7 @@
                 const res = await fetch(`${API_BASE}/career/roadmap`);
                 const data = await res.json();
                 const grid = document.getElementById('career-roadmap-container');
-                if (grid) grid.innerHTML = data.roadmaps.map((r, i) => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-2 flex items-center gap-2"><span class="bg-orange-950 text-orange-300 border border-orange-500/40 text-[10px] font-black px-2 py-0.5 rounded">#${i+1}</span> <i class="fa-solid fa-compass text-orange-400"></i> ${r.role}</h3><p class="text-xs text-slate-300">${r.description}</p><div class="space-y-1">${(r.milestones||[]).map(m=>`<span class="inline-block bg-[#070b14] text-orange-300 border border-slate-800 text-[11px] px-2.5 py-1 rounded-lg mr-1 mb-1 font-mono">${m}</span>`).join('')}</div><button onclick="showToast('🎯 Career roadmap generated for #${i+1} ${r.role}!')" class="w-full bg-orange-950 border border-orange-500/40 text-orange-200 font-bold py-2 rounded-xl text-xs hover:bg-orange-900 cursor-pointer transition">🎯 View Skill Milestones</button></div>`).join('');
+                if (grid) grid.innerHTML = data.roadmaps.map((r, i) => `<div class="glass-card p-5 rounded-2xl space-y-3.5 flex flex-col justify-between shadow-lg"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-2.5 flex items-center gap-2.5"><span class="bg-orange-950 text-orange-300 border border-orange-500/40 text-xs font-black px-2.5 py-1 rounded-xl">#${i+1}</span> <i class="fa-solid fa-compass text-orange-400"></i> ${r.role}</h3><p class="text-xs text-slate-300 leading-relaxed">${r.description}</p><div class="space-y-1.5">${(r.milestones||[]).map(m=>`<span class="inline-block bg-[#070b14] text-orange-300 border border-slate-800 text-xs px-3 py-1 rounded-lg mr-1 mb-1 font-mono">${m}</span>`).join('')}</div><button onclick="showToast('🎯 Career roadmap generated for #${i+1} ${r.role}!')" class="w-full bg-orange-950 border border-orange-500/40 text-orange-200 font-extrabold py-2.5 rounded-xl text-xs hover:bg-orange-900 cursor-pointer transition">🎯 View Skill Milestones</button></div>`).join('');
             } catch (e) {}
         }
 
@@ -1067,7 +1095,7 @@
                 const res = await fetch(`${API_BASE}/projects`);
                 const data = await res.json();
                 const grid = document.getElementById('projects-grid');
-                if (grid) grid.innerHTML = data.projects.map((p, i) => `<div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-800 hover:border-teal-400 transition group"><div class="h-32 w-full overflow-hidden relative"><img src="${p.banner_url || 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"><span class="absolute top-2.5 left-2.5 bg-teal-950/90 text-teal-300 text-[10px] font-bold px-2 py-0.5 rounded border border-teal-500/40">#${i+1} ${p.category || 'Project'}</span></div><div class="p-4 space-y-2 flex-1 flex flex-col justify-between"><div><h3 class="font-bold text-white text-sm">${p.title}</h3><p class="text-[10px] text-cyan-300 font-mono mt-0.5">${p.tech || 'Full Stack'}</p><p class="text-xs text-slate-300 mt-1">${p.description}</p></div><button onclick="showToast('🤝 Request sent to #${i+1} ${p.title} team!')" class="w-full bg-teal-950 border border-teal-500/40 text-teal-200 font-bold py-2 rounded-xl text-xs hover:bg-teal-900 cursor-pointer transition mt-2">🤝 Connect Teammate</button></div></div>`).join('');
+                if (grid) grid.innerHTML = data.projects.map((p, i) => `<div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-800 hover:border-teal-400 transition group shadow-lg"><div class="h-36 w-full overflow-hidden relative bg-slate-900"><img src="${p.banner_url || 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"><span class="absolute top-2.5 left-2.5 bg-teal-950/90 text-teal-300 text-xs font-black px-2.5 py-1 rounded-xl border border-teal-500/40 shadow-md">#${i+1} ${p.category || 'Project'}</span></div><div class="p-5 space-y-3 flex-1 flex flex-col justify-between"><div><h3 class="font-bold text-white text-sm leading-snug">${p.title}</h3><p class="text-xs text-cyan-300 font-mono mt-1">${p.tech || 'Full Stack'}</p><p class="text-xs text-slate-300 mt-1.5 leading-relaxed">${p.description}</p></div><button onclick="showToast('🤝 Request sent to #${i+1} ${p.title} team!')" class="w-full bg-teal-950 border border-teal-500/40 text-teal-200 font-extrabold py-2.5 rounded-xl text-xs hover:bg-teal-900 cursor-pointer transition mt-2">🤝 Connect Teammate</button></div></div>`).join('');
             } catch (e) {}
         }
 
@@ -1076,7 +1104,7 @@
                 const res = await fetch(`${API_BASE}/mentorship`);
                 const data = await res.json();
                 const grid = document.getElementById('mentorship-grid');
-                if (grid) grid.innerHTML = data.mentors.map((m, i) => `<div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between hover:border-indigo-400/50 transition"><div class="flex items-center gap-3"><span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 font-black text-xs px-2.5 py-1 rounded-xl shrink-0">#${i+1}</span><img src="${m.avatar_url}" alt="${m.name}" class="w-12 h-12 rounded-full object-cover border-2 border-indigo-500/40 shadow-md shrink-0"><div><h3 class="font-bold text-white text-sm">${m.name}</h3><p class="text-xs text-indigo-300 font-bold">${m.role}</p></div></div><p class="text-xs text-slate-300">💡 Expertise: ${m.expertise}</p><div class="flex justify-between items-center bg-[#070b14] p-2.5 rounded-xl border border-slate-800 text-xs"><span class="text-slate-400 font-medium">Availability:</span><span class="text-cyan-300 font-bold">${m.availability}</span></div><button onclick="showToast('📅 1-on-1 session requested with #${i+1} ${m.name}!')" class="w-full bg-indigo-950 border border-indigo-500/40 text-indigo-200 font-bold py-2 rounded-xl text-xs hover:bg-indigo-900 cursor-pointer transition">📅 Book 1-on-1 Session</button></div>`).join('');
+                if (grid) grid.innerHTML = data.mentors.map((m, i) => `<div class="glass-card p-5 rounded-2xl space-y-3.5 flex flex-col justify-between hover:border-indigo-400/50 transition shadow-lg"><div class="flex items-center gap-3.5"><span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 font-black text-xs px-2.5 py-1.5 rounded-xl shrink-0">#${i+1}</span><div class="w-12 h-12 rounded-full overflow-hidden border-2 border-indigo-500/40 shadow-md shrink-0 bg-slate-900"><img src="${m.avatar_url}" alt="${m.name}" class="w-full h-full object-cover"></div><div><h3 class="font-bold text-white text-sm">${m.name}</h3><p class="text-xs text-indigo-300 font-bold mt-0.5">${m.role}</p></div></div><p class="text-xs text-slate-300 leading-relaxed">💡 Expertise: ${m.expertise}</p><div class="flex justify-between items-center bg-[#070b14] p-3 rounded-xl border border-slate-800 text-xs"><span class="text-slate-400 font-medium">Availability:</span><span class="text-cyan-300 font-bold">${m.availability}</span></div><button onclick="showToast('📅 1-on-1 session requested with #${i+1} ${m.name}!')" class="w-full bg-indigo-950 border border-indigo-500/40 text-indigo-200 font-extrabold py-2.5 rounded-xl text-xs hover:bg-indigo-900 cursor-pointer transition">📅 Book 1-on-1 Session</button></div>`).join('');
             } catch (e) {}
         }
 
