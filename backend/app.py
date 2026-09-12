@@ -1,6 +1,6 @@
 """
 CampusMind Flask REST API & Web Server (app.py)
-Supports all 13+ modules and 10 Real-World Integrations.
+Includes Auth & Database persistence endpoints (/auth/register, /auth/login, /auth/user).
 """
 
 from flask import Flask, request, jsonify, send_from_directory
@@ -19,20 +19,36 @@ CORS(app)
 def serve_index():
     return send_from_directory(frontend_dir, 'index.html')
 
-def extract_pdf_text(file_bytes):
-    try:
-        import pypdf
-        reader = pypdf.PdfReader(io.BytesIO(file_bytes))
-        text = ""
-        for page in reader.pages:
-            t = page.extract_text()
-            if t: text += t + "\n"
-        return text.strip() if text else "No printable text extracted."
-    except Exception:
-        try:
-            return file_bytes.decode('utf-8', errors='ignore')
-        except Exception:
-            return f"[PDF parsing fallback - Bytes length: {len(file_bytes)}]"
+# Authentication & Database Persistence Endpoints
+@app.route('/auth/register', methods=['POST'])
+def auth_register():
+    req_data = request.json or {}
+    name = req_data.get('name', 'Student')
+    email = req_data.get('email', '')
+    major = req_data.get('major', 'Computer Science & Engineering')
+    password = req_data.get('password', '')
+
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    user = data.register_user_in_db(name, email, major, password)
+    return jsonify({"success": True, "user": user})
+
+@app.route('/auth/login', methods=['POST'])
+def auth_login():
+    req_data = request.json or {}
+    email = req_data.get('email', '')
+    password = req_data.get('password', '')
+
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    user = data.login_user_in_db(email, password)
+    return jsonify({"success": True, "user": user})
+
+@app.route('/auth/user', methods=['GET'])
+def get_current_user():
+    return jsonify({"user": data.STUDENT_PROFILE, "all_users_count": len(data.USERS_DB)})
 
 # Dashboard
 @app.route('/dashboard', methods=['GET'])
@@ -100,35 +116,23 @@ def agent_chat():
 # Notes
 @app.route('/notes/upload', methods=['POST'])
 def upload_notes():
-    if 'file' not in request.files:
-        req_data = request.json or {}
-        text_content = req_data.get('content', '')
-        filename = req_data.get('filename', 'Manual_Note.txt')
-        course_tag = req_data.get('course_tag', 'General')
-        title = req_data.get('title', filename)
-    else:
-        file = request.files['file']
-        filename = file.filename
-        course_tag = request.form.get('course_tag', 'General')
-        title = request.form.get('title', filename)
-        text_content = extract_pdf_text(file.read())
-        
-    notes_store = getattr(data, "NOTES", [])
-    new_note = {"id": f"note-{len(notes_store)+1}", "filename": filename, "title": title or filename, "course_tag": course_tag, "uploaded_at": data.datetime.now().strftime("%Y-%m-%d"), "content": text_content}
-    notes_store.append(new_note)
-    setattr(data, "NOTES", notes_store)
+    req_data = request.json or {}
+    filename = req_data.get('filename', 'Manual_Note.txt')
+    course_tag = req_data.get('course_tag', 'General')
+    title = req_data.get('title', filename)
+    text_content = req_data.get('content', '')
+    new_note = data.add_new_note(title, course_tag, text_content, filename)
     return jsonify({"success": True, "note": new_note})
 
 @app.route('/notes', methods=['GET'])
 def list_notes():
-    return jsonify({"notes": getattr(data, "NOTES", []), "count": len(getattr(data, "NOTES", []))})
+    return jsonify({"notes": data.NOTES, "count": len(data.NOTES)})
 
-# Opportunities
+# Opportunities & Integrations
 @app.route('/opportunities', methods=['GET'])
 def get_opportunities_endpoint():
     return jsonify(tools.tool_get_opportunities(request.args.get('type') or request.args.get('category'), request.args.get('q')))
 
-# 10 Real-World Integrations Endpoints
 @app.route('/integrations', methods=['GET'])
 def get_integrations_endpoint():
     return jsonify({"integrations": data.INTEGRATIONS, "count": len(data.INTEGRATIONS)})
@@ -143,7 +147,6 @@ def sync_integration_endpoint():
 def get_youtube_learning_endpoint():
     return jsonify(tools.tool_get_youtube_learning(request.args.get('topic')))
 
-# Other Modules
 @app.route('/campus/map', methods=['GET'])
 def get_campus_map_endpoint(): return jsonify(tools.tool_get_campus_map(request.args.get('location')))
 
@@ -164,5 +167,5 @@ def get_mentorship_endpoint(): return jsonify(tools.tool_get_mentorship(request.
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))
-    print(f"CampusMind Full Platform & Integrations Server running on http://127.0.0.1:{port}")
+    print(f"CampusMind Full Platform & Database Server running on http://127.0.0.1:{port}")
     app.run(host='0.0.0.0', port=port, debug=False)
