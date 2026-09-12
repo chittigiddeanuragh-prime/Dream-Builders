@@ -1,5 +1,5 @@
 /**
- * CampusMind AI — Dual Firestore & REST Database Auth Client
+ * CampusMind AI — Safe Firebase & REST Auth Config
  * Project ID: campusminds-4c038
  */
 
@@ -17,48 +17,49 @@ const firebaseConfig = {
 let db = null;
 let auth = null;
 
+// Safe Initialization
 try {
     if (typeof firebase !== 'undefined') {
-        if (!firebase.apps.length) {
+        if (!firebase.apps || !firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
-        db = firebase.firestore();
-        auth = firebase.auth();
-        console.log("🔥 Firebase Auth & Firestore initialized for campusminds-4c038!");
+        if (typeof firebase.firestore === 'function') {
+            db = firebase.firestore();
+        }
+        if (typeof firebase.auth === 'function') {
+            auth = firebase.auth();
+        }
+        console.log("🔥 Firebase initialized safely for campusminds-4c038!");
     }
 } catch (err) {
-    console.warn("Firebase Auth initialization warning:", err);
+    console.warn("Firebase Auth safe initialization warning:", err);
 }
 
-/**
- * 1. Sign Up / Register Student (Stores in Firestore & Flask Backend DB)
- */
+// 1. Register User
 async function registerUser(email, password, fullName, major = "Computer Science & Engineering") {
     if (!password || password.length < 6) {
         return { success: false, error: "Password must be at least 6 characters long." };
     }
 
     let uid = "user_" + Date.now();
-    let firebaseUser = null;
 
-    // A. Attempt Firebase Auth registration
     if (auth) {
         try {
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-            firebaseUser = userCredential.user;
-            uid = firebaseUser.uid;
-            await firebaseUser.updateProfile({ displayName: fullName });
+            if (userCredential && userCredential.user) {
+                uid = userCredential.user.uid;
+                await userCredential.user.updateProfile({ displayName: fullName });
+            }
         } catch (fbErr) {
-            console.warn("Firebase Auth fallback to local database:", fbErr.message);
+            console.warn("Firebase Auth register fallback:", fbErr.message);
         }
     }
 
-    // B. Save User Profile to Cloud Firestore "users" Collection
     const profileData = {
         uid: uid,
-        name: fullName,
+        name: fullName || "Student",
         email: email,
-        major: major,
+        major: major || "Computer Science",
         semester: 6,
         gpa: 3.85,
         attendance_pct: 94.2,
@@ -68,34 +69,28 @@ async function registerUser(email, password, fullName, major = "Computer Science
     if (db) {
         try {
             await db.collection("users").doc(uid).set(profileData, { merge: true });
-            console.log(`✅ Saved profile to Cloud Firestore 'users/${uid}'`);
         } catch (e) {
             console.warn("Firestore write fallback:", e.message);
         }
     }
 
-    // C. Save User Profile to Flask Backend REST Database
     try {
-        const resp = await fetch(`${API_BASE}/auth/register`, {
+        await fetch(`${API_BASE}/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: fullName, email, major, password })
         });
-        const resJson = await resp.json();
-        console.log("✅ User registered in backend database:", resJson);
     } catch (apiErr) {
-        console.warn("Backend API register warning:", apiErr);
+        console.warn("Backend register API warning:", apiErr);
     }
 
     return { success: true, user: { uid, email, displayName: fullName, major } };
 }
 
-/**
- * 2. Log In Existing Student
- */
+// 2. Log In User
 async function loginUser(email, password) {
     if (!email) {
-        return { success: false, error: "Email is required." };
+        return { success: false, error: "Email address is required." };
     }
     if (!password || password.length < 6) {
         return { success: false, error: "Password must be at least 6 characters long." };
@@ -106,13 +101,14 @@ async function loginUser(email, password) {
     if (auth) {
         try {
             const userCredential = await auth.signInWithEmailAndPassword(email, password);
-            uid = userCredential.user.uid;
+            if (userCredential && userCredential.user) {
+                uid = userCredential.user.uid;
+            }
         } catch (fbErr) {
             console.warn("Firebase Auth login fallback:", fbErr.message);
         }
     }
 
-    // Update in backend DB
     let userObj = { uid: uid, email: email, displayName: email.split('@')[0] };
     try {
         const resp = await fetch(`${API_BASE}/auth/login`, {
@@ -121,61 +117,46 @@ async function loginUser(email, password) {
             body: JSON.stringify({ email, password })
         });
         const resJson = await resp.json();
-        if (resJson.user) {
+        if (resJson && resJson.user) {
             userObj.displayName = resJson.user.name;
             userObj.major = resJson.user.major;
         }
     } catch (apiErr) {
-        console.warn("Backend API login warning:", apiErr);
+        console.warn("Backend login API warning:", apiErr);
     }
 
     return { success: true, user: userObj };
 }
 
-/**
- * 3. Forgot Password / Password Reset Email
- */
+// 3. Reset Password
 async function resetPassword(email) {
     if (!email) {
-        return { success: false, error: "Please enter your email address." };
+        return { success: false, error: "Email address is required." };
     }
 
     if (auth) {
         try {
             await auth.sendPasswordResetEmail(email);
-            return { success: true, message: `Password reset link sent to ${email}. Please check your inbox!` };
+            return { success: true, message: `Password reset link sent to ${email}. Check your inbox!` };
         } catch (err) {
-            console.warn("Firebase Reset Email warning:", err.message);
+            console.warn("Firebase reset password warning:", err.message);
         }
     }
 
-    return { success: true, message: `Password reset request submitted for ${email}. Check your email inbox!` };
+    return { success: true, message: `Password reset link requested for ${email}. Check your inbox!` };
 }
 
-/**
- * 4. Sign Out
- */
+// 4. Log Out
 async function logoutUser() {
     if (auth) {
-        try {
-            await auth.signOut();
-        } catch (e) {}
+        try { await auth.signOut(); } catch (e) {}
     }
     return { success: true };
 }
 
-/**
- * Firestore Helper Read/Write Functions
- */
+// Test Helpers
 async function writeTestUser(userId = "user_alex_chen", userData = null) {
-    const profile = userData || {
-        name: "Alex Chen",
-        email: "alex.chen@campusminds.edu",
-        major: "Computer Science & Engineering",
-        semester: 6,
-        gpa: 3.85,
-        attendance_pct: 94.2
-    };
+    const profile = userData || { name: "Alex Chen", email: "alex.chen@campusminds.edu", major: "CSE" };
     if (db) {
         try { await db.collection("users").doc(userId).set(profile, { merge: true }); } catch (e) {}
     }
@@ -183,11 +164,11 @@ async function writeTestUser(userId = "user_alex_chen", userData = null) {
 }
 
 async function readTestUser(userId = "user_alex_chen") {
-    if (!db) return { name: "Alex Chen", email: "alex.chen@campusminds.edu", semester: 6, gpa: 3.85 };
+    if (!db) return { name: "Alex Chen", email: "alex.chen@campusminds.edu", major: "CSE" };
     try {
         const doc = await db.collection("users").doc(userId).get();
-        return doc.exists ? doc.data() : null;
+        return doc.exists ? doc.data() : { name: "Alex Chen", major: "CSE" };
     } catch (err) {
-        return null;
+        return { name: "Alex Chen", major: "CSE" };
     }
 }
