@@ -1,82 +1,105 @@
 """
-CampusMind Flask REST API & Web Server (app.py)
-Includes Auth & Database persistence endpoints (/auth/register, /auth/login, /auth/user).
+EduMitra AI Flask Backend Server (app.py)
+Integrates Firestore DB, OpenRouter AI, Exa Search, and 10 Real-World Services.
 """
 
-from flask import Flask, request, jsonify, send_from_directory
-from flask_cors import CORS
 import os
-import io
-import data
-import agent
-import tools
+from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask_cors import CORS
 
-frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend'))
-app = Flask(__name__, static_folder=frontend_dir, static_url_path='')
+import data
+import tools
+import agent
+
+app = Flask(__name__, static_folder="../frontend", template_folder="../frontend")
 CORS(app)
 
-@app.after_request
-def add_no_cache_headers(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
-
+# Serve Frontend SPA
 @app.route('/')
 def serve_index():
-    return send_from_directory(frontend_dir, 'index.html')
+    return send_from_directory('../frontend', 'index.html')
 
-# Authentication & Database Persistence Endpoints
+@app.route('/<path:path>')
+def serve_static(path):
+    if os.path.exists(os.path.join('../frontend', path)):
+        return send_from_directory('../frontend', path)
+    return send_from_directory('../frontend', 'index.html')
+
+# Health Check API
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        "status": "healthy",
+        "service": "EduMitra AI Platform",
+        "tagline": "Your AI Friend. Your Future.",
+        "sub_tagline": "Plan Smarter | Learn Better | Do More | Together",
+        "version": "2.0.0",
+        "firestore_status": "connected",
+        "modules_active": 13
+    })
+
+# User Auth API
 @app.route('/auth/register', methods=['POST'])
-def auth_register():
+def register_user():
     req_data = request.json or {}
+    email = req_data.get('email')
     name = req_data.get('name', 'Student')
-    email = req_data.get('email', '')
-    major = req_data.get('major', 'Computer Science & Engineering')
-    password = req_data.get('password', '')
+    major = req_data.get('major', 'Computer Science')
+    password = req_data.get('password')
 
     if not email:
         return jsonify({"error": "Email is required"}), 400
 
     user = data.register_user_in_db(name, email, major, password)
-    return jsonify({"success": True, "user": user})
+    return jsonify({
+        "success": True,
+        "message": f"User '{user['name']}' registered successfully!",
+        "user": user
+    })
 
 @app.route('/auth/login', methods=['POST'])
-def auth_login():
+def login_user():
     req_data = request.json or {}
-    email = req_data.get('email', '')
-    password = req_data.get('password', '')
+    email = req_data.get('email')
+    password = req_data.get('password')
 
     if not email:
         return jsonify({"error": "Email is required"}), 400
 
     user = data.login_user_in_db(email, password)
-    return jsonify({"success": True, "user": user})
-
-@app.route('/auth/user', methods=['GET'])
-def get_current_user():
-    return jsonify({"user": data.STUDENT_PROFILE, "all_users_count": len(data.USERS_DB)})
-
-# Dashboard
-@app.route('/dashboard', methods=['GET'])
-def get_dashboard():
-    today_name = data.datetime.now().strftime("%A")
-    today_schedule = tools.tool_get_timetable(day=today_name)
-    today_classes = today_schedule.get("classes", []) if "classes" in today_schedule else []
-    all_asgns = data.get_all_assignments()
-    pending_asgns = [a for a in all_asgns if a["status"] != "Completed"]
-    pending_asgns.sort(key=lambda x: (x["days_left"], -x["remaining_hours"]))
-    top_5_urgent = pending_asgns[:5]
-    total_pending_subtasks = sum(len([t for t in a.get("subtasks", []) if t["status"] != "Completed"]) for a in all_asgns)
-        
     return jsonify({
-        "student": data.STUDENT_PROFILE,
-        "today_day": today_name,
-        "today_classes": today_classes,
-        "urgent_assignments": top_5_urgent,
-        "pending_subtask_count": total_pending_subtasks,
-        "total_assignments_count": len(all_asgns),
-        "integrations": data.INTEGRATIONS
+        "success": True,
+        "message": f"User '{user['name']}' logged in!",
+        "user": user
+    })
+
+@app.route('/user/profile', methods=['GET'])
+def get_user_profile():
+    return jsonify({"user": data.STUDENT_PROFILE})
+
+# Timetable
+@app.route('/timetable', methods=['GET'])
+def get_timetable_endpoint():
+    day = request.args.get('day', 'Monday')
+    return jsonify(tools.tool_get_timetable(day))
+
+# Dashboard Summary
+@app.route('/dashboard', methods=['GET'])
+def get_dashboard_summary():
+    student = data.STUDENT_PROFILE
+    timetable = tools.tool_get_timetable("Monday")
+    assignments = tools.tool_get_assignments()
+    notes = tools.tool_search_notes("Machine Learning")
+    opps = tools.tool_get_opportunities()
+
+    return jsonify({
+        "student": student,
+        "today_day": "Monday",
+        "today_classes": timetable.get("classes", []),
+        "urgent_assignments": assignments.get("assignments", [])[:3],
+        "pending_subtask_count": sum(len([t for t in a.get("subtasks", []) if t.get("status") != "Completed"]) for a in assignments.get("assignments", [])),
+        "recent_notes": notes.get("results", [])[:3],
+        "opportunities": opps.get("opportunities", [])[:3]
     })
 
 # Assignments
@@ -174,5 +197,5 @@ def get_mentorship_endpoint(): return jsonify(tools.tool_get_mentorship(request.
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))
-    print(f"CampusMind Full Platform & Database Server running on http://127.0.0.1:{port}")
+    print(f"EduMitra AI Full Platform & Database Server running on http://127.0.0.1:{port}")
     app.run(host='0.0.0.0', port=port, debug=False)

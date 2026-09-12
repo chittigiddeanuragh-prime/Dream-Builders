@@ -1,5 +1,5 @@
 """
-CampusMind Agent Core (agent.py)
+EduMitra AI Agent Core (agent.py)
 Powered by OpenRouter API & Live OpenAI/Gemini/Claude Tool Execution.
 Generates detailed, step-by-step, structured, and ordered responses.
 """
@@ -19,7 +19,8 @@ if os.path.exists(env_path):
                 os.environ[k] = v
 
 MASTER_SYSTEM_PROMPT = """
-You are CampusMind, a context-aware AI assistant embedded in a student's college dashboard.
+You are EduMitra AI, a context-aware AI assistant embedded in a student's college dashboard.
+Your motto is: "Your AI Friend. Your Future. — Plan Smarter | Learn Better | Do More | Together".
 
 You have access to tools for student data, 10 real-world integrations (Google Calendar, Microsoft Teams, Slack, College ERP/Portal, Notion, Gmail, Google Drive, GitHub, YouTube Learning, LinkedIn), timetable, assignments, notes, opportunities, campus map, community, lab viva prep, career roadmaps, projects, and mentorship. Always use tools to get current information rather than assuming.
 
@@ -58,7 +59,7 @@ def execute_agent_turn(user_message, chat_history=None):
                 "Authorization": f"Bearer {openai_key}",
                 "Content-Type": "application/json",
                 "HTTP-Referer": "http://127.0.0.1:5000",
-                "X-Title": "CampusMind AI"
+                "X-Title": "EduMitra AI"
             }
 
             for loop_idx in range(MAX_TOOL_LOOPS):
@@ -128,7 +129,7 @@ def fallback_agent_loop(user_message, chat_history):
             tutorials = yt_res.get("tutorials", [])
             yt_str = "\n".join([f"**{i+1}. {t['topic']}** ({t['course']})\n   • Channel: `{t['channel']}` | Views: {t['views']} | Duration: {t['duration']}" for i, t in enumerate(tutorials[:5])])
             return {
-                "reply": f"### 🎥 Curated YouTube Learning Video Tutorials\n\nHere are top recommended video lectures for your courses:\n\n{yt_str}\n\n--- \n💡 *Tip: You can ask me to generate practice viva questions for any of these subjects!*",
+                "reply": f"### 🎥 Curated YouTube Learning Video Tutorials\n\nHere are top recommended video lectures for your courses:\n\n{yt_str}\n\n--- \n💡 *Tip: EduMitra AI can generate practice viva questions for any of these subjects!*",
                 "tool_calls_executed": executed_tools
             }
 
@@ -159,7 +160,7 @@ def fallback_agent_loop(user_message, chat_history):
         results = res.get("results", [])
         notes_str = "\n".join([f"**{i+1}. {n['title']}** (`{n['course_tag']}`)\n   • File: `{n['filename']}`\n   • Snippet: *{n['snippet']}*" for i, n in enumerate(results[:4])])
         return {
-            "reply": f"### 📖 Grounded Course Notes & Study Guides\n\nHere are the top course notes found in your database:\n\n{notes_str}\n\n---\n💡 *You can upload new PDF lecture notes in the Notes & Knowledge tab anytime!*",
+            "reply": f"### 📖 Grounded Course Notes & Study Guides\n\nHere are the top course notes found in your EduMitra database:\n\n{notes_str}\n\n---\n💡 *You can upload new PDF lecture notes in the Notes & Knowledge tab anytime!*",
             "tool_calls_executed": executed_tools
         }
 
@@ -194,7 +195,8 @@ def fallback_agent_loop(user_message, chat_history):
     top_opp = opps[0] if opps else None
     opp_summary = f"   • **{top_opp['title']}** — {top_opp['stipend_or_prize']} (Deadline: {top_opp['deadline']})" if top_opp else ""
 
-    reply = f"""### 👋 Welcome to CampusMind AI Co-Pilot!
+    reply = f"""### 👋 Welcome to EduMitra AI — Your AI Friend. Your Future.
+*Plan Smarter | Learn Better | Do More | Together*
 
 Here is your **detailed, step-by-step ordered student briefing** for today:
 
@@ -212,7 +214,7 @@ Here is your **detailed, step-by-step ordered student briefing** for today:
    • **Productivity Sync**: Google Calendar, MS Teams, Slack, Notion, GitHub (10 Connected Services)
 
 ---
-💡 **What would you like to work on?** You can ask me to:
+💡 **What would you like to work on?** You can ask EduMitra AI to:
 - *"Show all my assignment subtasks"*
 - *"Find hackathons for Python developers"*
 - *"Get step-by-step directions to B-102 DBMS Hall"*
