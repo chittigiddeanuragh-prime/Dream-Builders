@@ -15,6 +15,7 @@ USERS_DB = [
         "semester": 6,
         "gpa": 3.85,
         "attendance_pct": 94.2,
+        "skills": ["Python", "JavaScript", "React", "Data Structures", "Machine Learning", "Git", "SQL"],
         "createdAt": "2026-09-01 10:00:00"
     }
 ]
@@ -23,7 +24,6 @@ USERS_DB = [
 STUDENT_PROFILE = USERS_DB[0]
 
 def register_user_in_db(name, email, major, password):
-    # Check if user already exists
     for u in USERS_DB:
         if u["email"].lower() == email.lower():
             u["name"] = name
@@ -39,6 +39,7 @@ def register_user_in_db(name, email, major, password):
         "semester": 6,
         "gpa": 3.85,
         "attendance_pct": 94.2,
+        "skills": ["Python", "JavaScript", "React", "Data Structures", "Machine Learning", "Git", "SQL"],
         "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "lastLogin": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
@@ -54,8 +55,6 @@ def login_user_in_db(email, password):
             global STUDENT_PROFILE
             STUDENT_PROFILE = u
             return u
-    
-    # Auto-provision user if logging in first time
     name = email.split('@')[0].capitalize()
     return register_user_in_db(name, email, "Computer Science", password)
 
@@ -232,12 +231,25 @@ OPPORTUNITIES = [
         "id": "opp-1",
         "title": "Central Sector Scholarship",
         "category": "Scholarships",
+        "type": "Scholarships",
         "organization": "National Scholarship Portal",
         "description": "Financial assistance for meritorious undergraduate students.",
         "required_skills": ["Computer Science", "Academic Merit"],
         "deadline": "20 Oct 2026",
         "stipend_or_prize": "₹10,000 - ₹100,000",
         "url": "https://scholarships.gov.in"
+    },
+    {
+        "id": "opp-4",
+        "title": "AI Thinkers Global Hackathon",
+        "category": "Hackathons",
+        "type": "Hackathons",
+        "organization": "Devpost & Unstop Tech",
+        "description": "36-hour hackathon to build generative AI solutions for campus productivity and healthcare.",
+        "required_skills": ["Python", "Machine Learning", "API Integration"],
+        "deadline": "12 Sep 2026",
+        "stipend_or_prize": "₹2,50,000 Prize Pool",
+        "url": "https://unstop.com/hackathons"
     }
 ]
 
@@ -279,15 +291,19 @@ ASSIGNMENTS = [
         "status": "In Progress",
         "remaining_hours": 4,
         "description": "Design ER Diagram and normalization.",
-        "subtasks": []
+        "subtasks": [
+            {"id": "task-101", "title": "Identify Entities & Relationships", "status": "Completed", "estimated_hours": 1.0},
+            {"id": "task-102", "title": "Draw ER Diagram in StarUML/Figma", "status": "Completed", "estimated_hours": 1.5},
+            {"id": "task-103", "title": "Convert ER diagram to Relational Schema", "status": "Pending", "estimated_hours": 1.5}
+        ]
     }
 ]
 
-CAMPUS_EVENTS = []
-LAB_EXAMS = []
-CAREER_ROADMAPS = []
-PROJECTS = []
-MENTORS = []
+CAMPUS_EVENTS = [{"id": "evt-1", "title": "AI Thinkers Hackathon", "location": "Auditorium 1", "category": "Events"}]
+LAB_EXAMS = [{"course": "CS301 - Operating Systems", "viva_questions": ["What is binary semaphore?"]}]
+CAREER_ROADMAPS = [{"role": "AI / ML Engineer", "description": "Master machine learning algorithms."}]
+PROJECTS = [{"title": "CampusMind AI Student Co-Pilot", "category": "AI / Web"}]
+MENTORS = [{"name": "Dr. Sarah Jenkins", "role": "Associate Professor (OS)"}]
 
 def get_all_assignments(): return ASSIGNMENTS
 def get_assignment_by_id(asgn_id): return next((a for a in ASSIGNMENTS if a["id"] == asgn_id), None)

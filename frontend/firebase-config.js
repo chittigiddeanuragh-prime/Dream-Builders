@@ -3,7 +3,7 @@
  * Project ID: campusminds-4c038
  */
 
-const API_BASE = 'http://127.0.0.1:5000';
+const API_BASE = window.location.origin.includes('http') ? window.location.origin : 'http://127.0.0.1:5000';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCampusMindsDemoApiKey123456789",
@@ -17,7 +17,6 @@ const firebaseConfig = {
 let db = null;
 let auth = null;
 
-// Safe Initialization
 try {
     if (typeof firebase !== 'undefined') {
         if (!firebase.apps || !firebase.apps.length) {
@@ -29,7 +28,6 @@ try {
         if (typeof firebase.auth === 'function') {
             auth = firebase.auth();
         }
-        console.log("🔥 Firebase initialized safely for campusminds-4c038!");
     }
 } catch (err) {
     console.warn("Firebase Auth safe initialization warning:", err);
