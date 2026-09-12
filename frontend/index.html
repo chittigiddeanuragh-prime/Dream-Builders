@@ -37,6 +37,8 @@
     </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Marked.js Markdown Renderer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <!-- Firebase SDK (v10 Compat: App, Firestore, Auth) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -65,9 +67,9 @@
             box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
         .chat-bubble-ai {
-            background: #111a2e;
+            background: #0c1427;
             color: #f1f5f9;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.25);
             border-bottom-left-radius: 4px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
@@ -80,6 +82,12 @@
             border-color: rgba(56, 189, 248, 0.35);
             box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
         }
+        .prose h3 { color: #38bdf8; font-weight: 800; font-size: 0.95rem; margin-top: 0.5rem; margin-bottom: 0.25rem; }
+        .prose h4 { color: #a855f7; font-weight: 700; font-size: 0.85rem; margin-top: 0.5rem; margin-bottom: 0.25rem; }
+        .prose p { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+        .prose ul, .prose ol { padding-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.25rem; }
+        .prose li { margin-top: 0.15rem; margin-bottom: 0.15rem; }
+        .prose code { background: #070b14; color: #38bdf8; padding: 0.1rem 0.3rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.75rem; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #070b14; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
@@ -500,13 +508,67 @@
 
         <!-- 7. AI STUDY COACH MODULE -->
         <section id="screen-chat" class="space-y-4 h-[calc(100vh-8rem)] flex flex-col hidden" style="display: none;">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h2 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-user-astronaut text-purple-400"></i> AI Study Coach & Assistant</h2>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-3 shrink-0">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-user-astronaut text-purple-400"></i> AI Study Coach & Assistant
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Context-Aware AI Assistant • Live Tool Execution • Grounded Database Answers</p>
+                </div>
+                <span class="text-[10px] font-black uppercase tracking-wider bg-purple-950 text-purple-300 border border-purple-500/40 px-3 py-1 rounded-xl shadow-neon-purple">
+                    🤖 OPENROUTER / GEMINI POWERED
+                </span>
             </div>
-            <div id="chat-messages" class="flex-1 overflow-y-auto bg-[#090f1e] p-4 rounded-2xl border border-slate-800 space-y-4"></div>
-            <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
-                <input type="text" id="chat-input" placeholder="Ask CampusMind..." class="flex-1 p-3.5 bg-[#0d1424] border border-cyan-500/30 text-sm text-slate-100 rounded-xl">
-                <button type="submit" class="bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-black px-6 py-3.5 rounded-xl cursor-pointer">Send</button>
+
+            <!-- Chat Messages Scroll Container -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto bg-[#080d19] p-5 rounded-3xl border border-slate-800/90 space-y-4 shadow-inner">
+                <!-- Initial Welcome Message -->
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-neon-cyan border border-cyan-400/40">
+                        🤖
+                    </div>
+                    <div class="chat-bubble-ai p-4 rounded-2xl max-w-3xl text-xs space-y-2 leading-relaxed border border-cyan-500/30">
+                        <p class="font-extrabold text-cyan-300 text-sm">👋 Hello! I am CampusMind AI Study Coach.</p>
+                        <p class="text-slate-200">I can analyze your timetable, break down assignments into subtasks, search lecture notes, recommend scholarships via Exa AI, and give step-by-step answers in order.</p>
+                        <div class="pt-1 flex flex-wrap gap-1.5">
+                            <span class="text-[10px] bg-slate-900 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded font-mono">📅 Timetable Tool</span>
+                            <span class="text-[10px] bg-slate-900 text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded font-mono">📋 Assignments DB</span>
+                            <span class="text-[10px] bg-slate-900 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded font-mono">🚀 Exa AI Search</span>
+                            <span class="text-[10px] bg-slate-900 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded font-mono">⚡ 10 Integrations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Prompt Chips -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 shrink-0 scrollbar-none">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider shrink-0">Prompts:</span>
+                <button onclick="sendQuickPrompt('Show my class schedule and timetable for today')" class="px-3 py-1.5 rounded-xl bg-[#0d1424] border border-cyan-500/30 hover:border-cyan-400 text-xs font-bold text-cyan-300 transition shrink-0 cursor-pointer">
+                    📅 Today's Schedule
+                </button>
+                <button onclick="sendQuickPrompt('What are my upcoming assignment deadlines and subtasks?')" class="px-3 py-1.5 rounded-xl bg-[#0d1424] border border-rose-500/30 hover:border-rose-400 text-xs font-bold text-rose-300 transition shrink-0 cursor-pointer">
+                    📋 Pending Assignments
+                </button>
+                <button onclick="sendQuickPrompt('Find top scholarships and hackathons for CS students')" class="px-3 py-1.5 rounded-xl bg-[#0d1424] border border-amber-500/30 hover:border-amber-400 text-xs font-bold text-amber-300 transition shrink-0 cursor-pointer">
+                    🚀 Find Scholarships
+                </button>
+                <button onclick="sendQuickPrompt('Search notes for Machine Learning and Regularization')" class="px-3 py-1.5 rounded-xl bg-[#0d1424] border border-pink-500/30 hover:border-pink-400 text-xs font-bold text-pink-300 transition shrink-0 cursor-pointer">
+                    📖 Course Notes
+                </button>
+                <button onclick="sendQuickPrompt('Give me viva practice questions for Operating Systems Lab')" class="px-3 py-1.5 rounded-xl bg-[#0d1424] border border-violet-500/30 hover:border-violet-400 text-xs font-bold text-violet-300 transition shrink-0 cursor-pointer">
+                    💡 Practice Lab Viva
+                </button>
+                <button onclick="sendQuickPrompt('Sync Google Calendar and Notion integrations')" class="px-3 py-1.5 rounded-xl bg-[#0d1424] border border-emerald-500/30 hover:border-emerald-400 text-xs font-bold text-emerald-300 transition shrink-0 cursor-pointer">
+                    ⚡ Sync Integrations
+                </button>
+            </div>
+
+            <!-- Chat Input Form -->
+            <form onsubmit="handleChatSubmit(event)" class="flex gap-2 shrink-0">
+                <input type="text" id="chat-input" placeholder="Ask CampusMind AI anything (e.g. 'What is my schedule today?')..." class="flex-1 p-4 bg-[#0d1424] border border-cyan-500/30 text-sm text-slate-100 placeholder-slate-500 rounded-2xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 shadow-lg">
+                <button type="submit" class="bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-400 text-white font-black px-7 py-4 rounded-2xl text-xs shadow-neon-cyan transition cursor-pointer flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Send
+                </button>
             </form>
         </section>
 
@@ -909,18 +971,82 @@
             if (!msg) return;
             if (input) input.value = '';
             appendUserMessage(msg);
+
+            // Show typing indicator
+            const chat = document.getElementById('chat-messages');
+            const typingId = 'typing-' + Date.now();
+            if (chat) {
+                chat.innerHTML += `
+                    <div id="${typingId}" class="flex items-center gap-2 text-xs text-cyan-400 font-mono italic animate-pulse">
+                        <i class="fa-solid fa-robot"></i> CampusMind AI is thinking and running tools...
+                    </div>
+                `;
+                chat.scrollTop = chat.scrollHeight;
+            }
+
             try {
                 const res = await fetch(`${API_BASE}/agent/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, history: chatHistory }) });
                 const data = await res.json();
+                const typElem = document.getElementById(typingId);
+                if (typElem) typElem.remove();
                 appendAIMessage(data.reply, data.tool_calls_executed);
+                chatHistory.push({ role: 'user', content: msg });
+                chatHistory.push({ role: 'assistant', content: data.reply });
             } catch (e) {
+                const typElem = document.getElementById(typingId);
+                if (typElem) typElem.remove();
                 appendAIMessage("Assistant connected! Ask me about your timetable, assignments, or notes.");
             }
         }
 
-        function sendQuickPrompt(txt) { const input = document.getElementById('chat-input'); if (input) input.value = txt; handleChatSubmit(new Event('submit')); }
-        function appendUserMessage(msg) { const chat = document.getElementById('chat-messages'); if (chat) chat.innerHTML += `<div class="flex justify-end"><div class="chat-bubble-user p-3 rounded-2xl max-w-xl text-xs">${msg}</div></div>`; }
-        function appendAIMessage(reply, tools) { const chat = document.getElementById('chat-messages'); if (chat) chat.innerHTML += `<div class="flex gap-2"><div class="chat-bubble-ai p-3 rounded-2xl max-w-2xl text-xs">${reply}</div></div>`; }
+        function sendQuickPrompt(txt) {
+            const input = document.getElementById('chat-input');
+            if (input) input.value = txt;
+            handleChatSubmit(new Event('submit'));
+        }
+
+        function appendUserMessage(msg) {
+            const chat = document.getElementById('chat-messages');
+            if (!chat) return;
+            chat.innerHTML += `
+                <div class="flex justify-end items-start gap-2.5">
+                    <div class="chat-bubble-user p-4 rounded-2xl max-w-xl text-xs shadow-md leading-relaxed">
+                        ${msg}
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-neon-purple mt-1">
+                        AC
+                    </div>
+                </div>
+            `;
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function appendAIMessage(reply, tools) {
+            const chat = document.getElementById('chat-messages');
+            if (!chat) return;
+
+            let toolsHtml = '';
+            if (tools && tools.length > 0) {
+                toolsHtml = `<div class="flex flex-wrap gap-1.5 mb-2">${tools.map(t => `<span class="text-[10px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 px-2 py-0.5 rounded-md flex items-center gap-1"><i class="fa-solid fa-gears text-cyan-400"></i> Executed Tool: ${t.tool_name}</span>`).join('')}</div>`;
+            }
+
+            const formattedContent = (typeof marked !== 'undefined') ? marked.parse(reply || '') : (reply || '');
+
+            chat.innerHTML += `
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-neon-cyan border border-cyan-400/40 mt-1">
+                        🤖
+                    </div>
+                    <div class="chat-bubble-ai p-4 rounded-2xl max-w-3xl text-xs space-y-2 leading-relaxed border border-cyan-500/30">
+                        ${toolsHtml}
+                        <div class="prose prose-invert prose-xs text-slate-100 max-w-none space-y-2">
+                            ${formattedContent}
+                        </div>
+                    </div>
+                </div>
+            `;
+            chat.scrollTop = chat.scrollHeight;
+        }
 
         // Initialize single dashboard view on load
         document.addEventListener('DOMContentLoaded', () => {
